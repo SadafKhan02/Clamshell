@@ -214,50 +214,7 @@ export function OperationsSection() {
           </div>
         </div>
 
-        {/* Manufacturing Plants Infrastructure Grid */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl bg-white border border-[#E3D7C8]">
-            <div className="h-10 w-10 rounded-xl bg-[#FEF4F0] flex items-center justify-center text-[#D96B4F] mb-4">
-              <Factory className="h-5 w-5" />
-            </div>
-            <h4 className="font-bold text-base text-[#1A1614]">
-              Computerized Batching
-            </h4>
-            <p className="text-xs sm:text-sm text-[#573A29] mt-2">
-              High-output automated batching plants featuring digital load
-              cells, aggregate moisture compensation, and closed-loop pneumatic
-              cement handling.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-white border border-[#E3D7C8]">
-            <div className="h-10 w-10 rounded-xl bg-[#F6F1EC] flex items-center justify-center text-[#785135] mb-4">
-              <Gauge className="h-5 w-5" />
-            </div>
-            <h4 className="font-bold text-base text-[#1A1614]">
-              Prestressing Line Yards
-            </h4>
-            <p className="text-xs sm:text-sm text-[#573A29] mt-2">
-              100-meter continuous prestressing casting beds engineered with
-              massive abutments capable of sustaining over 2,000 metric tons of
-              hydraulic tendon force.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-white border border-[#E3D7C8]">
-            <div className="h-10 w-10 rounded-xl bg-[#FEF4F0] flex items-center justify-center text-[#D96B4F] mb-4">
-              <Cpu className="h-5 w-5" />
-            </div>
-            <h4 className="font-bold text-base text-[#1A1614]">
-              Overhead Gantry Systems
-            </h4>
-            <p className="text-xs sm:text-sm text-[#573A29] mt-2">
-              Electric Overhead Traveling (EOT) gantry cranes equipped with
-              multi-point spreader lifting beams to prevent bending moments
-              during internal yard transport.
-            </p>
-          </div>
-        </div>
+       
       </div>
     </section>
   );

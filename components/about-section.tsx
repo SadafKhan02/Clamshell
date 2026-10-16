@@ -26,7 +26,7 @@ export function AboutSection() {
             <span>ABOUT CLAMSHELL INFRASTRUCTURE</span>
           </div>
           <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#1A1614] leading-tight">
-            Engineering the Backbone of India&apos;s Utility Networks
+            Trusted Manufacturing. Stronger Infrastructure.
           </h2>
           <p className="mt-4 text-base sm:text-lg text-[#573A29] leading-relaxed">
             Clamshell Infrastructure Private Limited is one of the nation&apos;s
@@ -138,64 +138,7 @@ export function AboutSection() {
           </div>
         </div>
 
-        {/* Vision, Mission & Core Values 3-Card Grid */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1: Vision */}
-          <div className="p-8 rounded-3xl bg-white border border-[#E3D7C8] shadow-xs hover:border-[#D96B4F] hover:shadow-lg transition-all duration-300">
-            <div className="h-12 w-12 rounded-2xl bg-[#FEF4F0] flex items-center justify-center text-[#D96B4F] mb-6">
-              <Compass className="h-6 w-6" />
-            </div>
-            <h3 className="text-xl font-bold text-[#1A1614]">Our Vision</h3>
-            <p className="mt-3 text-sm text-[#573A29] leading-relaxed">
-              To be the most trusted, innovative, and resilient pillar of
-              India&apos;s electrical power transmission and precast
-              infrastructure, recognized globally for structural endurance and
-              large-scale manufacturing prowess.
-            </p>
-          </div>
-
-          {/* Card 2: Mission */}
-          <div className="p-8 rounded-3xl bg-white border border-[#E3D7C8] shadow-xs hover:border-[#D96B4F] hover:shadow-lg transition-all duration-300">
-            <div className="h-12 w-12 rounded-2xl bg-[#F6F1EC] flex items-center justify-center text-[#785135] mb-6">
-              <Target className="h-6 w-6" />
-            </div>
-            <h3 className="text-xl font-bold text-[#1A1614]">Our Mission</h3>
-            <p className="mt-3 text-sm text-[#573A29] leading-relaxed">
-              Supply zero-defect, certified PSCC and spun concrete solutions at
-              unrivaled scale to power companies, supporting rapid grid
-              expansion, rural electrification, and disaster recovery with
-              punctual delivery.
-            </p>
-          </div>
-
-          {/* Card 3: Core Values */}
-          <div className="p-8 rounded-3xl bg-white border border-[#E3D7C8] shadow-xs hover:border-[#D96B4F] hover:shadow-lg transition-all duration-300">
-            <div className="h-12 w-12 rounded-2xl bg-[#FEF4F0] flex items-center justify-center text-[#D96B4F] mb-6">
-              <Award className="h-6 w-6" />
-            </div>
-            <h3 className="text-xl font-bold text-[#1A1614]">Core Values</h3>
-            <ul className="mt-3 space-y-2 text-sm text-[#573A29]">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-[#D96B4F] shrink-0" />
-                <span>
-                  <strong>Integrity:</strong> Unwavering honesty in metallurgy &amp; materials.
-                </span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-[#D96B4F] shrink-0" />
-                <span>
-                  <strong>Precision:</strong> Millimeter tolerances in prestressing.
-                </span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-[#D96B4F] shrink-0" />
-                <span>
-                  <strong>Reliability:</strong> 24/7 disaster restoration mobilization.
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
+       
 
         {/* Production Capacity & Leadership Highlights */}
         <div className="mt-12 p-8 rounded-3xl bg-gradient-to-r from-[#331E11] to-[#4A2D1A] text-white">

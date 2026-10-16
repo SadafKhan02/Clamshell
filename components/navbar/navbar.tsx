@@ -15,7 +15,7 @@ export function Navbar({
   logoNode,
   items = DEFAULT_NAV_ITEMS,
   ctaText = "Quick Quote",
-  ctaHref = "#quote-tool",
+  ctaHref = "/#quote-tool",
   onCtaClick,
   className = "",
 }: NavbarProps) {
@@ -29,8 +29,8 @@ export function Navbar({
       setIsScrolled(scrollPosition > 20);
 
       const sectionIds = items
-        .filter((item) => item.href.startsWith("#"))
-        .map((item) => item.href.slice(1));
+        .filter((item) => item.href && (item.href.startsWith("#") || item.href.startsWith("/#")))
+        .map((item) => (item.href!.startsWith("/#") ? item.href!.slice(2) : item.href!.slice(1)));
 
       for (let i = sectionIds.length - 1; i >= 0; i--) {
         const id = sectionIds[i];

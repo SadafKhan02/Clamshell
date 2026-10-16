@@ -26,12 +26,12 @@ export function NavLogo({
       {logoNode ? (
         logoNode
       ) : (
-        <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white p-0.5 shadow-sm border border-[#C8B4A2]/40 transition-transform duration-200 group-hover:scale-105">
+        <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white p-0.5 shadow-sm border border-[#C8B4A2]/40 transition-transform duration-200 group-hover:scale-105">
           <Image
             src="/logo.jpg"
             alt="Clamshell Infrastructure Logo"
-            width={44}
-            height={44}
+            width={55}
+            height={55}
             className="rounded-full object-cover"
             priority
           />

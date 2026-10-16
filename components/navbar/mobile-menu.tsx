@@ -22,7 +22,7 @@ export function MobileMenu({
   items,
   activeItem,
   ctaText = "Get Started",
-  ctaHref = "#contact",
+  ctaHref = "/contact",
   onCtaClick,
 }: MobileMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);

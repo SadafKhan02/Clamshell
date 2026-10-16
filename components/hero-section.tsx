@@ -214,29 +214,7 @@ export function HeroSection() {
                 </div>
               </div>
 
-              {/* Emergency Banner inside Hero */}
-              <div className="mt-6 p-4 rounded-2xl bg-[#331E11] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="h-8 w-8 rounded-lg bg-[#D96B4F] flex items-center justify-center text-white shrink-0">
-                    <Zap className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#D96B4F]">
-                      Natural Disaster Response
-                    </span>
-                    <p className="text-xs font-medium text-[#FAF7F2]">
-                      Emergency grid restoration capability with guaranteed
-                      rapid dispatch.
-                    </p>
-                  </div>
-                </div>
-                <Link
-                  href="#disaster-relief"
-                  className="text-xs font-bold text-[#D96B4F] hover:text-white underline underline-offset-4 whitespace-nowrap"
-                >
-                  View Case Studies
-                </Link>
-              </div>
+            
             </div>
           </div>
         </div>

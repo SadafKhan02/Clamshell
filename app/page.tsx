@@ -5,13 +5,13 @@ import { HeroSection } from "@/components/hero-section";
 import { AboutSection } from "@/components/about-section";
 import { ProductsSection } from "@/components/products-section";
 import { OperationsSection } from "@/components/operations-section";
-import { LogisticsSection } from "@/components/logistics-section";
-import { QualitySection } from "@/components/quality-section";
+// import { LogisticsSection } from "@/components/logistics-section";
+
 
 import { QuoteCalculator } from "@/components/quote-calculator";
-import { ClientsSection } from "@/components/clients-section";
-import { AwardsCsrSection } from "@/components/awards-csr-section";
-import { DownloadsSection } from "@/components/downloads-section";
+// import { ClientsSection } from "@/components/clients-section";
+
+
 import { ContactSection } from "@/components/contact-section";
 
 export default function Home() {
@@ -30,23 +30,20 @@ export default function Home() {
       <OperationsSection />
 
       {/* 5. Fleet Logistics & Truck-Mounted Cranes (#logistics) */}
-      <LogisticsSection />
+      {/* <LogisticsSection /> */}
 
-      {/* 6. Quality Assurance & Testing Laboratories (#quality) */}
-      <QualitySection />
+     
 
 
       {/* 8. Technical Pole Configurator & RFQ Estimator (#quote-tool) */}
       <QuoteCalculator />
 
       {/* 9. Esteemed Clients, DISCOMs & Testimonials (#clients) */}
-      <ClientsSection />
+      {/* <ClientsSection /> */}
 
-      {/* 10. Industry Awards, Certifications & CSR Sustainability */}
-      <AwardsCsrSection />
 
-      {/* 11. Technical Catalogues & Resource Downloads (#downloads) */}
-      <DownloadsSection />
+      
+      
 
       {/* 12. Corporate Office, Plant Network & Contact Form (#contact) */}
       <ContactSection />
