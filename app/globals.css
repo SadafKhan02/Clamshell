@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-coral: #d96b4f;
+  --color-brand-coral-hover: #c4573b;
+  --color-brand-coral-dark: #983b23;
+  --color-brand-coral-light: #fef4f0;
+  --color-brand-coral-muted: #f5d7cd;
+
+  --color-brand-brown: #785135;
+  --color-brand-brown-hover: #654128;
+  --color-brand-brown-dark: #4a2d1a;
+  --color-brand-brown-light: #f6f1ec;
+  --color-brand-brown-muted: #c8b4a2;
+
+  --color-brand-sand: #fbf7f2;
+  --color-brand-sand-dark: #ede3d7;
+  --color-brand-sand-border: #e3d7c8;
+
+  --color-brand-charcoal: #1a1614;
+  --color-brand-charcoal-light: #2c2522;
+  --color-brand-charcoal-muted: #6e635d;
+
+  --font-montserrat: var(--font-montserrat), system-ui, sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #fdfbf9;
+  --foreground: #1a1614;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-montserrat), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Custom scrollbar matching brand theme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f6f1ec;
+}
+::-webkit-scrollbar-thumb {
+  background: #c8b4a2;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #785135;
+}
+
+/* Selection highlight in brand coral */
+::selection {
+  background-color: #d96b4f;
+  color: #ffffff;
 }
