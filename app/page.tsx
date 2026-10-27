@@ -2,6 +2,7 @@
 
 import React from "react";
 import { HeroSection } from "@/components/hero-section";
+import { HeroShowcaseSection } from "@/components/hero-showcase-section";
 import { AboutSection } from "@/components/about-section";
 import { ProductsSection } from "@/components/products-section";
 import { OperationsSection } from "@/components/operations-section";
@@ -20,13 +21,16 @@ export default function Home() {
       {/* 1. Hero Section (#home) */}
       <HeroSection />
 
-      {/* 2. Corporate About Us & The "SHAPE PERFECT" Promise (#about) */}
+      {/* 2. Company credentials and manufacturing overview */}
+      <HeroShowcaseSection />
+
+      {/* 3. Corporate About Us & The "SHAPE PERFECT" Promise (#about) */}
       <AboutSection />
 
-      {/* 3. Comprehensive Product Showcase (#products) */}
+      {/* 4. Comprehensive Product Showcase (#products) */}
       <ProductsSection />
 
-      {/* 4. Manufacturing Operations & Automated Casting (#operations) */}
+      {/* 5. Manufacturing Operations & Automated Casting (#operations) */}
       <OperationsSection />
 
       {/* 5. Fleet Logistics & Truck-Mounted Cranes (#logistics) */}
