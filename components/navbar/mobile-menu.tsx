@@ -77,7 +77,7 @@ export function MobileMenu({
     >
       {/* Backdrop overlay */}
       <div
-        className="fixed inset-0 bg-neutral-950/40 backdrop-blur-sm transition-opacity duration-300 ease-out"
+        className="fixed inset-0 bg-[#1A1614]/25 transition-opacity duration-300 ease-out"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -85,12 +85,12 @@ export function MobileMenu({
       {/* Slide-down / Dropdown drawer panel */}
       <div
         ref={menuRef}
-        className="fixed inset-x-0 top-0 max-h-[90vh] overflow-y-auto bg-white/95 dark:bg-neutral-950/95 backdrop-blur-xl border-b border-neutral-200/80 dark:border-neutral-800 shadow-2xl transition-transform duration-300 ease-out animate-in slide-in-from-top-4"
+        className="fixed inset-x-0 top-0 h-[100dvh] max-h-[100dvh] overflow-x-hidden overflow-y-auto overscroll-contain border-b border-[#E3D7C8] bg-white text-[#1A1614] shadow-2xl transition-transform duration-300 ease-out animate-in slide-in-from-top-4"
       >
-        <div className="flex flex-col px-5 pt-4 pb-6 sm:px-6">
+        <div className="flex min-h-full flex-col px-4 pb-6 pt-4 sm:px-6">
           {/* Header row inside drawer */}
-          <div className="flex items-center justify-between pb-4 border-b border-neutral-200/60 dark:border-neutral-800/80">
-            <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+          <div className="flex items-center justify-between border-b border-[#E3D7C8] pb-4">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#785135]">
               Navigation Menu
             </span>
             <button
@@ -98,14 +98,14 @@ export function MobileMenu({
               type="button"
               onClick={onClose}
               aria-label="Close menu"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white dark:focus-visible:ring-white"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-[#4A2D1A] hover:bg-[#F6F1EC] hover:text-[#D96B4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
 
           {/* Navigation Links list */}
-          <div className="py-4">
+          <div className="flex-1 py-4">
             <NavLinks
               items={items}
               activeItem={activeItem}
@@ -117,7 +117,7 @@ export function MobileMenu({
           </div>
 
           {/* CTA Button container in mobile menu */}
-          <div className="pt-4 border-t border-neutral-200/60 dark:border-neutral-800/80">
+          <div className="border-t border-[#E3D7C8] pt-4">
             <CtaButton
               text={ctaText}
               href={ctaHref}

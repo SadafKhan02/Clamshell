@@ -41,8 +41,8 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
       {
         name: "Poles",
         children: [
-          { name: "Rail Poles", href: "/product/pscc-poles" },
           { name: "PSC Poles", href: "/product/pscc-poles" },
+          { name: "Rail Poles", href: "/product/pscc-poles" },
         ],
       },
       {
@@ -50,7 +50,7 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
         children: [
           { name: "DPC Wire", href: "/product/cable-wires" },
           { name: "Strip Wire", href: "/product/cable-wires" },
-          { name: "Super Enameled Wire", href: "/product/cable-wires" },
+          { name: "Super Enamelled Wire", href: "/product/cable-wires" },
           { name: "Conductor & Cable", href: "/product/cable-wires" },
         ],
       },
