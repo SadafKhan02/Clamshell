@@ -15,7 +15,7 @@ export function HeroSection() {
       className="relative w-full overflow-hidden border-b border-[#E3D7C8]/70 py-10 sm:py-14 md:py-20"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.2)), url('/hero.png')",
+          "linear-gradient(110deg, rgba(20, 15, 13, 0.48) 0%, rgba(38, 25, 20, 0.38) 48%, rgba(19, 24, 31, 0.32) 100%), linear-gradient(0deg, rgba(14, 14, 16, 0.16), transparent 55%), url('/hero.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -26,11 +26,11 @@ export function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Top Announcement Badge */}
         <div className="flex justify-center">
-          <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-2xl border border-[#D96B4F]/30 bg-[#FEF4F0]/95 px-3 py-2 text-center text-[10px] font-bold leading-tight text-[#7D2D1A] shadow-xs sm:gap-2 sm:rounded-full sm:px-4 sm:py-1.5 sm:text-xs">
+          <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-2xl border border-white/35 bg-[#1A1614]/75 px-3 py-2 text-center text-[10px] font-bold leading-tight text-white shadow-lg shadow-black/20 backdrop-blur-sm sm:gap-2 sm:rounded-full sm:px-4 sm:py-1.5 sm:text-xs">
             <span className="flex h-2 w-2 rounded-full bg-[#D96B4F] animate-pulse" />
             <span className="max-w-full">CLAMSHELL INFRASTRUCTURE PRIVATE LIMITED</span>
-            <span className="hidden text-[#D96B4F]/60 sm:inline">•</span>
-            <span className="font-bold uppercase tracking-wider text-[#4A2D1A]">
+            <span className="hidden text-white/60 sm:inline">•</span>
+            <span className="font-bold uppercase tracking-wider text-white">
               Motto: SHAPE PERFECT
             </span>
           </div>
@@ -38,17 +38,17 @@ export function HeroSection() {
 
         {/* Hero Main Headline & Subtitle */}
         <div className="mx-auto mt-5 max-w-4xl text-center sm:mt-6">
-          <h1 className="text-[clamp(2rem,8vw,3.75rem)] font-extrabold leading-[1.08] tracking-tight text-[#111111] sm:leading-[1.12]">
+          <h1 className="text-[clamp(2rem,8vw,3.75rem)] font-extrabold leading-[1.08] tracking-tight text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] sm:leading-[1.12]">
             Bihar&apos;s Strongest{" "}
-            <span className="text-[#D96B4F] underline decoration-[#785135]/20 decoration-wavy decoration-2">
+            <span className="text-[#D96B4F] underline decoration-[#D96B4F]/80 decoration-wavy decoration-2">
               PSCC &amp; Precast
             </span>{" "}
             Power Infrastructure
           </h1>
 
-          <p className="mx-auto mt-4 max-w-3xl text-base font-semibold leading-relaxed text-black [text-shadow:0_1px_5px_rgba(255,255,255,0.9)] sm:mt-5 sm:text-lg md:text-xl">
+          <p className="mx-auto mt-4 max-w-3xl text-base font-semibold leading-relaxed text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] sm:mt-5 sm:text-lg md:text-xl">
             Trusted manufacturers and large-volume suppliers of{" "}
-            <strong className="font-extrabold text-black">
+            <strong className="font-extrabold text-white">
               Pre-Stressed Cement Concrete (PSCC) Poles
             </strong>
             , Rectangular Poles, and Spun Concrete Piles. Built with
