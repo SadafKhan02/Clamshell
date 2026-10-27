@@ -15,7 +15,7 @@ export function HeroSection() {
       className="relative w-full overflow-hidden border-b border-[#E3D7C8]/70 py-10 sm:py-14 md:py-20"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(253, 251, 249, 0.36), rgba(253, 251, 249, 0.42)), url('/hero.png')",
+          "linear-gradient(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.2)), url('/hero.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
