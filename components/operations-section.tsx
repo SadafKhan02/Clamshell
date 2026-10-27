@@ -175,7 +175,10 @@ export function OperationsSection() {
                 {steps[activeStep].desc}
               </p>
 
-              <div className="mt-6 p-5 rounded-2xl bg-white border border-[#E3D7C8] space-y-3">
+              <div
+                id="quality"
+                className="mt-6 p-5 rounded-2xl bg-white border border-[#E3D7C8] space-y-3 scroll-mt-24"
+              >
                 <span className="text-xs font-bold uppercase tracking-wider text-[#785135]">
                   Quality Assurance Controls at this Stage
                 </span>

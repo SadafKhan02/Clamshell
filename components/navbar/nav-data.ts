@@ -56,7 +56,20 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
       },
     ],
   },
-  { name: "Operations", href: "/#operations" },
+  {
+    name: "Operations",
+    dropdown: [
+      { name: "Manufacturing", href: "/#operations" },
+      {
+        name: "Quality Management System",
+        children: [
+          { name: "PSC Pole Testing", href: "/#quality" },
+          { name: "Rail Pole Testing", href: "/#quality" },
+          { name: "Wire Testing", href: "/#quality" },
+        ],
+      },
+    ],
+  },
   { name: "Logistics", href: "/#logistics" },
   { name: "Quality & Testing", href: "/#quality" },
   {
