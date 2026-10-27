@@ -40,7 +40,7 @@ export function HeroSection() {
         <div className="mx-auto mt-5 max-w-4xl text-center sm:mt-6">
           <h1 className="text-[clamp(2rem,8vw,3.75rem)] font-extrabold leading-[1.08] tracking-tight text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] sm:leading-[1.12]">
             Bihar&apos;s Strongest{" "}
-            <span className="text-[#D96B4F] underline decoration-[#D96B4F]/80 decoration-wavy decoration-2">
+            <span className="text-[#D96B4F]">
               PSCC &amp; Precast
             </span>{" "}
             Power Infrastructure
