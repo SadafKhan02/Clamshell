@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown } from "lucide-react";
-import { NavItem } from "./nav-data";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import type { DropdownItem, NavItem } from "./nav-data";
 
 interface NavLinksProps {
   items: NavItem[];
@@ -13,6 +13,33 @@ interface NavLinksProps {
   className?: string;
   isMobile?: boolean;
 }
+
+const isCurrentPath = (pathname: string, href?: string) =>
+  Boolean(href && pathname === href.split("#")[0]);
+
+const hasCurrentDropdownItem = (
+  items: DropdownItem[] | undefined,
+  pathname: string,
+): boolean =>
+  Boolean(
+    items?.some(
+      (item) =>
+        isCurrentPath(pathname, item.href) ||
+        hasCurrentDropdownItem(item.children, pathname),
+    ),
+  );
+
+const countCurrentDropdownItems = (
+  items: DropdownItem[] | undefined,
+  pathname: string,
+): number =>
+  items?.reduce(
+    (count, item) =>
+      count +
+      Number(isCurrentPath(pathname, item.href)) +
+      countCurrentDropdownItems(item.children, pathname),
+    0,
+  ) ?? 0;
 
 export function NavLinks({
   items,
@@ -23,26 +50,31 @@ export function NavLinks({
 }: NavLinksProps) {
   const pathname = usePathname();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeNestedDropdown, setActiveNestedDropdown] = useState<string | null>(
+    null,
+  );
   const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({
     "About Us": true,
-    Product: true,
     Client: true,
   });
   const navRef = useRef<HTMLUListElement>(null);
+  const dropdownTriggerRefs = useRef(new Map<string, HTMLButtonElement>());
 
-  // Close dropdown on outside click or Escape key
   useEffect(() => {
     if (isMobile) return;
 
     const handleClickOutside = (event: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setActiveDropdown(null);
+        setActiveNestedDropdown(null);
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        dropdownTriggerRefs.current.get(activeDropdown ?? "")?.focus();
         setActiveDropdown(null);
+        setActiveNestedDropdown(null);
       }
     };
 
@@ -52,7 +84,7 @@ export function NavLinks({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isMobile]);
+  }, [activeDropdown, isMobile]);
 
   const handleLinkClick = (e: React.MouseEvent, href?: string) => {
     if (!href) return;
@@ -81,28 +113,200 @@ export function NavLinks({
     onItemClick?.(href);
   };
 
+  const renderMobileDropdownItem = (
+    item: DropdownItem,
+    path: string,
+    rootItems: DropdownItem[],
+  ): React.ReactNode => {
+    const hasChildren = Boolean(item.children?.length);
+    const isExpanded = mobileExpanded[path] ?? false;
+    const itemIsActive =
+      (isCurrentPath(pathname, item.href) &&
+        countCurrentDropdownItems(rootItems, pathname) === 1) ||
+      hasCurrentDropdownItem(item.children, pathname);
+    const submenuId = `mobile-submenu-${path.replaceAll(" ", "-")}`;
+
+    return (
+      <li key={path}>
+        {hasChildren ? (
+          <button
+            type="button"
+            onClick={() =>
+              setMobileExpanded((previous) => ({
+                ...previous,
+                [path]: !isExpanded,
+              }))
+            }
+            role="menuitem"
+            aria-haspopup="menu"
+            aria-expanded={isExpanded}
+            aria-controls={submenuId}
+            className={`
+              flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
+              ${
+                itemIsActive
+                  ? "bg-[#FEF4F0] text-[#D96B4F] font-semibold"
+                  : "text-[#573A29] hover:bg-[#FEF4F0] hover:text-[#D96B4F]"
+              }
+            `}
+          >
+            <span>{item.name}</span>
+            <ChevronDown
+              className={`h-4 w-4 transition-transform duration-200 ${
+                isExpanded ? "rotate-180 text-[#D96B4F]" : "text-[#785135]"
+              }`}
+              aria-hidden="true"
+            />
+          </button>
+        ) : item.href ? (
+          <Link
+            href={item.href}
+            role="menuitem"
+            aria-current={itemIsActive ? "page" : undefined}
+            onClick={(event) => handleLinkClick(event, item.href)}
+            className={`
+              block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
+              ${
+                itemIsActive
+                  ? "bg-[#FEF4F0] text-[#D96B4F] font-semibold"
+                  : "text-[#573A29] hover:bg-[#FEF4F0] hover:text-[#D96B4F]"
+              }
+            `}
+          >
+            {item.name}
+          </Link>
+        ) : (
+          <span className="block rounded-lg px-3 py-2.5 text-sm font-medium text-[#573A29]">
+            {item.name}
+          </span>
+        )}
+
+        {hasChildren && isExpanded && (
+          <ul
+            id={submenuId}
+            className="ml-3 mt-1 space-y-1 border-l-2 border-[#D96B4F]/30 py-1 pl-3"
+            role="menu"
+          >
+            {item.children?.map((child, index) =>
+              renderMobileDropdownItem(
+                child,
+                `${path}-${index}-${child.name}`,
+                rootItems,
+              ),
+            )}
+          </ul>
+        )}
+      </li>
+    );
+  };
+
+  const renderDesktopDropdownItem = (
+    item: DropdownItem,
+    path: string,
+    rootItems: DropdownItem[],
+  ): React.ReactNode => {
+    const hasChildren = Boolean(item.children?.length);
+    const isOpen = activeNestedDropdown === path;
+    const itemIsActive =
+      (isCurrentPath(pathname, item.href) &&
+        countCurrentDropdownItems(rootItems, pathname) === 1) ||
+      hasCurrentDropdownItem(item.children, pathname);
+    const submenuId = `desktop-submenu-${path.replaceAll(" ", "-")}`;
+
+    return (
+      <li
+        key={path}
+        className="relative"
+        onMouseEnter={
+          hasChildren ? () => setActiveNestedDropdown(path) : undefined
+        }
+        onMouseLeave={
+          hasChildren ? () => setActiveNestedDropdown(null) : undefined
+        }
+      >
+        {hasChildren ? (
+          <button
+            type="button"
+            onFocus={() => setActiveNestedDropdown(path)}
+            onClick={() => setActiveNestedDropdown(isOpen ? null : path)}
+            role="menuitem"
+            aria-haspopup="menu"
+            aria-expanded={isOpen}
+            aria-controls={submenuId}
+            className={`
+              flex w-full items-center justify-between gap-5 rounded-xl px-3.5 py-2 text-left text-xs font-medium transition-colors xl:text-sm
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
+              ${
+                itemIsActive
+                  ? "bg-[#FEF4F0] text-[#D96B4F] font-bold"
+                  : "text-[#4A2D1A] hover:bg-[#FEF4F0] hover:text-[#D96B4F]"
+              }
+            `}
+          >
+            <span>{item.name}</span>
+            <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+          </button>
+        ) : item.href ? (
+          <Link
+            href={item.href}
+            role="menuitem"
+            aria-current={itemIsActive ? "page" : undefined}
+            onClick={(event) => {
+              setActiveDropdown(null);
+              setActiveNestedDropdown(null);
+              handleLinkClick(event, item.href);
+            }}
+            className={`
+              block rounded-xl px-3.5 py-2 text-xs font-medium transition-colors xl:text-sm
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
+              ${
+                itemIsActive
+                  ? "bg-[#FEF4F0] text-[#D96B4F] font-bold"
+                  : "text-[#4A2D1A] hover:bg-[#FEF4F0] hover:text-[#D96B4F]"
+              }
+            `}
+          >
+            {item.name}
+          </Link>
+        ) : (
+          <span className="block rounded-xl px-3.5 py-2 text-xs font-medium text-[#4A2D1A]">
+            {item.name}
+          </span>
+        )}
+
+        {hasChildren && isOpen && (
+          <ul
+            id={submenuId}
+            role="menu"
+            aria-label={`${item.name} submenu`}
+            className="absolute left-full top-0 z-50 min-w-[220px] rounded-2xl border border-[#E3D7C8] bg-white px-1.5 py-2 shadow-[0_12px_32px_rgba(51,30,17,0.12)]"
+          >
+            {item.children?.map((child, index) =>
+              renderDesktopDropdownItem(
+                child,
+                `${path}-${index}-${child.name}`,
+                rootItems,
+              ),
+            )}
+          </ul>
+        )}
+      </li>
+    );
+  };
+
   return (
     <ul
       ref={navRef}
       className={`flex ${
-        isMobile ? "flex-col space-y-1 w-full" : "items-center gap-0.5 xl:gap-1"
+        isMobile ? "w-full flex-col space-y-1" : "items-center gap-0.5 xl:gap-1"
       } ${className}`}
       role="list"
     >
       {items.map((item) => {
-        const hasDropdown = Boolean(item.dropdown && item.dropdown.length > 0);
-
-        // Active state detection
-        const isDropdownActive = hasDropdown
-          ? item.dropdown?.some(
-              (sub) =>
-                pathname === sub.href ||
-                (sub.href.startsWith("/#") &&
-                  pathname === "/" &&
-                  activeItem === sub.href.slice(2))
-            )
-          : false;
-
+        const hasDropdown = Boolean(item.dropdown?.length);
+        const isDropdownActive = hasCurrentDropdownItem(item.dropdown, pathname);
         const isDirectActive =
           !hasDropdown &&
           item.href &&
@@ -112,31 +316,32 @@ export function NavLinks({
             (item.href.startsWith("/#") &&
               pathname === "/" &&
               activeItem === item.href.slice(2)));
-
         const isActive = isDropdownActive || isDirectActive;
 
-        // Mobile dropdown (accordion) item
         if (isMobile && hasDropdown && item.dropdown) {
           const isExpanded = mobileExpanded[item.name] ?? false;
+          const submenuId = `mobile-submenu-${item.name.replaceAll(" ", "-")}`;
 
           return (
             <li key={item.name} className="w-full">
               <button
                 type="button"
                 onClick={() =>
-                  setMobileExpanded((prev) => ({
-                    ...prev,
+                  setMobileExpanded((previous) => ({
+                    ...previous,
                     [item.name]: !isExpanded,
                   }))
                 }
+                aria-haspopup="menu"
                 aria-expanded={isExpanded}
+                aria-controls={submenuId}
                 className={`
-                  w-full px-4 py-3 text-base rounded-xl font-medium flex items-center justify-between transition-colors
+                  flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
                   ${
                     isActive
                       ? "bg-[#FEF4F0] text-[#D96B4F] font-semibold"
-                      : "text-[#4A2D1A] hover:text-[#D96B4F] hover:bg-[#F6F1EC]"
+                      : "text-[#4A2D1A] hover:bg-[#F6F1EC] hover:text-[#D96B4F]"
                   }
                 `}
               >
@@ -151,66 +356,69 @@ export function NavLinks({
 
               {isExpanded && (
                 <ul
-                  className="mt-1 ml-4 pl-3 py-1 space-y-1 border-l-2 border-[#D96B4F]/30 bg-[#FAF7F2]/60 rounded-xl"
+                  id={submenuId}
+                  className="ml-4 mt-1 space-y-1 rounded-xl border-l-2 border-[#D96B4F]/30 bg-[#FAF7F2]/60 py-1 pl-3"
                   role="menu"
                 >
-                  {item.dropdown.map((subItem) => {
-                    const isSubActive = pathname === subItem.href;
-
-                    return (
-                      <li key={subItem.name}>
-                        <Link
-                          href={subItem.href}
-                          role="menuitem"
-                          onClick={(e) => {
-                            handleLinkClick(e, subItem.href);
-                          }}
-                          className={`
-                            block px-3 py-2 text-sm font-medium rounded-lg transition-colors
-                            ${
-                              isSubActive
-                                ? "bg-[#FEF4F0] text-[#D96B4F] font-bold"
-                                : "text-[#573A29] hover:text-[#D96B4F] hover:bg-[#FEF4F0]"
-                            }
-                          `}
-                        >
-                          {subItem.name}
-                        </Link>
-                      </li>
-                    );
-                  })}
+                  {item.dropdown.map((subItem, index) =>
+                    renderMobileDropdownItem(
+                      subItem,
+                      `${item.name}-${index}-${subItem.name}`,
+                      item.dropdown ?? [],
+                    ),
+                  )}
                 </ul>
               )}
             </li>
           );
         }
 
-        // Desktop dropdown item
         if (!isMobile && hasDropdown && item.dropdown) {
           const isOpen = activeDropdown === item.name;
+          const submenuId = `desktop-submenu-${item.name.replaceAll(" ", "-")}`;
 
           return (
             <li
               key={item.name}
               className="relative"
-              onMouseEnter={() => setActiveDropdown(item.name)}
-              onMouseLeave={() => setActiveDropdown(null)}
+              onMouseEnter={(event) => {
+                setActiveDropdown(item.name);
+                setActiveNestedDropdown(null);
+                const trigger = event.currentTarget.querySelector("button");
+                if (trigger) dropdownTriggerRefs.current.set(item.name, trigger);
+              }}
+              onBlur={(event) => {
+                if (
+                  !(event.relatedTarget instanceof Node) ||
+                  !event.currentTarget.contains(event.relatedTarget)
+                ) {
+                  setActiveDropdown(null);
+                  setActiveNestedDropdown(null);
+                }
+              }}
+              onMouseLeave={() => {
+                setActiveDropdown(null);
+                setActiveNestedDropdown(null);
+              }}
             >
               <button
+                ref={(element) => {
+                  if (element) dropdownTriggerRefs.current.set(item.name, element);
+                  else dropdownTriggerRefs.current.delete(item.name);
+                }}
                 type="button"
-                onClick={() =>
-                  setActiveDropdown(isOpen ? null : item.name)
-                }
-                aria-haspopup="true"
+                onFocus={() => setActiveDropdown(item.name)}
+                onClick={() => setActiveDropdown(isOpen ? null : item.name)}
+                aria-haspopup="menu"
                 aria-expanded={isOpen}
+                aria-controls={submenuId}
                 className={`
-                  group relative inline-flex items-center gap-1 transition-all duration-150 ease-out whitespace-nowrap
+                  group relative inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all duration-150 ease-out xl:text-[14px]
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
-                  px-2.5 py-1.5 text-[13px] xl:text-[14px] rounded-full font-medium cursor-pointer
                   ${
                     isActive
-                      ? "text-[#D96B4F] font-bold bg-[#FEF4F0]"
-                      : "text-[#4A2D1A] hover:text-[#D96B4F] hover:bg-[#F6F1EC]/80"
+                      ? "bg-[#FEF4F0] font-bold text-[#D96B4F]"
+                      : "text-[#4A2D1A] hover:bg-[#F6F1EC]/80 hover:text-[#D96B4F]"
                   }
                 `}
               >
@@ -224,80 +432,58 @@ export function NavLinks({
               </button>
 
               {isOpen && (
-                <div
+                <ul
+                  id={submenuId}
                   role="menu"
                   aria-label={`${item.name} submenu`}
-                  className="absolute top-full left-0 pt-1.5 z-50 min-w-[200px] animate-in fade-in-50 zoom-in-95 duration-150"
+                  className="absolute left-0 top-full z-50 min-w-[220px] animate-in fade-in-50 zoom-in-95 rounded-2xl border border-[#E3D7C8] bg-white px-1.5 py-2 shadow-[0_12px_32px_rgba(51,30,17,0.12)] duration-150"
                 >
-                  <div className="rounded-2xl bg-white border border-[#E3D7C8] py-2 px-1.5 shadow-[0_12px_32px_rgba(51,30,17,0.12)]">
-                    {item.dropdown.map((subItem) => {
-                      const isSubActive = pathname === subItem.href;
-
-                      return (
-                        <Link
-                          key={subItem.name}
-                          href={subItem.href}
-                          role="menuitem"
-                          onClick={(e) => {
-                            setActiveDropdown(null);
-                            handleLinkClick(e, subItem.href);
-                          }}
-                          className={`
-                            block px-3.5 py-2 text-xs xl:text-sm font-medium rounded-xl transition-colors whitespace-nowrap
-                            ${
-                              isSubActive
-                                ? "bg-[#FEF4F0] text-[#D96B4F] font-bold"
-                                : "text-[#4A2D1A] hover:text-[#D96B4F] hover:bg-[#FEF4F0]"
-                            }
-                          `}
-                        >
-                          {subItem.name}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
+                  {item.dropdown.map((subItem, index) =>
+                    renderDesktopDropdownItem(
+                      subItem,
+                      `${item.name}-${index}-${subItem.name}`,
+                      item.dropdown ?? [],
+                    ),
+                  )}
+                </ul>
               )}
             </li>
           );
         }
 
-        // Standard link item (Desktop or Mobile)
         const href = item.href || "#";
 
         return (
           <li key={item.name} className={isMobile ? "w-full" : "relative"}>
             <Link
               href={href}
-              onClick={(e) => handleLinkClick(e, item.href)}
+              onClick={(event) => handleLinkClick(event, item.href)}
               aria-current={isActive ? "page" : undefined}
               className={`
-                group relative flex items-center transition-all duration-150 ease-out whitespace-nowrap
+                group relative flex items-center whitespace-nowrap transition-all duration-150 ease-out
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
                 ${
                   isMobile
-                    ? `w-full px-4 py-3 text-base rounded-xl font-medium justify-between ${
+                    ? `w-full justify-between rounded-xl px-4 py-3 text-base font-medium ${
                         isActive
-                          ? "bg-[#FEF4F0] text-[#D96B4F] font-semibold"
-                          : "text-[#4A2D1A] hover:text-[#D96B4F] hover:bg-[#F6F1EC]"
+                          ? "bg-[#FEF4F0] font-semibold text-[#D96B4F]"
+                          : "text-[#4A2D1A] hover:bg-[#F6F1EC] hover:text-[#D96B4F]"
                       }`
-                    : `px-2.5 py-1.5 text-[13px] xl:text-[14px] rounded-full font-medium ${
+                    : `rounded-full px-2.5 py-1.5 text-[13px] font-medium xl:text-[14px] ${
                         isActive
-                          ? "text-[#D96B4F] font-bold bg-[#FEF4F0]"
-                          : "text-[#4A2D1A] hover:text-[#D96B4F] hover:bg-[#F6F1EC]/80"
+                          ? "bg-[#FEF4F0] font-bold text-[#D96B4F]"
+                          : "text-[#4A2D1A] hover:bg-[#F6F1EC]/80 hover:text-[#D96B4F]"
                       }`
                 }
               `}
             >
               <span>{item.name}</span>
-
               {isMobile && isActive && (
                 <span
                   className="h-2 w-2 rounded-full bg-[#D96B4F]"
                   aria-hidden="true"
                 />
               )}
-
               {item.badge && (
                 <span className="ml-1.5 rounded-full bg-[#D96B4F]/10 px-2 py-0.5 text-[10px] font-bold text-[#D96B4F]">
                   {item.badge}
@@ -310,4 +496,3 @@ export function NavLinks({
     </ul>
   );
 }
-

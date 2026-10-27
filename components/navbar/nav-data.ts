@@ -1,6 +1,7 @@
 export interface DropdownItem {
   name: string;
-  href: string;
+  href?: string;
+  children?: DropdownItem[];
   description?: string;
   badge?: string;
 }
@@ -35,10 +36,19 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    name: "Product",
+    name: "Products",
     dropdown: [
-      { name: "PSCC Poles", href: "/product/pscc-poles" },
-      { name: "Cable Wires", href: "/product/cable-wires" },
+      { name: "PAC Pole", href: "/product/pscc-poles" },
+      { name: "Rail Pole", href: "/product/pscc-poles" },
+      {
+        name: "Wire",
+        children: [
+          { name: "DPC Wire", href: "/product/cable-wires" },
+          { name: "Strip Wire", href: "/product/cable-wires" },
+          { name: "Super Enameled Wire", href: "/product/cable-wires" },
+        ],
+      },
+      { name: "Conductor & Cable", href: "/product/cable-wires" },
     ],
   },
   { name: "Operations", href: "/#operations" },
