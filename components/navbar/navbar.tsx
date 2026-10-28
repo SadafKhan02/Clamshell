@@ -85,7 +85,7 @@ export function Navbar({
             </div>
 
             {/* Center: Desktop Navigation Links */}
-            <div className="hidden lg:flex lg:items-center">
+            <div className="hidden xl:flex xl:items-center">
               <NavLinks
                 items={items}
                 activeItem={activeItem}
@@ -116,7 +116,7 @@ export function Navbar({
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-navigation"
                 aria-label="Open main menu"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#E3D7C8] bg-[#FBF7F2] text-[#4A2D1A] hover:bg-[#F6F1EC] hover:text-[#D96B4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F] lg:hidden transition-colors"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#E3D7C8] bg-[#FBF7F2] text-[#4A2D1A] hover:bg-[#F6F1EC] hover:text-[#D96B4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F] xl:hidden transition-colors"
               >
                 <Menu className="h-5 w-5" aria-hidden="true" />
               </button>

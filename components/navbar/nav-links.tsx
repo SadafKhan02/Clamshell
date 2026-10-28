@@ -308,7 +308,6 @@ export function NavLinks({
         const hasDropdown = Boolean(item.dropdown?.length);
         const isDropdownActive = hasCurrentDropdownItem(item.dropdown, pathname);
         const isDirectActive =
-          !hasDropdown &&
           item.href &&
           (pathname === item.href ||
             (item.href === "/#home" && pathname === "/" && activeItem === "home") ||
@@ -324,35 +323,47 @@ export function NavLinks({
 
           return (
             <li key={item.name} className="w-full">
-              <button
-                type="button"
-                onClick={() =>
-                  setMobileExpanded((previous) => ({
-                    ...previous,
-                    [item.name]: !isExpanded,
-                  }))
-                }
-                aria-haspopup="menu"
-                aria-expanded={isExpanded}
-                aria-controls={submenuId}
-                className={`
-                  flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
-                  ${
-                    isActive
-                      ? "bg-[#FEF4F0] text-[#D96B4F] font-semibold"
-                      : "text-[#4A2D1A] hover:bg-[#F6F1EC] hover:text-[#D96B4F]"
-                  }
-                `}
+              <div
+                className={`flex w-full items-center rounded-xl text-base font-medium transition-colors ${
+                  isActive
+                    ? "bg-[#FEF4F0] text-[#D96B4F] font-semibold"
+                    : "text-[#4A2D1A] hover:bg-[#F6F1EC] hover:text-[#D96B4F]"
+                }`}
               >
-                <span>{item.name}</span>
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform duration-200 ${
-                    isExpanded ? "rotate-180 text-[#D96B4F]" : "text-[#785135]"
-                  }`}
-                  aria-hidden="true"
-                />
-              </button>
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    onClick={(event) => handleLinkClick(event, item.href)}
+                    aria-current={isDirectActive ? "page" : undefined}
+                    className="min-w-0 flex-1 rounded-l-xl px-4 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D96B4F]"
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <span className="min-w-0 flex-1 px-4 py-3">{item.name}</span>
+                )}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setMobileExpanded((previous) => ({
+                      ...previous,
+                      [item.name]: !isExpanded,
+                    }))
+                  }
+                  aria-label={`${isExpanded ? "Collapse" : "Expand"} ${item.name} menu`}
+                  aria-haspopup="menu"
+                  aria-expanded={isExpanded}
+                  aria-controls={submenuId}
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center self-stretch rounded-r-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D96B4F]"
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform duration-200 ${
+                      isExpanded ? "rotate-180 text-[#D96B4F]" : "text-[#785135]"
+                    }`}
+                    aria-hidden="true"
+                  />
+                </button>
+              </div>
 
               {isExpanded && (
                 <ul
@@ -401,35 +412,68 @@ export function NavLinks({
                 setActiveNestedDropdown(null);
               }}
             >
-              <button
-                ref={(element) => {
-                  if (element) dropdownTriggerRefs.current.set(item.name, element);
-                  else dropdownTriggerRefs.current.delete(item.name);
-                }}
-                type="button"
-                onFocus={() => setActiveDropdown(item.name)}
-                onClick={() => setActiveDropdown(isOpen ? null : item.name)}
-                aria-haspopup="menu"
-                aria-expanded={isOpen}
-                aria-controls={submenuId}
-                className={`
-                  group relative inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all duration-150 ease-out xl:text-[14px]
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
-                  ${
-                    isActive
-                      ? "bg-[#FEF4F0] font-bold text-[#D96B4F]"
-                      : "text-[#4A2D1A] hover:bg-[#F6F1EC]/80 hover:text-[#D96B4F]"
-                  }
-                `}
-              >
-                <span>{item.name}</span>
-                <ChevronDown
-                  className={`h-3.5 w-3.5 transition-transform duration-200 ${
-                    isOpen ? "rotate-180 text-[#D96B4F]" : "text-[#785135]"
-                  }`}
-                  aria-hidden="true"
-                />
-              </button>
+              <div className="inline-flex items-center gap-0.5 whitespace-nowrap">
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    onFocus={() => setActiveDropdown(item.name)}
+                    onClick={(event) => {
+                      setActiveDropdown(null);
+                      setActiveNestedDropdown(null);
+                      handleLinkClick(event, item.href);
+                    }}
+                    aria-current={isDirectActive ? "page" : undefined}
+                    className={`
+                      group relative inline-flex items-center rounded-full py-1.5 pl-2.5 pr-1 text-[13px] font-medium transition-all duration-150 ease-out xl:text-[14px]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
+                      ${
+                        isActive
+                          ? "bg-[#FEF4F0] font-bold text-[#D96B4F]"
+                          : "text-[#4A2D1A] hover:bg-[#F6F1EC]/80 hover:text-[#D96B4F]"
+                      }
+                    `}
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <span
+                    className={`rounded-full py-1.5 pl-2.5 pr-1 text-[13px] font-medium xl:text-[14px] ${
+                      isActive ? "font-bold text-[#D96B4F]" : "text-[#4A2D1A]"
+                    }`}
+                  >
+                    {item.name}
+                  </span>
+                )}
+                <button
+                  ref={(element) => {
+                    if (element) dropdownTriggerRefs.current.set(item.name, element);
+                    else dropdownTriggerRefs.current.delete(item.name);
+                  }}
+                  type="button"
+                  onFocus={() => setActiveDropdown(item.name)}
+                  onClick={() => setActiveDropdown(isOpen ? null : item.name)}
+                  aria-label={`${isOpen ? "Close" : "Open"} ${item.name} menu`}
+                  aria-haspopup="menu"
+                  aria-expanded={isOpen}
+                  aria-controls={submenuId}
+                  className={`
+                    group relative inline-flex h-8 w-7 items-center justify-center rounded-full text-[13px] font-medium transition-all duration-150 ease-out xl:text-[14px]
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]
+                    ${
+                      isActive
+                        ? "bg-[#FEF4F0] text-[#D96B4F]"
+                        : "text-[#4A2D1A] hover:bg-[#F6F1EC]/80 hover:text-[#D96B4F]"
+                    }
+                  `}
+                >
+                  <ChevronDown
+                    className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                      isOpen ? "rotate-180 text-[#D96B4F]" : "text-[#785135]"
+                    }`}
+                    aria-hidden="true"
+                  />
+                </button>
+              </div>
 
               {isOpen && (
                 <ul

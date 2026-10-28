@@ -45,8 +45,8 @@ export function NavLogo({
           <span className="text-[11px] font-semibold tracking-widest text-[#785135] uppercase">
             {tagline}
           </span>
-          <span className="inline-block h-1 w-1 rounded-full bg-[#D96B4F]" />
-          <span className="text-[9px] font-medium tracking-wider text-[#983B23] uppercase">
+          <span className="hidden h-1 w-1 rounded-full bg-[#D96B4F] sm:inline-block" />
+          <span className="hidden text-[9px] font-medium tracking-wider text-[#983B23] uppercase sm:inline-block">
             SHAPE PERFECT
           </span>
         </div>

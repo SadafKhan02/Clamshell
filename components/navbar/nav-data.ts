@@ -37,6 +37,7 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
   },
   {
     name: "Products",
+    href: "/product",
     dropdown: [
       {
         name: "Poles",

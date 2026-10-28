@@ -55,3 +55,9 @@ body {
   background-color: #d96b4f;
   color: #ffffff;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

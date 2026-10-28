@@ -244,7 +244,7 @@ export function Footer() {
             Copyright © 2026 Clamshell Infrastructure
             Private Limited. All rights reserved.
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <span className="hover:text-[#FAF7F2] cursor-pointer">
               Privacy Policy
             </span>
@@ -259,7 +259,7 @@ export function Footer() {
             <button
               type="button"
               onClick={scrollToTop}
-              className="ml-4 inline-flex items-center gap-1.5 p-2 rounded-xl bg-[#331E11] text-[#FAF7F2] hover:bg-[#D96B4F] hover:text-white transition-colors"
+              className="ml-0 inline-flex items-center gap-1.5 p-2 rounded-xl bg-[#331E11] text-[#FAF7F2] hover:bg-[#D96B4F] hover:text-white transition-colors sm:ml-4"
               aria-label="Back to top"
             >
               <ArrowUp className="h-4 w-4" />
