@@ -1,69 +1,101 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Calculator,
-  Zap,
-  Truck,
-  Layers,
-  ArrowRight,
-  CheckCircle2,
-  FileText,
-  Building2,
-} from "lucide-react";
+import { ArrowRight, Calculator } from "lucide-react";
 
-export function QuoteCalculator() {
+type QuoteCalculatorProps = {
+  mode?: "pscc" | "rail";
+};
+
+export function QuoteCalculator({ mode = "pscc" }: QuoteCalculatorProps) {
+  const isRailPole = mode === "rail";
   const [poleHeight, setPoleHeight] = useState("9.0");
   const [workingLoad, setWorkingLoad] = useState("200");
   const [voltage, setVoltage] = useState("11kv");
   const [quantity, setQuantity] = useState("500");
   const [stateDest, setStateDest] = useState("Telangana");
-  const [submitted, setSubmitted] = useState(false);
 
   // Calculations
   const qtyNum = parseInt(quantity, 10) || 100;
-  const heightNum = parseFloat(poleHeight);
+  const heightNum = isRailPole ? 0 : parseFloat(poleHeight);
+  const workingLoadNum = isRailPole ? 0 : parseInt(workingLoad, 10);
 
   // Approximate weight per pole based on height and load
-  const weightPerPole = Math.round(
-    heightNum * 70 + (parseInt(workingLoad, 10) / 200) * 80
-  );
-  const totalWeightMt = ((weightPerPole * qtyNum) / 1000).toFixed(1);
+  const weightPerPole = isRailPole
+    ? 0
+    : Math.round(heightNum * 70 + (workingLoadNum / 200) * 80);
+  const totalWeightMt = isRailPole
+    ? "0.0"
+    : ((weightPerPole * qtyNum) / 1000).toFixed(1);
 
   // Poles per multi-axle trailer
-  const polesPerTruck = heightNum <= 8 ? 32 : heightNum <= 9.5 ? 26 : 18;
-  const trucksNeeded = Math.ceil(qtyNum / polesPerTruck);
+  const polesPerTruck = isRailPole
+    ? 0
+    : heightNum <= 8
+      ? 32
+      : heightNum <= 9.5
+        ? 26
+        : 18;
+  const trucksNeeded = isRailPole ? 0 : Math.ceil(qtyNum / polesPerTruck);
 
   // Planting depth is roughly 1/6th of total height
-  const plantingDepth = (heightNum / 6).toFixed(2);
+  const plantingDepth = isRailPole ? "0.00" : (heightNum / 6).toFixed(2);
 
   // Concrete grade recommendation
-  const concreteGrade =
-    parseInt(workingLoad, 10) >= 350
+  const concreteGrade = isRailPole
+    ? ""
+    : workingLoadNum >= 350
       ? "M55 (Self-Compacting High Density)"
-      : parseInt(workingLoad, 10) >= 300
-      ? "M50 (High Durability Precast)"
-      : "M45 (High Performance Precast)";
+      : workingLoadNum >= 300
+        ? "M50 (High Durability Precast)"
+        : "M45 (High Performance Precast)";
 
   // Prestressing wires recommendation
-  const wireCount =
-    parseInt(workingLoad, 10) >= 400
+  const wireCount = isRailPole
+    ? ""
+    : workingLoadNum >= 400
       ? "18 Nos x 4.0mm High Tensile Wire"
-      : parseInt(workingLoad, 10) >= 300
-      ? "16 Nos x 4.0mm High Tensile Wire"
-      : parseInt(workingLoad, 10) >= 200
-      ? "14 Nos x 4.0mm High Tensile Wire"
-      : "12 Nos x 4.0mm High Tensile Wire";
+      : workingLoadNum >= 300
+        ? "16 Nos x 4.0mm High Tensile Wire"
+        : workingLoadNum >= 200
+          ? "14 Nos x 4.0mm High Tensile Wire"
+          : "12 Nos x 4.0mm High Tensile Wire";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 6000);
+    const formData = new FormData(e.currentTarget);
+    const projectDetails = isRailPole
+      ? [
+          "Product: Rail Pole",
+          `Requested quantity: ${qtyNum} units`,
+          `Delivery state: ${stateDest}`,
+          "Technical specifications and calculations: to be confirmed by Clamshell.",
+        ]
+      : [
+          "Product: PSCC Pole",
+          `Voltage class: ${voltage}`,
+          `Pole length: ${poleHeight} m`,
+          `Working load: ${workingLoad} kg`,
+          `Requested quantity: ${qtyNum} poles`,
+          `Delivery state: ${stateDest}`,
+        ];
+    const body = [
+      ...projectDetails,
+      "",
+      `Name / organization: ${formData.get("name")}`,
+      `Phone: ${formData.get("phone")}`,
+      `Email: ${formData.get("email")}`,
+    ].join("\n");
+    const subject = isRailPole
+      ? "Rail Pole quote request"
+      : "PSCC Pole quote request";
+
+    window.location.href = `mailto:enquiry@clamshellinfra.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
     <section
-      id="quote-tool"
+      id={isRailPole ? "rail-quote-tool" : "quote-tool"}
       className="w-full py-20 sm:py-28 bg-[#FFFDFB] border-b border-[#E3D7C8] scroll-mt-16"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,15 +103,21 @@ export function QuoteCalculator() {
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#FEF4F0] px-3.5 py-1 text-xs font-bold text-[#D96B4F]">
             <Calculator className="h-3.5 w-3.5" />
-            <span>ENGINEERING SPECIFICATION &amp; RFQ ESTIMATOR</span>
+            <span>
+              {isRailPole
+                ? "RAIL POLE PROJECT QUOTE PLANNER"
+                : "ENGINEERING SPECIFICATION & RFQ ESTIMATOR"}
+            </span>
           </div>
           <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#1A1614] leading-tight">
-            Interactive Pole Configurator &amp; Logistics Calculator
+            {isRailPole
+              ? "Plan a Rail Pole Quote Request"
+              : "Interactive Pole Configurator & Logistics Calculator"}
           </h2>
           <p className="mt-4 text-base sm:text-lg text-[#573A29]">
-            Select your transmission corridor parameters to instantly calculate
-            IS:1678 design specifications, reinforcement requirements, and
-            fleet trailer requirements.
+            {isRailPole
+              ? "Share the project quantity and delivery state. Rail Pole dimensions, load data, standards, and engineering calculations must be confirmed by Clamshell for your project."
+              : "Select your transmission corridor parameters to instantly calculate IS:1678 design specifications, reinforcement requirements, and fleet trailer requirements."}
           </p>
         </div>
 
@@ -89,11 +127,16 @@ export function QuoteCalculator() {
           <div className="lg:col-span-6 rounded-3xl bg-[#FAF7F2] border border-[#E3D7C8] p-6 sm:p-8 space-y-6">
             <h3 className="text-lg font-bold text-[#1A1614] flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[#D96B4F]" />
-              <span>Project Technical Parameters</span>
+              <span>
+                {isRailPole
+                  ? "Rail Pole Quote Request Details"
+                  : "Project Technical Parameters"}
+              </span>
             </h3>
 
             {/* Line Voltage Class */}
-            <div>
+            {!isRailPole && (
+              <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#785135] mb-2">
                 1. Voltage Class &amp; Grid Application
               </label>
@@ -117,10 +160,12 @@ export function QuoteCalculator() {
                   </button>
                 ))}
               </div>
-            </div>
+              </div>
+            )}
 
             {/* Pole Height Selection */}
-            <div>
+            {!isRailPole && (
+              <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#785135] mb-2">
                 2. Overall Pole Length (Meters)
               </label>
@@ -140,10 +185,12 @@ export function QuoteCalculator() {
                   </button>
                 ))}
               </div>
-            </div>
+              </div>
+            )}
 
             {/* Working Load Selection */}
-            <div>
+            {!isRailPole && (
+              <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#785135] mb-2">
                 3. Transverse Working Load (kg)
               </label>
@@ -163,16 +210,19 @@ export function QuoteCalculator() {
                   </button>
                 ))}
               </div>
-            </div>
+              </div>
+            )}
 
             {/* Quantity Slider / Input */}
             <div>
               <div className="flex justify-between items-center mb-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#785135]">
-                  4. Required Quantity (Units)
+                  {isRailPole
+                    ? "1. Requested Quantity (Units)"
+                    : "4. Required Quantity (Units)"}
                 </label>
                 <span className="text-sm font-extrabold text-[#D96B4F]">
-                  {qtyNum.toLocaleString()} Poles
+                  {qtyNum.toLocaleString()} {isRailPole ? "Units" : "Poles"}
                 </span>
               </div>
               <input
@@ -195,7 +245,9 @@ export function QuoteCalculator() {
             {/* Delivery Destination State */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#785135] mb-2">
-                5. Project Delivery State
+                {isRailPole
+                  ? "2. Project Delivery State"
+                  : "5. Project Delivery State"}
               </label>
               <select
                 value={stateDest}
@@ -218,6 +270,52 @@ export function QuoteCalculator() {
 
           {/* Results Column */}
           <div className="lg:col-span-6 rounded-3xl bg-white border border-[#E3D7C8] p-6 sm:p-8 shadow-md space-y-6">
+            {isRailPole ? (
+              <>
+                <div className="flex items-center justify-between pb-4 border-b border-[#E3D7C8]">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#D96B4F]">
+                      Quote request summary
+                    </span>
+                    <h3 className="text-xl font-extrabold text-[#1A1614]">
+                      Rail Pole Project Details
+                    </h3>
+                  </div>
+                  <span className="px-3 py-1 rounded-full bg-[#FEF4F0] text-[11px] font-bold text-[#D96B4F]">
+                    Technical review required
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E3D7C8]">
+                    <div className="text-xs font-medium text-[#6E635D]">
+                      Requested Quantity
+                    </div>
+                    <div className="text-2xl font-black text-[#D96B4F] mt-1">
+                      {qtyNum.toLocaleString()} units
+                    </div>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E3D7C8]">
+                    <div className="text-xs font-medium text-[#6E635D]">
+                      Delivery State
+                    </div>
+                    <div className="text-2xl font-black text-[#785135] mt-1">
+                      {stateDest}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-[#E3D7C8] bg-[#F6F1EC] p-4 text-sm leading-6 text-[#4A2D1A]">
+                  <strong className="text-[#1A1614]">
+                    Engineering values are not estimated here.
+                  </strong>{" "}
+                  Pole dimensions, loads, applicable standards, weight, and
+                  logistics must be confirmed against approved Rail Pole data
+                  and project requirements.
+                </div>
+              </>
+            ) : (
+              <>
             <div className="flex items-center justify-between pb-4 border-b border-[#E3D7C8]">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#D96B4F]">
@@ -304,26 +402,34 @@ export function QuoteCalculator() {
                 <span className="font-bold text-[#D96B4F]">{stateDest}</span>
               </div>
             </div>
+              </>
+            )}
 
             {/* Quick Quotation Request Form Trigger */}
             <form onSubmit={handleSubmit} className="space-y-3 pt-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input
                   type="text"
+                  name="name"
                   required
+                  aria-label="Your name or organization"
                   placeholder="Your Name / Organization"
                   className="p-3 rounded-xl border border-[#E3D7C8] text-xs focus:ring-2 focus:ring-[#D96B4F] focus:outline-none"
                 />
                 <input
                   type="tel"
+                  name="phone"
                   required
+                  aria-label="Phone number"
                   placeholder="Official Phone / Mobile"
                   className="p-3 rounded-xl border border-[#E3D7C8] text-xs focus:ring-2 focus:ring-[#D96B4F] focus:outline-none"
                 />
               </div>
               <input
                 type="email"
+                name="email"
                 required
+                aria-label="Email address"
                 placeholder="Official Email Address"
                 className="w-full p-3 rounded-xl border border-[#E3D7C8] text-xs focus:ring-2 focus:ring-[#D96B4F] focus:outline-none"
               />
@@ -332,19 +438,17 @@ export function QuoteCalculator() {
                 type="submit"
                 className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#D96B4F] py-3.5 text-xs sm:text-sm font-bold text-white shadow-md hover:bg-[#C4573B] transition-colors"
               >
-                <span>Submit Configuration for Formal Tender / Quote</span>
+                <span>
+                  {isRailPole
+                    ? "Prepare Rail Pole Quote Request"
+                    : "Prepare PSCC Pole Quote Request"}
+                </span>
                 <ArrowRight className="h-4 w-4" />
               </button>
-
-              {submitted && (
-                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold text-center flex items-center justify-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                  <span>
-                    Configuration received! Our commercial tender division will
-                    reach out with formal BOQ pricing within 2 business hours.
-                  </span>
-                </div>
-              )}
+              <p className="text-xs leading-5 text-[#6E635D]">
+                This opens your email app with the request details. Review and
+                send the email to submit your enquiry.
+              </p>
             </form>
           </div>
         </div>

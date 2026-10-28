@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckCircle2, FileSpreadsheet, ArrowRight, ShieldCheck, Zap } from "lucide-react";
+import { CheckCircle2, FileSpreadsheet, ArrowRight } from "lucide-react";
+import { QuoteCalculator } from "@/components/quote-calculator";
 
 export const metadata: Metadata = {
   title: "PSCC Poles | Clamshell Infrastructure Private Limited",
@@ -192,6 +193,8 @@ export default function PsccPolesPage() {
             </table>
           </div>
         </div>
+
+        <QuoteCalculator />
 
         {/* CTA Banner */}
         <div className="mt-16 p-8 rounded-3xl bg-[#331E11] text-white flex flex-col sm:flex-row items-center justify-between gap-6">

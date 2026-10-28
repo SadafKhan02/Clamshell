@@ -44,7 +44,7 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
         name: "Poles",
         children: [
           { name: "PSC Poles", href: "/product/pscc-poles" },
-          { name: "Rail Poles", href: "/product/pscc-poles" },
+          { name: "Rail Poles", href: "/product/rail-poles" },
         ],
       },
       {

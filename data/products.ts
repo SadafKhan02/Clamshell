@@ -52,7 +52,7 @@ export const productFamilies: ProductFamily[] = [
         image: "/rail-pole.avif",
         imageAlt: "Railway electrification pole with overhead catenary equipment",
         ctaLabel: "View Product",
-        destinationUrl: "#rail-pole",
+        destinationUrl: "/product/rail-poles",
         publicationStatus: "introductory",
         imageFit: "cover",
         imagePosition: "50% 42%",
