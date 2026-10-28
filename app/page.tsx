@@ -14,6 +14,7 @@ import { QuoteCalculator } from "@/components/quote-calculator";
 
 
 import { ContactSection } from "@/components/contact-section";
+// import LogisticHome from "@/components/LogisticHome";
 
 export default function Home() {
   return (
@@ -34,7 +35,7 @@ export default function Home() {
       <OperationsSection />
 
       {/* 5. Fleet Logistics & Truck-Mounted Cranes (#logistics) */}
-      {/* <LogisticsSection /> */}
+      {/* <LogisticHome/> */}
 
      
 
