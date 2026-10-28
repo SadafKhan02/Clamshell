@@ -436,9 +436,7 @@ export function NavLinks({
                   id={submenuId}
                   role="menu"
                   aria-label={`${item.name} submenu`}
-                  className={`absolute left-0 top-full z-50 ${
-                    item.name === "Operations" ? "min-w-[250px]" : "min-w-[220px]"
-                  } animate-in fade-in-50 zoom-in-95 rounded-2xl border border-[#E3D7C8] bg-white px-1.5 py-2 shadow-[0_12px_32px_rgba(51,30,17,0.12)] duration-150`}
+                  className="absolute left-0 top-full z-50 min-w-[220px] animate-in fade-in-50 zoom-in-95 rounded-2xl border border-[#E3D7C8] bg-white px-1.5 py-2 shadow-[0_12px_32px_rgba(51,30,17,0.12)] duration-150"
                 >
                   {item.dropdown.map((subItem, index) =>
                     renderDesktopDropdownItem(
