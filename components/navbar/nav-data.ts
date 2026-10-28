@@ -62,7 +62,7 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
     name: "Operations",
    dropdown: [
       {
-        name: "Manufacture", href:"/operations/manufacture",
+        name: "Manufacturing", href:"/operations/manufacture",
         
       },
       {
@@ -79,7 +79,7 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
   },
 
   { name: "Logistics", href: "/logistics" },
-  // { name: "Quality & Testing", href: "/#quality" },
+
   
   {
     name: "Client",
