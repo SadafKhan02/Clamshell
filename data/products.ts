@@ -639,6 +639,16 @@ export const productFamilies: ProductFamily[] = [
   },
 ];
 
+export function getProductFamily(familyId: ProductFamilyId): ProductFamily {
+  const family = productFamilies.find((entry) => entry.id === familyId);
+
+  if (!family) {
+    throw new Error(`Missing product family "${familyId}".`);
+  }
+
+  return family;
+}
+
 export const products = productFamilies.flatMap((family) => family.products);
 
 export function toProductCardProduct(product: ProductEntry): ProductCardProduct {
