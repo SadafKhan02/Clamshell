@@ -35,6 +35,51 @@ body {
   font-family: var(--font-montserrat), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
+.product-card {
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+.product-card-inner {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 700ms ease-in-out;
+}
+
+.product-card-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.product-card-back {
+  transform: rotateY(180deg);
+}
+
+.product-card.is-flipped .product-card-inner {
+  transform: rotateY(180deg);
+}
+
+.product-card.is-flipped .product-card-front {
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover .product-card-inner,
+  .product-card:focus-within .product-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .product-card:hover .product-card-front {
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card-inner {
+    transition-duration: 1ms;
+  }
+}
+
 /* Custom scrollbar matching brand theme */
 ::-webkit-scrollbar {
   width: 10px;

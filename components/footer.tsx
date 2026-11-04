@@ -12,8 +12,10 @@ import {
   ArrowUp,
   Zap,
 } from "lucide-react";
+import { productFamilies } from "@/data/products";
 
 export function Footer() {
+  const products = productFamilies.flatMap((family) => family.products);
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -134,54 +136,16 @@ export function Footer() {
               Products &amp; Infrastructure
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm text-[#C8B4A2]">
-              <li>
-                <Link
-                  href="#products"
-                  className="hover:text-[#D96B4F] transition-colors"
-                >
-                  8.0m &amp; 9.0m PSCC Utility Poles
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#products"
-                  className="hover:text-[#D96B4F] transition-colors"
-                >
-                  9.5m &amp; 11.0m Heavy Feeder Poles
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#products"
-                  className="hover:text-[#D96B4F] transition-colors"
-                >
-                  13.0m High Clearance Sub-Transmission Poles
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#products"
-                  className="hover:text-[#D96B4F] transition-colors"
-                >
-                  Rectangular High-Wind Lateral Poles
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#products"
-                  className="hover:text-[#D96B4F] transition-colors"
-                >
-                  Centrifugally Spun Hollow Concrete Piles
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#products"
-                  className="hover:text-[#D96B4F] transition-colors"
-                >
-                  Substation Cable Trenches &amp; Covers
-                </Link>
-              </li>
+              {products.map((product) => (
+                <li key={product.slug}>
+                  <Link
+                    href={product.destinationUrl}
+                    className="hover:text-[#D96B4F] transition-colors"
+                  >
+                    {product.name}
+                  </Link>
+                </li>
+              ))}
               <li>
                 <Link
                   href="#quote-tool"

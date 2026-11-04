@@ -38,22 +38,23 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
   
   {
     name: "Products",
-    href: "/product",
+    href: "/product/category/pscc-poles",
     dropdown: [
       {
         name: "Poles",
         children: [
-          { name: "PSC Poles", href: "/product/pscc-poles" },
-          { name: "Rail Poles", href: "/product/rail-poles" },
+          { name: "PSC Poles", href: "/product/category/pscc-poles" },
+          { name: "Rail Poles", href: "/product/category/rail-poles" },
         ],
       },
       {
         name: "Wires",
         children: [
-          { name: "DPC Wire", href: "/product/cable-wires" },
-          { name: "Strip Wire", href: "/product/cable-wires" },
-          { name: "Super Enamelled Wire", href: "/product/cable-wires" },
-          { name: "Conductor & Cable", href: "/product/cable-wires" },
+          { name: "DPC Wire", href: "/product/category/dpc-wire" },
+          { name: "Strip Wire", href: "/product/category/strip-wire" },
+          { name: "Super Enamelled Wire", href: "/product/category/super-enamelled-wire" },
+          { name: "Conductor & Cable", href: "/product/category/conductor-cable" },
+          { name: "Wire & Cable Portfolio", href: "/product/category/cable-wires" },
         ],
       },
       

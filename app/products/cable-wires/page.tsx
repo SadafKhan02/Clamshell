@@ -1,1 +1,5 @@
-export { default, metadata } from "../../product/cable-wires/page";
+import { redirect } from "next/navigation";
+
+export default function LegacyCableWiresPage() {
+  redirect("/product/category/cable-wires");
+}
