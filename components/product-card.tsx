@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { ArrowLeft, ArrowUpRight, Rotate3D } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { ProductCardProduct } from "@/data/products";
 
 export function ProductCard({
@@ -13,7 +12,6 @@ export function ProductCard({
   product: ProductCardProduct;
   id?: string;
 }) {
-  const [isFlipped, setIsFlipped] = useState(false);
   const categoryLabel =
     product.categoryLabel ??
     (product.category === "poles" ? "Pole products" : "Wires & cables");
@@ -21,95 +19,92 @@ export function ProductCard({
   return (
     <article
       id={id ?? product.slug}
-      className={`product-card h-full rounded-2xl ${isFlipped ? "is-flipped" : ""}`}
+      className="product-card h-full rounded-2xl"
     >
-      <div className="product-card-inner relative aspect-square h-full w-full rounded-2xl">
-        <div className="product-card-face product-card-front absolute inset-0 overflow-hidden rounded-2xl border border-[#E3D7C8] bg-[#F6F1EC] shadow-sm">
-          <Image
-            src={product.image}
-            alt={product.imageAlt}
-            fill
-            sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
-            className={
-              product.imageFit === "contain"
-                ? "object-contain p-5 sm:p-7"
-                : "object-cover"
-            }
-            style={{ objectPosition: product.imagePosition }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1A1614]/80 via-[#1A1614]/10 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-6">
-            <span className="inline-flex rounded-full border border-white/35 bg-[#1A1614]/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] backdrop-blur-sm">
-              {categoryLabel}
-            </span>
-            <h3 className="mt-2 pr-12 text-xl font-bold leading-tight tracking-tight sm:text-2xl">
-              {product.name}
-            </h3>
-          </div>
-          <Link
-            href={product.destinationUrl}
-            aria-label={`View ${product.name} details`}
-            className="absolute inset-0 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
-          />
-          <button
-            type="button"
-            onClick={() => setIsFlipped(true)}
-            aria-label={`Flip ${product.name} card to see details`}
-            aria-pressed={isFlipped}
-            className="absolute bottom-5 right-5 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/50 bg-[#1A1614]/35 text-white backdrop-blur-sm transition-colors hover:bg-[#D96B4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:bottom-6 sm:right-6"
-          >
-            <Rotate3D className="h-5 w-5" aria-hidden="true" />
-          </button>
+      <Link
+        href={product.destinationUrl}
+        aria-label={`View ${product.name} details`}
+        className="group relative block aspect-square h-full w-full overflow-hidden rounded-2xl border border-[#E3D7C8] bg-[#F6F1EC] shadow-sm transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1.5 hover:border-[#D9B19F] hover:shadow-[0_18px_38px_rgba(26,22,20,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F] focus-visible:ring-offset-2 motion-reduce:transition-none"
+      >
+        <Image
+          src={product.image}
+          alt={product.imageAlt}
+          fill
+          sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
+          className={`transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none ${
+            product.imageFit === "contain"
+              ? "object-contain p-5 sm:p-7"
+              : "object-cover"
+          }`}
+          style={{ objectPosition: product.imagePosition }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1A1614]/95 via-[#1A1614]/25 to-[#1A1614]/5 transition-colors duration-300 group-hover:from-[#1A1614]/95 group-hover:via-[#1A1614]/40" />
+
+        <div
+          aria-hidden="true"
+          className="absolute left-0 top-0 h-1 w-12 bg-[#D96B4F] transition-all duration-300 group-hover:w-full"
+        />
+
+        <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-4 sm:p-5">
+          <span className="inline-flex max-w-[80%] rounded-full border border-white/40 bg-[#1A1614]/45 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm">
+            {categoryLabel}
+          </span>
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/50 bg-white/15 text-white backdrop-blur-sm transition-[background-color,transform] duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:bg-[#D96B4F]">
+            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          </span>
+        </div>
+        {product.supplyNotice && (
+          <span className="absolute left-4 right-4 top-14 z-[1] rounded-lg bg-[#1A1614]/75 px-3 py-2 text-[10px] font-semibold leading-4 text-white backdrop-blur-sm sm:left-5 sm:right-5">
+            Not manufactured by Clamshell — supplier-sourced
+          </span>
+        )}
+
+        <div className="absolute inset-x-0 bottom-0 p-4 text-white transition-opacity duration-200 group-hover:opacity-0 sm:p-5">
+          <h3 className="pr-1 text-xl font-bold leading-tight tracking-tight sm:text-2xl">
+            {product.name}
+          </h3>
+          <p className="mt-2 line-clamp-2 text-xs leading-5 text-white/85 sm:text-sm">
+            {product.description}
+          </p>
         </div>
 
-        <div className="product-card-face product-card-back absolute inset-0 flex flex-col justify-between overflow-hidden rounded-2xl border border-[#E3D7C8] bg-[#F2F6FB] p-5 shadow-sm sm:p-6">
-          <div className="min-h-0 overflow-y-auto">
+        <div className="absolute inset-0 z-[1] flex translate-y-full flex-col overflow-y-auto rounded-2xl bg-[#FDFBF9] p-5 opacity-0 transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 motion-reduce:transition-none sm:p-6">
+          <div className="min-h-0 flex-1">
             <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#785135]">
               {categoryLabel}
             </span>
-            <h3 className="mt-2 text-xl font-semibold leading-tight text-[#983B23] sm:text-2xl">
+            <h3 className="mt-2 text-xl font-bold leading-tight text-[#1A1614] sm:text-2xl">
               {product.name}
             </h3>
-            <p className="mt-3 text-sm leading-6 text-[#1A1614]">
+            <p className="mt-3 text-xs leading-5 text-[#573A29] sm:text-sm">
               {product.description}
             </p>
-            <ul className="mt-4 space-y-2.5">
+            {product.supplyNotice && (
+              <p className="mt-3 rounded-lg border border-[#D96B4F]/30 bg-[#FEF4F0] px-3 py-2 text-xs font-semibold leading-5 text-[#4A2D1A]">
+                {product.supplyNotice}
+              </p>
+            )}
+            <ul className="mt-4 space-y-2">
               {product.highlights.map((highlight) => (
-                <li
-                  key={highlight}
+              <li
+                key={highlight}
                   className="flex items-start gap-2 text-xs leading-5 text-[#4A2D1A] sm:text-sm"
-                >
-                  <span
+              >
+                <span
+                  aria-hidden="true"
                     className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#D96B4F]"
-                    aria-hidden="true"
-                  />
+                />
                   <span>{highlight}</span>
-                </li>
-              ))}
+              </li>
+            ))}
             </ul>
           </div>
-
-          <div className="mt-3 flex shrink-0 items-center justify-between gap-3 border-t border-[#D8E0EA] pt-3">
-            <Link
-              href={product.destinationUrl}
-              className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#D96B4F] px-3.5 py-2 text-sm font-bold text-white transition-colors hover:bg-[#C4573B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F] focus-visible:ring-offset-2"
-            >
-              View Details
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-            <button
-              type="button"
-              onClick={() => setIsFlipped(false)}
-              aria-label={`Flip ${product.name} card back to the image`}
-              aria-pressed={isFlipped}
-              className="inline-flex min-h-10 items-center gap-1.5 rounded-lg px-2 text-xs font-semibold text-[#573A29] transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]"
-            >
-              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              Back
-            </button>
-          </div>
+          <span className="mt-3 inline-flex min-h-10 shrink-0 items-center gap-2 self-start rounded-lg bg-[#D96B4F] px-3.5 py-2 text-sm font-bold text-white">
+            View Details
+            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          </span>
         </div>
-      </div>
+      </Link>
     </article>
   );
 }

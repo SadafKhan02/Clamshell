@@ -78,7 +78,7 @@ export default function ClientListPage() {
 
               <div className="mt-6 pt-3 border-t border-[#EDE3D7] flex items-center justify-between text-xs text-[#785135]">
                 <span>Approved Vendor</span>
-                <span className="text-emerald-700 font-bold flex items-center gap-1">
+                <span className="flex items-center gap-1 font-bold text-[#D96B4F]">
                   <CheckCircle2 className="h-3.5 w-3.5" /> Active
                 </span>
               </div>

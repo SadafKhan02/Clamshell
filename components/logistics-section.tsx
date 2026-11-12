@@ -42,7 +42,7 @@ export function LogisticsSection() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left: The Industry Problem */}
             <div className="lg:col-span-5 p-6 rounded-2xl bg-[#FFFDFB] border border-[#E3D7C8]/80 space-y-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-bold">
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-[#FEF4F0] px-3 py-1 text-xs font-bold text-[#983B23]">
                 <AlertTriangle className="h-3.5 w-3.5" />
                 <span>The Industry Challenge: Manual Offloading</span>
               </div>
@@ -56,15 +56,15 @@ export function LogisticsSection() {
                 stringing or premature corrosion in 2-3 years.
               </p>
               <ul className="space-y-2 text-xs text-[#6E635D]">
-                <li className="flex items-center gap-2 text-red-600">
+                <li className="flex items-center gap-2 text-[#D96B4F]">
                   <span>✕</span>
                   <span>5% to 8% breakage rate during site unloading</span>
                 </li>
-                <li className="flex items-center gap-2 text-red-600">
+                <li className="flex items-center gap-2 text-[#D96B4F]">
                   <span>✕</span>
                   <span>High risk of severe job-site crush injuries</span>
                 </li>
-                <li className="flex items-center gap-2 text-red-600">
+                <li className="flex items-center gap-2 text-[#D96B4F]">
                   <span>✕</span>
                   <span>Delays of 4-6 hours waiting for manual gangs</span>
                 </li>

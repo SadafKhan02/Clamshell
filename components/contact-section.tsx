@@ -331,8 +331,8 @@ export function ContactSection() {
               </button>
 
               {submitted && (
-                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+                <div className="p-4 rounded-xl bg-[#FEF4F0] border border-[#F5D7CD] text-[#4A2D1A] text-xs font-semibold flex items-center gap-2">
+                  <CheckCircle2 className="h-5 w-5 text-[#D96B4F] shrink-0" />
                   <span>
                     Thank you! Your quotation inquiry has been routed to
                     Clamshell Commercial Tenders Division. An official BOQ quote

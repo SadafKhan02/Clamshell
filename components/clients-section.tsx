@@ -87,7 +87,7 @@ export function ClientsSection() {
               </p>
               <div className="mt-3 pt-2 border-t border-[#EDE3D7] flex items-center justify-between text-[10px] text-[#785135]">
                 <span>Approved Vendor</span>
-                <span className="text-emerald-700 font-bold">✓ Active</span>
+                <span className="font-bold text-[#D96B4F]">✓ Active</span>
               </div>
             </div>
           ))}

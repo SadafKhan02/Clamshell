@@ -90,66 +90,68 @@ export function ProductFamilyPage({ family }: { family: ProductFamily }) {
 
   return (
     <main className="w-full bg-[#FDFBF9]">
-      <div className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 lg:px-8">
-        <nav aria-label="Breadcrumb">
-          <ol className="flex items-center gap-2 text-sm text-[#6E635D]">
-            <li>
-              <Link
-                href="/"
-                className="rounded-sm hover:text-[#D96B4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]"
-              >
-                Home
-              </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight className="h-4 w-4" />
-            </li>
-            <li>
-              <Link
-                href="/product"
-                className="rounded-sm hover:text-[#D96B4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]"
-              >
-                Products
-              </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight className="h-4 w-4" />
-            </li>
-            <li aria-current="page" className="font-semibold text-[#4A2D1A]">
-              {family.title}
-            </li>
-          </ol>
-        </nav>
-      </div>
-
       <section
         aria-labelledby="product-family-heading"
-        className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:px-8 lg:py-16"
+        className="mx-auto max-w-7xl px-4 pb-10 pt-5 sm:px-6 sm:pb-14 lg:px-8 lg:pb-16"
       >
-        <div>
-          <p className="inline-flex items-center rounded-full border border-[#D96B4F]/20 bg-[#FEF4F0] px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-[#983B23]">
-            Clamshell product range
-          </p>
-          <h1
-            id="product-family-heading"
-            className="mt-4 text-4xl font-extrabold leading-tight tracking-tight text-[#1A1614] sm:text-5xl"
+        <div className="relative grid items-center gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
+          <nav
+            aria-label="Breadcrumb"
+            className="absolute inset-x-0 top-0 z-10 text-xs text-[#785135] sm:text-sm"
           >
-            {family.title}
-          </h1>
-          <p className="mt-4 max-w-xl text-base leading-7 text-[#573A29]">
-            {family.description}
-          </p>
-        </div>
-        <div className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-[#E3D7C8] bg-[#F6F1EC] shadow-lg">
-          <Image
-            src={featuredProduct.image}
-            alt={featuredProduct.imageAlt}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 55vw"
-            className="object-cover"
-            style={{ objectPosition: featuredProduct.imagePosition }}
-          />
+            <ol className="flex items-center gap-1.5 sm:gap-2">
+              <li>
+                <Link
+                  href="/"
+                  className="rounded-sm hover:text-[#D96B4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]"
+                >
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">
+                <ChevronRight className="h-3.5 w-3.5" />
+              </li>
+              <li>
+                <Link
+                  href="/product"
+                  className="rounded-sm hover:text-[#D96B4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F]"
+                >
+                  Products
+                </Link>
+              </li>
+              <li aria-hidden="true">
+                <ChevronRight className="h-3.5 w-3.5" />
+              </li>
+              <li aria-current="page" className="font-bold text-[#1A1614]">
+                {family.title}
+              </li>
+            </ol>
+          </nav>
+          <div className="pt-10 sm:pt-12">
+            <p className="inline-flex items-center rounded-full border border-[#D96B4F]/20 bg-[#FEF4F0] px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-[#983B23]">
+              Clamshell product range
+            </p>
+            <h1
+              id="product-family-heading"
+              className="mt-4 text-4xl font-extrabold leading-tight tracking-tight text-[#1A1614] sm:text-5xl"
+            >
+              {family.title}
+            </h1>
+            <p className="mt-4 max-w-xl text-base leading-7 text-[#573A29]">
+              {family.description}
+            </p>
+          </div>
+          <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-3xl border border-[#E3D7C8] bg-[#F6F1EC] shadow-lg lg:mt-12">
+            <Image
+              src={featuredProduct.image}
+              alt={featuredProduct.imageAlt}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              className="object-cover"
+              style={{ objectPosition: featuredProduct.imagePosition }}
+            />
+          </div>
         </div>
       </section>
 

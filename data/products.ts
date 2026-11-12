@@ -30,6 +30,12 @@ export interface ProductPortfolioItem {
   features: string[];
 }
 
+export interface ProductTechnicalDrawing {
+  image?: string;
+  views: string[];
+  notes?: string[];
+}
+
 export interface ProductDetails {
   categoryLabel: string;
   bannerImage: string;
@@ -59,8 +65,12 @@ export interface ProductEntry {
   ctaLabel: string;
   destinationUrl: string;
   publicationStatus: ProductPublicationStatus;
+  supplyNotice?: string;
   imageFit?: "cover" | "contain";
   imagePosition?: string;
+  technicalDataStatus?: "verified" | "temporary";
+  technicalSpecifications?: ProductSpecification[];
+  technicalDrawing?: ProductTechnicalDrawing;
   details: ProductDetails;
 }
 
@@ -84,12 +94,18 @@ export interface ProductCardProduct {
   imageFit?: "cover" | "contain";
   imagePosition?: string;
   highlights: string[];
+  supplyNotice?: string;
 }
 
 export interface ProductCatalogueVariant {
+  routeSlug: string;
   name: string;
+  detailTitle?: string;
   description: string;
   highlights: string[];
+  specifications: ProductSpecification[];
+  specificationStatus: "verified" | "temporary";
+  drawing: ProductTechnicalDrawing;
   specificationAnchor?: string;
 }
 
@@ -239,6 +255,8 @@ export const productFamilies: ProductFamily[] = [
         ctaLabel: "View Product",
         destinationUrl: "/product/rail-poles",
         publicationStatus: "published",
+        supplyNotice:
+          "Rail poles are not manufactured by Clamshell Infrastructure. They are sourced from external suppliers and supplied for your project.",
         imageFit: "cover",
         imagePosition: "50% 42%",
         details: {
@@ -670,6 +688,7 @@ export function toProductCardProduct(product: ProductEntry): ProductCardProduct 
         (specification) => `${specification.label}: ${specification.value}`,
       ),
     ],
+    supplyNotice: product.supplyNotice,
   };
 }
 
@@ -681,8 +700,17 @@ if (!psccPoleProduct?.details.specificationTable) {
   throw new Error("PSCC pole specifications are required for the product catalogue.");
 }
 
+function psccLengthSlug(length: string): string {
+  return `${length
+    .replace(/\s*m$/i, "")
+    .trim()
+    .replace(/\.0$/, "")
+    .replace(".", "-")}m`;
+}
+
 const poleConfigurationCards: ProductCardProduct[] =
   psccPoleProduct.details.specificationTable.map((specification) => ({
+    // Keep the existing length-level cards while giving each its own detail route.
     name: `${specification.length} PSCC Utility Pole`,
     slug: specification.anchorId,
     category: "poles",
@@ -691,7 +719,7 @@ const poleConfigurationCards: ProductCardProduct[] =
     image: psccPoleProduct.image,
     imageAlt: psccPoleProduct.imageAlt,
     ctaLabel: "View Specifications",
-    destinationUrl: `${psccPoleProduct.destinationUrl}#${specification.anchorId}`,
+    destinationUrl: `/product/pscc-pole-${psccLengthSlug(specification.length)}-configurations`,
     imageFit: psccPoleProduct.imageFit,
     imagePosition: psccPoleProduct.imagePosition,
     highlights: [
@@ -719,15 +747,35 @@ function temporaryVariants(
 ): ProductCatalogueVariant[] {
   return Array.from({ length: 12 }, (_, index) => {
     const option = String(index + 1).padStart(2, "0");
+    const name = `${productName} - Configuration ${option}`;
 
     return {
-      name: `${productName} - Configuration ${option}`,
+      routeSlug: `${categoryLabel}-${option}`
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, ""),
+      name,
       description: `Temporary catalogue option ${option} for ${categoryLabel.toLowerCase()}. Confirm dimensions, material, applicable standards, and availability with our team before ordering.`,
       highlights: [
         `Configuration ${option} - technical details to be confirmed`,
         "Request the current product datasheet",
         "Suitability confirmed against project requirements",
       ],
+      specifications: [
+        { label: "Product name", value: name },
+        { label: "Product code", value: "To Be Updated" },
+        { label: "Overall length", value: "To Be Updated" },
+        { label: "Working load", value: "To Be Updated" },
+        { label: "Ultimate load", value: "To Be Updated" },
+        { label: "Dimensions", value: "To Be Updated" },
+        { label: "Material and grade", value: "To Be Updated" },
+        { label: "Applicable standards", value: "To Be Updated" },
+      ],
+      specificationStatus: "temporary",
+      drawing: {
+        views: ["Engineering drawing to be supplied"],
+        notes: ["Original technical drawing: To Be Updated"],
+      },
     };
   });
 }
@@ -745,8 +793,8 @@ function createCataloguePage(
     throw new Error(`Missing product data for catalogue page "${routeSlug}".`);
   }
 
-  if (variants.length !== 12) {
-    throw new Error(`Catalogue page "${routeSlug}" must contain exactly 12 items.`);
+  if (variants.length === 0) {
+    throw new Error(`Catalogue page "${routeSlug}" must contain at least one item.`);
   }
 
   if (images.length === 0) {
@@ -757,7 +805,10 @@ function createCataloguePage(
     routeSlug,
     title,
     productRouteSlug,
-    description: `Browse ${title.toLowerCase()} configurations. These catalogue options are temporary; confirm product specifications and availability with our team.`,
+    description:
+      routeSlug === "pscc-poles"
+        ? "Browse individual PSC pole configurations. Supplied specifications are shown for selected products; other technical values remain To Be Updated."
+        : `Browse ${title.toLowerCase()} configurations. These catalogue options are temporary; confirm product specifications and availability with our team.`,
     variants,
     images,
   };
@@ -769,12 +820,23 @@ const poleCatalogueImages: ProductCatalogueImage[] = [
     imageAlt: "Pre-stressed concrete utility pole carrying overhead lines",
   },
   {
-    image: "/rail-pole.avif",
-    imageAlt: "Railway electrification pole with overhead catenary equipment",
+    image: "/hero.png",
+    imageAlt: "Concrete utility poles and power distribution infrastructure",
+  },
+  {
+    image: "/PSC-pole.jpg",
+    imageAlt: "Pre-stressed cement concrete pole for utility distribution",
   },
   {
     image: "/hero.png",
-    imageAlt: "Concrete utility poles and power distribution infrastructure",
+    imageAlt: "Utility pole range in an electrical infrastructure setting",
+  },
+];
+
+const railCatalogueImages: ProductCatalogueImage[] = [
+  {
+    image: "/rail-pole.avif",
+    imageAlt: "Railway electrification pole with overhead catenary equipment",
   },
   {
     image: "/product-hero.png",
@@ -815,25 +877,196 @@ if (!psccProduct?.details.specificationTable) {
   throw new Error("PSCC pole specifications are required for its catalogue page.");
 }
 
+const psccProductDescription = psccProduct.description;
+
+function temporaryPoleSpecifications(
+  name: string,
+  length: string,
+  workingLoad: string,
+): ProductSpecification[] {
+  return [
+    { label: "Product name", value: name },
+    { label: "Product code", value: "To Be Updated" },
+    { label: "Overall length", value: length || "To Be Updated" },
+    { label: "Working load", value: workingLoad || "To Be Updated" },
+    { label: "Ultimate load", value: "To Be Updated" },
+    { label: "Top section dimensions", value: "To Be Updated" },
+    { label: "Bottom section dimensions", value: "To Be Updated" },
+    { label: "Concrete grade and quantity", value: "To Be Updated" },
+    { label: "Planting depth", value: "To Be Updated" },
+    { label: "Prestressing wire", value: "To Be Updated" },
+    { label: "Reinforcement details", value: "To Be Updated" },
+    { label: "Clear cover and factor of safety", value: "To Be Updated" },
+    { label: "Theoretical weight and load point", value: "To Be Updated" },
+    { label: "Earth wire details", value: "To Be Updated" },
+  ];
+}
+
+function makeVerifiedPoleVariant(
+  routeSlug: string,
+  name: string,
+  specs: ProductSpecification[],
+  views: string[],
+  highlights: string[],
+): ProductCatalogueVariant {
+  return {
+    routeSlug,
+    name,
+    detailTitle: name,
+    description: psccProductDescription,
+    highlights,
+    specifications: specs,
+    specificationStatus: "verified",
+    drawing: {
+      views,
+      notes: ["Original engineering drawing: To Be Updated (not accessible in the current project files)."],
+    },
+  };
+}
+
+const verifiedPoleVariants: ProductCatalogueVariant[] = [
+  makeVerifiedPoleVariant(
+    "pscc-pole-9m-300kg",
+    "GA of 9.0 MTR / 300 KG PSC Pole (100 mm Width Pole)",
+    [
+      { label: "Product name", value: "GA of 9.0 MTR / 300 KG PSC Pole (100 mm Width Pole)" },
+      { label: "Product code", value: "To Be Updated" },
+      { label: "Overall length", value: "9.0 MTR" },
+      { label: "Working load", value: "300 KG" },
+      { label: "Ultimate load", value: "To Be Updated" },
+      { label: "Top section dimensions", value: "185 × 100 MM" },
+      { label: "Bottom section dimensions", value: "355 × 100 MM" },
+      { label: "Concrete grade", value: "M-40" },
+      { label: "Concrete quantity", value: "To Be Updated" },
+      { label: "Planting depth", value: "1500 MM" },
+      { label: "Prestressing wire diameter", value: "4 MM" },
+      { label: "Number of tensioned wires", value: "20 Nos." },
+      { label: "Number of untensioned wires", value: "To Be Updated" },
+      { label: "Pre-tension applied to each wire", value: "To Be Updated" },
+      { label: "Clear cover", value: "22 MM" },
+      { label: "Factor of safety", value: "2.5" },
+      { label: "Theoretical weight", value: "To Be Updated" },
+      { label: "Load application point", value: "To Be Updated" },
+      { label: "Minimum concrete cube strength", value: "To Be Updated" },
+      { label: "G.I. earth wire", value: "6 SWG, 1 No." },
+      { label: "Ultimate tensile strength of prestressing wire", value: "17500 KG/CM²" },
+    ],
+    ["Elevation", "Side View", "Top Plan", "Section A-A", "Bottom Plan"],
+    ["9.0 MTR overall length", "300 KG working load", "100 mm width pole"],
+  ),
+  makeVerifiedPoleVariant(
+    "pscc-pole-9m-400kg",
+    "Reinforcement Details of 9.0M / 400KG Prestressed Cement Concrete Pole",
+    [
+      { label: "Product name", value: "Reinforcement Details of 9.0M / 400KG Prestressed Cement Concrete Pole" },
+      { label: "Product code", value: "To Be Updated" },
+      { label: "Overall length", value: "9.0 MTR" },
+      { label: "Working load", value: "400 KG" },
+      { label: "Ultimate load", value: "800 KG" },
+      { label: "Top section dimensions", value: "225 × 100 MM" },
+      { label: "Bottom section dimensions", value: "395 × 100 MM" },
+      { label: "Concrete quantity", value: "0.279 M³" },
+      { label: "Concrete grade", value: "M-400" },
+      { label: "Planting depth", value: "1.5 MTR" },
+      { label: "Prestressing wire diameter", value: "4 MM" },
+      { label: "Number of tensioned wires", value: "20 Nos." },
+      { label: "Number of untensioned wires", value: "To Be Updated" },
+      { label: "Pre-tension applied to each wire", value: "1760 KG" },
+      { label: "Minimum cube strength at 28 days", value: "400 KG/CM²" },
+      { label: "Clear cover", value: "20 MM" },
+      { label: "Factor of safety", value: "2.0" },
+      { label: "Theoretical weight", value: "697 KG" },
+      { label: "Load application point", value: "600 MM from Top" },
+      { label: "G.I. earth wire", value: "To Be Updated" },
+      { label: "Ultimate tensile strength of 4 MM wire", value: "17500 KG/CM²" },
+    ],
+    ["Elevation", "Side View", "Plan at Top", "Section A-A", "Plan at Bottom"],
+    ["9.0 MTR overall length", "400 KG working load", "800 KG ultimate load"],
+  ),
+  makeVerifiedPoleVariant(
+    "pscc-pole-8m-200kg",
+    "Reinforcement Details of 8.0M / 200KG Prestressed Cement Concrete Pole",
+    [
+      { label: "Product name", value: "Reinforcement Details of 8.0M / 200KG Prestressed Cement Concrete Pole" },
+      { label: "Product code", value: "To Be Updated" },
+      { label: "Overall length", value: "8.0 MTR" },
+      { label: "Working load", value: "200 KG" },
+      { label: "Ultimate load", value: "500 KG" },
+      { label: "Top section dimensions", value: "145 × 90 MM" },
+      { label: "Bottom section dimensions", value: "290 × 90 MM" },
+      { label: "Concrete quantity", value: "0.157 M³" },
+      { label: "Concrete grade", value: "M-42" },
+      { label: "Planting depth", value: "1.5 MTR" },
+      { label: "Prestressing wire diameter", value: "4 MM" },
+      { label: "Number of tensioned wires", value: "12 Nos." },
+      { label: "Number of untensioned wires", value: "2 Nos." },
+      { label: "Pre-tension applied to each wire", value: "1760 KG" },
+      { label: "Minimum cube strength at 28 days", value: "420 KG/CM²" },
+      { label: "Clear cover", value: "20 MM" },
+      { label: "Factor of safety", value: "2.5" },
+      { label: "Theoretical weight", value: "380 KG" },
+      { label: "Load application point", value: "600 MM from Top" },
+      { label: "G.I. earth wire", value: "To Be Updated" },
+      { label: "Ultimate tensile strength of 4 MM wire", value: "17500 KG/CM²" },
+    ],
+    ["Elevation", "Side View", "Plan at Top", "Plan at A-A", "Plan at Bottom"],
+    ["8.0 MTR overall length", "200 KG working load", "500 KG ultimate load"],
+  ),
+];
+
+const verifiedPoleVariantsBySlug = new Map(
+  verifiedPoleVariants.map((variant) => [variant.routeSlug, variant]),
+);
+
 const psccVariants: ProductCatalogueVariant[] =
   psccProduct.details.specificationTable.flatMap((specification) => {
     const workingLoads = specification.workingLoad.split(" / ");
-    const ultimateLoads = specification.ultimateLoad.split(" / ");
+    const lengthForSlug = psccLengthSlug(specification.length);
 
-    return workingLoads.map((workingLoad, index) => ({
-      name: `${specification.length} PSCC Utility Pole - ${workingLoad}`,
-      description: `Working load ${workingLoad}; ultimate load ${ultimateLoads[index] ?? "confirm for configuration"}. ${specification.application}. Confirm final dimensions and project requirements before ordering.`,
-      highlights: [
-        `Working load: ${workingLoad}`,
-        `Ultimate load: ${ultimateLoads[index] ?? "Confirm for configuration"}`,
-        `Planting depth: ${specification.plantingDepth}`,
-      ],
-      specificationAnchor: specification.anchorId,
-    }));
+    return workingLoads.map((workingLoad) => {
+      const loadForSlug = workingLoad.replace(/[^0-9]/g, "");
+      const routeSlug = `pscc-pole-${lengthForSlug}-${loadForSlug}kg`;
+      const name = `${specification.length} PSCC Utility Pole - ${workingLoad}`;
+      const verifiedVariant = verifiedPoleVariantsBySlug.get(routeSlug);
+
+      return (
+        (verifiedVariant
+          ? {
+              ...verifiedVariant,
+              name,
+              specificationAnchor: specification.anchorId,
+            }
+          : undefined) ?? {
+          routeSlug,
+          name,
+          description: `Temporary product configuration. Working load ${workingLoad}; confirm all technical specifications before ordering.`,
+          highlights: [
+            `Length: ${specification.length}`,
+            `Working load: ${workingLoad}`,
+            "Technical data: To Be Updated",
+          ],
+          specifications: temporaryPoleSpecifications(
+            name,
+            specification.length,
+            workingLoad,
+          ),
+          specificationStatus: "temporary" as const,
+          drawing: {
+            views: ["Engineering drawing to be supplied"],
+            notes: ["Original technical drawing: To Be Updated"],
+          },
+          specificationAnchor: specification.anchorId,
+        }
+      );
+    });
   });
 
 psccVariants.push(
+  ...verifiedPoleVariants.filter(
+    (variant) => !psccVariants.some((existing) => existing.routeSlug === variant.routeSlug),
+  ),
   {
+    routeSlug: "pscc-pole-custom-requirement-a",
     name: "PSCC Utility Pole - Custom Requirement A",
     description:
       "Temporary enquiry option for project-specific PSCC pole requirements. Dimensions and load details must be confirmed by our team.",
@@ -842,8 +1075,19 @@ psccVariants.push(
       "Load configuration to be confirmed",
       "Request a project-specific technical review",
     ],
+    specifications: temporaryPoleSpecifications(
+      "PSCC Utility Pole - Custom Requirement A",
+      "",
+      "",
+    ),
+    specificationStatus: "temporary",
+    drawing: {
+      views: ["Engineering drawing to be supplied"],
+      notes: ["Original technical drawing: To Be Updated"],
+    },
   },
   {
+    routeSlug: "pscc-pole-custom-requirement-b",
     name: "PSCC Utility Pole - Custom Requirement B",
     description:
       "Temporary enquiry option for project-specific PSCC pole requirements. Dimensions and load details must be confirmed by our team.",
@@ -852,6 +1096,16 @@ psccVariants.push(
       "Load configuration to be confirmed",
       "Request a project-specific technical review",
     ],
+    specifications: temporaryPoleSpecifications(
+      "PSCC Utility Pole - Custom Requirement B",
+      "",
+      "",
+    ),
+    specificationStatus: "temporary",
+    drawing: {
+      views: ["Engineering drawing to be supplied"],
+      notes: ["Original technical drawing: To Be Updated"],
+    },
   },
 );
 
@@ -868,7 +1122,7 @@ export const productCataloguePages: ProductCataloguePage[] = [
     "Rail Poles",
     "rail-poles",
     temporaryVariants("rail poles", "Rail Pole"),
-    poleCatalogueImages,
+    railCatalogueImages,
   ),
   createCataloguePage(
     "dpc-wire",
@@ -932,23 +1186,158 @@ export function getCatalogueCardProducts(
 
     return {
       name: variant.name,
-      slug: `${cataloguePage.routeSlug}-${String(index + 1).padStart(2, "0")}`,
+      slug: variant.routeSlug,
       category: product.category,
       categoryLabel: cataloguePage.title,
       description: variant.description,
       image: catalogueImage.image,
       imageAlt: catalogueImage.imageAlt,
       ctaLabel: "View Details",
-      destinationUrl: variant.specificationAnchor
-        ? `${product.destinationUrl}#${variant.specificationAnchor}`
-        : product.destinationUrl,
+      destinationUrl: `/product/${variant.routeSlug}`,
       imageFit: "cover" as const,
       imagePosition,
       highlights: variant.highlights,
+      supplyNotice: product.supplyNotice,
     };
   });
 }
 
+function getCatalogueProductEntries(): ProductEntry[] {
+  return productCataloguePages.flatMap((cataloguePage) => {
+    const parentProduct = products.find(
+      (product) => product.routeSlug === cataloguePage.productRouteSlug,
+    );
+
+    if (!parentProduct) {
+      throw new Error(
+        `Missing product data for catalogue page "${cataloguePage.routeSlug}".`,
+      );
+    }
+
+    return cataloguePage.variants.map((variant, index) => {
+      const image = cataloguePage.images[index % cataloguePage.images.length];
+      const name = variant.detailTitle ?? variant.name;
+      const isVerified = variant.specificationStatus === "verified";
+
+      return {
+        ...parentProduct,
+        name,
+        slug: variant.routeSlug,
+        routeSlug: variant.routeSlug,
+        description: variant.description,
+        image: image.image,
+        imageAlt: image.imageAlt,
+        technicalDataStatus: variant.specificationStatus,
+        technicalSpecifications: variant.specifications,
+        technicalDrawing: variant.drawing,
+        details: {
+          ...parentProduct.details,
+          categoryLabel: cataloguePage.title,
+          bannerImage: image.image,
+          introductionHeading: name,
+          introduction: variant.description,
+          features: variant.highlights,
+          specifications: variant.specifications,
+          specificationTable: undefined,
+          specificationNote: isVerified
+            ? "Specifications are transcribed from the supplied product data. The original drawing image is not accessible in the current project files."
+            : "Temporary product page. Unavailable technical values and engineering drawings are marked To Be Updated.",
+          imageCaption: image.imageAlt,
+        },
+      };
+    });
+  });
+}
+
+function getPoleLengthPageEntries(): ProductEntry[] {
+  const parentProduct = psccPoleProduct;
+  const specificationRows = parentProduct?.details.specificationTable;
+
+  if (!parentProduct || !specificationRows) {
+    return [];
+  }
+
+  return specificationRows.map((specification) => {
+    const lengthSlug = psccLengthSlug(specification.length);
+    const name = `${specification.length} PSCC Utility Pole`;
+    const routeSlug = `pscc-pole-${lengthSlug}-configurations`;
+    const specifications = temporaryPoleSpecifications(
+      name,
+      specification.length,
+      specification.workingLoad,
+    );
+
+    return {
+      ...parentProduct,
+      name,
+      slug: routeSlug,
+      routeSlug,
+      description:
+        `Temporary length-level catalogue page for ${specification.length} PSC poles. ` +
+        "Confirm the selected working-load configuration and technical data before ordering.",
+      technicalDataStatus: "temporary" as const,
+      technicalSpecifications: specifications,
+      technicalDrawing: {
+        views: ["Engineering drawing to be supplied"],
+        notes: ["Original technical drawing: To Be Updated"],
+      },
+      details: {
+        ...parentProduct.details,
+        categoryLabel: `PSC pole · ${specification.length}`,
+        introductionHeading: name,
+        introduction:
+          `Available working-load options shown in the catalogue: ${specification.workingLoad}. ` +
+          "Other technical values are To Be Updated until a product drawing is supplied.",
+        features: [
+          `Overall length: ${specification.length}`,
+          `Working load options: ${specification.workingLoad}`,
+          "Other technical data: To Be Updated",
+        ],
+        specifications,
+        specificationTable: undefined,
+        specificationNote:
+          "This length-level page is temporary. Select a working-load product card for its individual detail page.",
+      },
+    };
+  });
+}
+
+export const productDetailEntries: ProductEntry[] = [
+  ...products.map((product) => ({
+    ...product,
+    technicalDataStatus: "temporary" as const,
+    technicalSpecifications: product.details.specifications,
+    details:
+      product.routeSlug === "pscc-poles"
+        ? { ...product.details, specificationTable: undefined }
+        : product.details,
+  })),
+  ...getPoleLengthPageEntries(),
+  ...getCatalogueProductEntries(),
+];
+
+const uniqueDetailSlugs = new Set(
+  productDetailEntries.map((product) => product.routeSlug),
+);
+
+if (uniqueDetailSlugs.size !== productDetailEntries.length) {
+  throw new Error("Product detail routes must have unique slugs.");
+}
+
+export function getRelatedProductCards(
+  currentRouteSlug: string,
+  category: ProductFamilyId,
+): ProductCardProduct[] {
+  return productListingItems
+    .filter(
+      (product) =>
+        product.category === category &&
+        product.slug !== currentRouteSlug &&
+        product.destinationUrl !== `/product/${currentRouteSlug}`,
+    )
+    .slice(0, 3);
+}
+
 export function getProductByRouteSlug(routeSlug: string) {
-  return products.find((product) => product.routeSlug === routeSlug);
+  return productDetailEntries.find((product) => product.routeSlug === routeSlug);
 }

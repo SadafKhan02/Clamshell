@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { ProductDetailPage, getProductMetadata } from "@/components/product-detail-page";
-import { getProductByRouteSlug, products } from "@/data/products";
+import { getProductByRouteSlug, productDetailEntries } from "@/data/products";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export function generateStaticParams() {
-  return products.map((product) => ({ slug: product.routeSlug }));
+  return productDetailEntries.map((product) => ({ slug: product.routeSlug }));
 }
 
 export async function generateMetadata({
