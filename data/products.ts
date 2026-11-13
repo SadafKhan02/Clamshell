@@ -65,7 +65,6 @@ export interface ProductEntry {
   ctaLabel: string;
   destinationUrl: string;
   publicationStatus: ProductPublicationStatus;
-  supplyNotice?: string;
   imageFit?: "cover" | "contain";
   imagePosition?: string;
   technicalDataStatus?: "verified" | "temporary";
@@ -94,7 +93,6 @@ export interface ProductCardProduct {
   imageFit?: "cover" | "contain";
   imagePosition?: string;
   highlights: string[];
-  supplyNotice?: string;
 }
 
 export interface ProductCatalogueVariant {
@@ -255,8 +253,6 @@ export const productFamilies: ProductFamily[] = [
         ctaLabel: "View Product",
         destinationUrl: "/product/rail-poles",
         publicationStatus: "published",
-        supplyNotice:
-          "Rail poles are not manufactured by Clamshell Infrastructure. They are sourced from external suppliers and supplied for your project.",
         imageFit: "cover",
         imagePosition: "50% 42%",
         details: {
@@ -688,7 +684,6 @@ export function toProductCardProduct(product: ProductEntry): ProductCardProduct 
         (specification) => `${specification.label}: ${specification.value}`,
       ),
     ],
-    supplyNotice: product.supplyNotice,
   };
 }
 
@@ -1197,7 +1192,6 @@ export function getCatalogueCardProducts(
       imageFit: "cover" as const,
       imagePosition,
       highlights: variant.highlights,
-      supplyNotice: product.supplyNotice,
     };
   });
 }

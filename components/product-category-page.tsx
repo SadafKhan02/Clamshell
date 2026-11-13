@@ -46,7 +46,6 @@ export function ProductCategoryPage({
         routeSlug={product.routeSlug}
         breadcrumbLabel={cataloguePage.title}
         highlights={product.details.features}
-        supplyNotice={product.supplyNotice}
       />
 
       <section

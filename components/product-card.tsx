@@ -53,12 +53,6 @@ export function ProductCard({
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
           </span>
         </div>
-        {product.supplyNotice && (
-          <span className="absolute left-4 right-4 top-14 z-[1] rounded-lg bg-[#1A1614]/75 px-3 py-2 text-[10px] font-semibold leading-4 text-white backdrop-blur-sm sm:left-5 sm:right-5">
-            Not manufactured by Clamshell — supplier-sourced
-          </span>
-        )}
-
         <div className="absolute inset-x-0 bottom-0 p-4 text-white transition-opacity duration-200 group-hover:opacity-0 sm:p-5">
           <h3 className="pr-1 text-xl font-bold leading-tight tracking-tight sm:text-2xl">
             {product.name}
@@ -79,11 +73,6 @@ export function ProductCard({
             <p className="mt-3 text-xs leading-5 text-[#573A29] sm:text-sm">
               {product.description}
             </p>
-            {product.supplyNotice && (
-              <p className="mt-3 rounded-lg border border-[#D96B4F]/30 bg-[#FEF4F0] px-3 py-2 text-xs font-semibold leading-5 text-[#4A2D1A]">
-                {product.supplyNotice}
-              </p>
-            )}
             <ul className="mt-4 space-y-2">
               {product.highlights.map((highlight) => (
               <li

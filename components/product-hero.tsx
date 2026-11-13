@@ -22,7 +22,6 @@ type ProductHeroProps = {
   routeSlug: string;
   breadcrumbLabel: string;
   highlights: string[];
-  supplyNotice?: string;
 };
 
 const wireIcons = [Cable, Zap, ShieldCheck];
@@ -41,7 +40,6 @@ export function ProductHero({
   routeSlug,
   breadcrumbLabel,
   highlights,
-  supplyNotice,
 }: ProductHeroProps) {
   if (highlights.length < 3) {
     throw new Error(`Product hero "${routeSlug}" requires three highlights.`);
@@ -62,7 +60,7 @@ export function ProductHero({
   return (
     <section
       aria-labelledby="product-hero-heading"
-      className="relative isolate min-h-[40rem] overflow-hidden bg-[#FBF7F2] text-[#1A1614] sm:min-h-[38rem]"
+      className="relative isolate min-h-[40rem] overflow-hidden bg-[#1A1614] text-white sm:min-h-[38rem]"
     >
       <Image
         src={image}
@@ -75,12 +73,16 @@ export function ProductHero({
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-[#FDFBF9]/95 via-[#FBF7F2]/88 to-[#F6F1EC]/45 lg:bg-gradient-to-r lg:from-[#FDFBF9]/95 lg:via-[#FBF7F2]/88 lg:via-55% lg:to-[#F6F1EC]/30"
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(110deg, rgba(20, 15, 13, 0.48) 0%, rgba(38, 25, 20, 0.38) 48%, rgba(19, 24, 31, 0.32) 100%), linear-gradient(0deg, rgba(14, 14, 16, 0.16), transparent 55%)",
+        }}
       />
       <div className="relative mx-auto flex min-h-[40rem] max-w-7xl flex-col px-4 pb-10 sm:min-h-[38rem] sm:px-6 sm:pb-12 lg:px-8">
         <nav
           aria-label="Breadcrumb"
-          className="relative z-10 pt-8 text-xs text-[#785135] sm:text-sm"
+          className="relative z-10 pt-8 text-xs text-white/85 sm:text-sm"
         >
           <ol className="flex flex-wrap items-center gap-1.5 sm:gap-2">
             <li>
@@ -105,20 +107,20 @@ export function ProductHero({
             <li aria-hidden="true">
               <ChevronRight className="h-3.5 w-3.5" />
             </li>
-            <li aria-current="page" className="font-bold text-[#1A1614]">
+            <li aria-current="page" className="font-bold text-white">
               {breadcrumbLabel}
             </li>
           </ol>
         </nav>
         <div className="relative z-10 flex flex-1 items-center py-6">
           <div className="w-full max-w-[48rem]">
-          <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-[#785135] sm:text-sm">
+          <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] sm:text-sm">
             <span className="h-1 w-9 rounded-full bg-[#D96B4F]" />
             {categoryLabel}
           </p>
           <h1
             id="product-hero-heading"
-            className="mt-5 max-w-3xl text-4xl font-extrabold leading-[1.04] tracking-tight text-[#1A1614] sm:text-5xl lg:text-7xl"
+            className="mt-5 max-w-3xl text-4xl font-extrabold leading-[1.04] tracking-tight text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] sm:text-5xl lg:text-7xl"
           >
             {headingLead}
             {headingAccent && (
@@ -128,21 +130,12 @@ export function ProductHero({
               </>
             )}
           </h1>
-          <p className="mt-5 max-w-2xl text-lg font-bold leading-7 text-[#4A2D1A] sm:text-xl">
+          <p className="mt-5 max-w-2xl text-lg font-bold leading-7 text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] sm:text-xl">
             {tagline}
           </p>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-[#573A29] sm:text-base sm:leading-8">
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-white/90 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] sm:text-base sm:leading-8">
             {description}
           </p>
-
-          {supplyNotice && (
-            <p
-              role="note"
-              className="mt-4 max-w-2xl rounded-xl border border-[#D96B4F]/30 bg-[#FEF4F0]/95 px-4 py-3 text-sm font-semibold leading-6 text-[#4A2D1A] shadow-sm"
-            >
-              {supplyNotice}
-            </p>
-          )}
 
           <ul className="mt-7 grid gap-2.5 min-[480px]:grid-cols-3 lg:mt-8">
             {highlights.slice(0, 3).map((highlight, index) => {

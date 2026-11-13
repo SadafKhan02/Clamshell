@@ -65,7 +65,6 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
         routeSlug={product.routeSlug}
         breadcrumbLabel={product.name}
         highlights={product.details.features}
-        supplyNotice={product.supplyNotice}
       />
 
       {product.details.introduction !== product.description && (
