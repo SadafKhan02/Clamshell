@@ -13,13 +13,17 @@ import {
   Zap,
 } from "lucide-react";
 
-export function ContactSection() {
+export function ContactSection({
+  initialProduct = "PSCC Poles",
+}: {
+  initialProduct?: string;
+}) {
   const [formData, setFormData] = useState({
     name: "",
     org: "",
     phone: "",
     email: "",
-    product: "PSCC Poles",
+    product: initialProduct,
     quantity: "",
     destination: "",
     message: "",
@@ -36,7 +40,7 @@ export function ContactSection() {
         org: "",
         phone: "",
         email: "",
-        product: "PSCC Poles",
+        product: initialProduct,
         quantity: "",
         destination: "",
         message: "",
@@ -271,6 +275,8 @@ export function ContactSection() {
                     className="w-full p-3 rounded-xl border border-[#E3D7C8] text-xs bg-white focus:ring-2 focus:ring-[#D96B4F] focus:outline-none"
                   >
                     <option value="PSCC Poles">PSCC Poles (8m-13m)</option>
+                    <option value="Rail Poles">Rail Poles</option>
+                    <option value="Custom Rail Pole">Custom Rail Pole</option>
                     <option value="Rectangular Poles">Rectangular Poles</option>
                     <option value="Spun Poles & Piles">Spun Poles &amp; Piles</option>
                     <option value="Substation Trenches">Substation Precast</option>

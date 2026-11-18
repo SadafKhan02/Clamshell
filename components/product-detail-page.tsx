@@ -44,7 +44,6 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
     ) ?? [];
   const hasProductInformation =
     technicalSpecifications.length > 0 ||
-    Boolean(product.details.specificationTable?.length) ||
     Boolean(product.details.portfolioItems?.length);
   const applications =
     product.technicalDrawing === undefined
@@ -159,48 +158,6 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
               <p className="mt-4 rounded-2xl bg-[#FEF4F0] p-4 text-sm leading-6 text-[#573A29]">
                 {product.details.specificationNote}
               </p>
-            </div>
-          )}
-
-          {product.details.specificationTable && (
-            <div className="mt-8 rounded-3xl border border-[#E3D7C8] bg-white p-5 sm:p-8">
-              <h3 className="text-lg font-bold text-[#1A1614] sm:text-xl">
-                PSCC pole configurations
-              </h3>
-              <div className="mt-5 overflow-x-auto rounded-2xl border border-[#E3D7C8]">
-                <table className="w-full min-w-[980px] text-left text-sm">
-                  <thead className="bg-[#F6F1EC] text-[11px] font-bold uppercase tracking-wide text-[#331E11]">
-                    <tr>
-                      <th scope="col" className="p-3.5">Length</th>
-                      <th scope="col" className="p-3.5">Working load</th>
-                      <th scope="col" className="p-3.5">Ultimate load</th>
-                      <th scope="col" className="p-3.5">Top dimensions</th>
-                      <th scope="col" className="p-3.5">Bottom dimensions</th>
-                      <th scope="col" className="p-3.5">Planting depth</th>
-                      <th scope="col" className="p-3.5">Typical application</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#EDE3D7]">
-                    {product.details.specificationTable.map((row) => (
-                      <tr
-                        key={row.length}
-                        id={row.anchorId}
-                        className="scroll-mt-24 align-top"
-                      >
-                        <th scope="row" className="p-3.5 font-bold text-[#1A1614]">
-                          {row.length}
-                        </th>
-                        <td className="p-3.5 text-[#573A29]">{row.workingLoad}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.ultimateLoad}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.topDimension}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.bottomDimension}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.plantingDepth}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.application}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
             </div>
           )}
 

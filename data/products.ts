@@ -6,17 +6,6 @@ export interface ProductSpecification {
   value: string;
 }
 
-export interface ProductSpecificationRow {
-  anchorId: string;
-  length: string;
-  workingLoad: string;
-  ultimateLoad: string;
-  topDimension: string;
-  bottomDimension: string;
-  plantingDepth: string;
-  application: string;
-}
-
 export interface ProductApplication {
   title: string;
   description: string;
@@ -44,7 +33,6 @@ export interface ProductDetails {
   features: string[];
   specifications: ProductSpecification[];
   specificationNote: string;
-  specificationTable?: ProductSpecificationRow[];
   portfolioItems?: ProductPortfolioItem[];
   applications: ProductApplication[];
   imageCaption: string;
@@ -119,6 +107,12 @@ export interface ProductCataloguePage {
   productRouteSlug: string;
   variants: ProductCatalogueVariant[];
   images: ProductCatalogueImage[];
+  customRequirement?: {
+    title: string;
+    description: string;
+    ctaLabel: string;
+    destinationUrl: string;
+  };
 }
 
 export const productFamilies: ProductFamily[] = [
@@ -134,7 +128,7 @@ export const productFamilies: ProductFamily[] = [
         routeSlug: "pscc-poles",
         category: "poles",
         description:
-          "Pre-stressed cement concrete poles for utility distribution and infrastructure projects.",
+          "PSC poles in four listed length and working-load configurations. Refer to each product for its supplied weight and ultimate load.",
         image: "/PSC-pole.jpg",
         imageAlt: "Pre-stressed concrete utility pole carrying overhead lines",
         ctaLabel: "View Product",
@@ -145,100 +139,24 @@ export const productFamilies: ProductFamily[] = [
         details: {
           categoryLabel: "Concrete utility poles",
           bannerImage: "/PSC-pole.jpg",
-          introductionHeading: "Built for utility power distribution",
+          introductionHeading: "PSC pole configurations",
           introduction:
-            "Clamshell PSCC poles are produced by pre-tensioning high-tensile steel wire in steel moulds and casting concrete around the tendons. The existing product range includes multiple pole lengths and working-load configurations for utility and infrastructure requirements.",
+            "The supplied product list includes four PSC pole configurations. Each product page shows the listed length, working load, theoretical weight, and ultimate load.",
           features: [
-            "Pre-stressed cement concrete construction",
-            "Pole lengths and working loads available in multiple configurations",
-            "Embedded earthing wire and fittings, subject to the selected configuration",
-            "Manufactured to the applicable Indian Standard and project requirements",
+            "Four listed PSC pole configurations",
+            "Lengths: 8 m and 9 m",
+            "Working loads: 140 kg, 200 kg, 300 kg, and 400 kg",
           ],
-          specifications: [
-            { label: "Standard", value: "IS 1678 : 1998" },
-            { label: "Available lengths", value: "8.0 m to 13.0 m" },
-            { label: "Working load range", value: "140 kg to 500 kg, by configuration" },
-            { label: "Prestressing wire", value: "4.00 mm; IS 1785 Part I" },
-            { label: "Concrete grades shown", value: "M42 to M55, by configuration" },
-          ],
+          specifications: [],
           specificationNote:
-            "Confirm the selected pole configuration, dimensions, and project approvals with our team before ordering.",
-          specificationTable: [
-            {
-              anchorId: "pscc-pole-8-0m",
-              length: "8.0 m",
-              workingLoad: "140 kg / 200 kg",
-              ultimateLoad: "350 kg / 500 kg",
-              topDimension: "105 x 90 mm",
-              bottomDimension: "290 x 105 mm",
-              plantingDepth: "1.50 m",
-              application: "LT overhead lines, rural distribution, and street lighting",
-            },
-            {
-              anchorId: "pscc-pole-9-0m",
-              length: "9.0 m",
-              workingLoad: "200 kg / 300 kg",
-              ultimateLoad: "500 kg / 750 kg",
-              topDimension: "120 x 95 mm",
-              bottomDimension: "320 x 120 mm",
-              plantingDepth: "1.50 m",
-              application: "11 kV feeders and urban grid substations",
-            },
-            {
-              anchorId: "pscc-pole-9-5m",
-              length: "9.5 m",
-              workingLoad: "300 kg / 400 kg",
-              ultimateLoad: "750 kg / 1000 kg",
-              topDimension: "140 x 105 mm",
-              bottomDimension: "340 x 140 mm",
-              plantingDepth: "1.60 m",
-              application: "11 kV and 33 kV distribution corridors",
-            },
-            {
-              anchorId: "pscc-pole-11-0m",
-              length: "11.0 m",
-              workingLoad: "350 kg / 400 kg",
-              ultimateLoad: "875 kg / 1000 kg",
-              topDimension: "150 x 120 mm",
-              bottomDimension: "390 x 150 mm",
-              plantingDepth: "1.80 m",
-              application: "33 kV sub-transmission lines and crossings",
-            },
-            {
-              anchorId: "pscc-pole-13-0m",
-              length: "13.0 m",
-              workingLoad: "400 kg / 500 kg",
-              ultimateLoad: "1000 kg / 1250 kg",
-              topDimension: "165 x 135 mm",
-              bottomDimension: "440 x 165 mm",
-              plantingDepth: "2.00 m",
-              application: "High-clearance 33 kV lines and railway electrification",
-            },
-          ],
-          applications: [
-            {
-              title: "Utility distribution",
-              description:
-                "Pole options for low-tension and high-tension overhead distribution projects.",
-            },
-            {
-              title: "Urban and rural networks",
-              description:
-                "Configurations for local distribution corridors, street lighting, and substations.",
-            },
-            {
-              title: "Line crossings",
-              description:
-                "Discuss pole length, load, and project requirements for road or river crossings.",
-            },
-          ],
+            "Additional PSC Pole technical information is available in the product drawing. The drawing was not supplied with this catalogue.",
+          applications: [],
           imageCaption:
-            "Temporary reference image for pre-stressed concrete utility poles.",
+            "PSC concrete pole reference image.",
           ctaHeading: "Planning a pole project?",
           ctaDescription:
-            "Share the required length, working load, quantity, and delivery location for a project-specific discussion.",
+            "Share the required PSC Pole configuration, quantity, and delivery location for an enquiry.",
           ctaLabel: "Request a Pole Quote",
-          quoteMode: "pscc",
         },
       },
       {
@@ -247,7 +165,7 @@ export const productFamilies: ProductFamily[] = [
         routeSlug: "rail-poles",
         category: "poles",
         description:
-          "Pole options for railway and rail infrastructure projects, with configuration confirmed to project requirements.",
+          "Four standard Rail Pole products listed by length and weight per metre.",
         image: "/rail-pole.avif",
         imageAlt: "Railway electrification pole with overhead catenary equipment",
         ctaLabel: "View Product",
@@ -258,42 +176,20 @@ export const productFamilies: ProductFamily[] = [
         details: {
           categoryLabel: "Rail infrastructure",
           bannerImage: "/rail-pole.avif",
-          introductionHeading: "Rail infrastructure pole solutions",
+          introductionHeading: "Standard Rail Pole products",
           introduction:
-            "Explore pole options for railway electrification and related rail infrastructure. Share project drawings and applicable requirements so the appropriate configuration and technical information can be confirmed.",
+            "The supplied product list specifies four standard Rail Pole options by length and weight per metre. No other technical specifications were supplied.",
           features: [
-            "Options for railway and rail infrastructure projects",
-            "Project-specific configuration review",
-            "Technical details confirmed against drawings and requirements",
-            "Delivery and logistics can be discussed with the project enquiry",
+            "Four standard listed products",
+            "Lengths: 11 m and 13 m",
+            "Weights: 52 kg/m and 60 kg/m",
           ],
-          specifications: [
-            { label: "Pole type", value: "Confirm for project" },
-            { label: "Dimensions and load", value: "Confirm against project requirements" },
-            { label: "Applicable standards", value: "Confirm with project documentation" },
-            { label: "Material and delivery", value: "Discuss with our team" },
-          ],
+          specifications: [],
           specificationNote:
-            "Approved technical data for this product has not been published here. We do not assume dimensions, capacities, or standards; request confirmation for your project.",
-          applications: [
-            {
-              title: "Railway electrification",
-              description:
-                "Discuss pole requirements for railway electrification projects and associated equipment.",
-            },
-            {
-              title: "Rail corridors",
-              description:
-                "Share corridor drawings and installation requirements for a technical review.",
-            },
-            {
-              title: "Rail infrastructure upgrades",
-              description:
-                "Coordinate product configuration, approvals, and delivery requirements for upgrade works.",
-            },
-          ],
+            "The supplied product list provides length and weight per metre only. Contact our team to discuss other requirements.",
+          applications: [],
           imageCaption:
-            "Temporary reference image showing railway overhead electrification infrastructure.",
+            "Rail Pole reference image.",
           ctaHeading: "Discuss your rail project",
           ctaDescription:
             "Send project drawings and requirements to confirm the appropriate product configuration and technical details.",
@@ -687,53 +583,8 @@ export function toProductCardProduct(product: ProductEntry): ProductCardProduct 
   };
 }
 
-const psccPoleProduct = products.find(
-  (product) => product.routeSlug === "pscc-poles",
-);
-
-if (!psccPoleProduct?.details.specificationTable) {
-  throw new Error("PSCC pole specifications are required for the product catalogue.");
-}
-
-function psccLengthSlug(length: string): string {
-  return `${length
-    .replace(/\s*m$/i, "")
-    .trim()
-    .replace(/\.0$/, "")
-    .replace(".", "-")}m`;
-}
-
-const poleConfigurationCards: ProductCardProduct[] =
-  psccPoleProduct.details.specificationTable.map((specification) => ({
-    // Keep the existing length-level cards while giving each its own detail route.
-    name: `${specification.length} PSCC Utility Pole`,
-    slug: specification.anchorId,
-    category: "poles",
-    categoryLabel: `PSCC pole · ${specification.length}`,
-    description: `Working load ${specification.workingLoad}. ${specification.application}.`,
-    image: psccPoleProduct.image,
-    imageAlt: psccPoleProduct.imageAlt,
-    ctaLabel: "View Specifications",
-    destinationUrl: `/product/pscc-pole-${psccLengthSlug(specification.length)}-configurations`,
-    imageFit: psccPoleProduct.imageFit,
-    imagePosition: psccPoleProduct.imagePosition,
-    highlights: [
-      `Working load: ${specification.workingLoad}`,
-      `Ultimate load: ${specification.ultimateLoad}`,
-      `Planting depth: ${specification.plantingDepth}`,
-    ],
-  }));
-
-export const productListingItems: ProductCardProduct[] = products.flatMap(
-  (product) => {
-    if (product.category === "wires") {
-      return [toProductCardProduct(product)];
-    }
-
-    return product.slug === psccPoleProduct.slug
-      ? [toProductCardProduct(product), ...poleConfigurationCards]
-      : [toProductCardProduct(product)];
-  },
+export const productListingItems: ProductCardProduct[] = products.map(
+  toProductCardProduct,
 );
 
 function temporaryVariants(
@@ -781,6 +632,7 @@ function createCataloguePage(
   productRouteSlug: string,
   variants: ProductCatalogueVariant[],
   images: ProductCatalogueImage[],
+  customRequirement?: ProductCataloguePage["customRequirement"],
 ): ProductCataloguePage {
   const product = products.find((entry) => entry.routeSlug === productRouteSlug);
 
@@ -802,10 +654,13 @@ function createCataloguePage(
     productRouteSlug,
     description:
       routeSlug === "pscc-poles"
-        ? "Browse individual PSC pole configurations. Supplied specifications are shown for selected products; other technical values remain To Be Updated."
-        : `Browse ${title.toLowerCase()} configurations. These catalogue options are temporary; confirm product specifications and availability with our team.`,
+        ? "Four PSC Pole configurations with their listed lengths, working loads, theoretical weights, and ultimate loads."
+        : routeSlug === "rail-poles"
+          ? "Four standard Rail Pole products with their listed lengths and weights per metre."
+          : `Browse ${title.toLowerCase()} configurations. These catalogue options are temporary; confirm product specifications and availability with our team.`,
     variants,
     images,
+    customRequirement,
   };
 }
 
@@ -814,28 +669,12 @@ const poleCatalogueImages: ProductCatalogueImage[] = [
     image: "/PSC-pole.jpg",
     imageAlt: "Pre-stressed concrete utility pole carrying overhead lines",
   },
-  {
-    image: "/hero.png",
-    imageAlt: "Concrete utility poles and power distribution infrastructure",
-  },
-  {
-    image: "/PSC-pole.jpg",
-    imageAlt: "Pre-stressed cement concrete pole for utility distribution",
-  },
-  {
-    image: "/hero.png",
-    imageAlt: "Utility pole range in an electrical infrastructure setting",
-  },
 ];
 
 const railCatalogueImages: ProductCatalogueImage[] = [
   {
     image: "/rail-pole.avif",
     imageAlt: "Railway electrification pole with overhead catenary equipment",
-  },
-  {
-    image: "/product-hero.png",
-    imageAlt: "Railway power infrastructure with poles and conductors",
   },
 ];
 
@@ -866,243 +705,155 @@ const wireCatalogueImages: ProductCatalogueImage[] = [
   },
 ];
 
-const psccProduct = products.find((product) => product.routeSlug === "pscc-poles");
-
-if (!psccProduct?.details.specificationTable) {
-  throw new Error("PSCC pole specifications are required for its catalogue page.");
-}
-
-const psccProductDescription = psccProduct.description;
-
-function temporaryPoleSpecifications(
-  name: string,
-  length: string,
-  workingLoad: string,
-): ProductSpecification[] {
-  return [
-    { label: "Product name", value: name },
-    { label: "Product code", value: "To Be Updated" },
-    { label: "Overall length", value: length || "To Be Updated" },
-    { label: "Working load", value: workingLoad || "To Be Updated" },
-    { label: "Ultimate load", value: "To Be Updated" },
-    { label: "Top section dimensions", value: "To Be Updated" },
-    { label: "Bottom section dimensions", value: "To Be Updated" },
-    { label: "Concrete grade and quantity", value: "To Be Updated" },
-    { label: "Planting depth", value: "To Be Updated" },
-    { label: "Prestressing wire", value: "To Be Updated" },
-    { label: "Reinforcement details", value: "To Be Updated" },
-    { label: "Clear cover and factor of safety", value: "To Be Updated" },
-    { label: "Theoretical weight and load point", value: "To Be Updated" },
-    { label: "Earth wire details", value: "To Be Updated" },
-  ];
-}
-
-function makeVerifiedPoleVariant(
-  routeSlug: string,
-  name: string,
-  specs: ProductSpecification[],
-  views: string[],
-  highlights: string[],
-): ProductCatalogueVariant {
-  return {
-    routeSlug,
-    name,
-    detailTitle: name,
-    description: psccProductDescription,
-    highlights,
-    specifications: specs,
+const psccVariants: ProductCatalogueVariant[] = [
+  {
+    routeSlug: "pscc-pole-8m-140kg",
+    name: "8 m 140 kgs W/L PSC Pole",
+    description:
+      "8 m PSC Pole with a 140 kg working load, 335 kg theoretical weight, and 350 kg ultimate load.",
+    highlights: [
+      "Length: 8 m",
+      "Working load: 140 kg",
+      "Theoretical weight: 335 kg",
+      "Ultimate load: 350 kg",
+    ],
+    specifications: [
+      { label: "Length", value: "8 m" },
+      { label: "Working load", value: "140 kg" },
+      { label: "Theoretical weight", value: "335 kg" },
+      { label: "Ultimate load", value: "350 kg" },
+    ],
     specificationStatus: "verified",
-    drawing: {
-      views,
-      notes: ["Original engineering drawing: To Be Updated (not accessible in the current project files)."],
-    },
-  };
-}
-
-const verifiedPoleVariants: ProductCatalogueVariant[] = [
-  makeVerifiedPoleVariant(
-    "pscc-pole-9m-300kg",
-    "GA of 9.0 MTR / 300 KG PSC Pole (100 mm Width Pole)",
-    [
-      { label: "Product name", value: "GA of 9.0 MTR / 300 KG PSC Pole (100 mm Width Pole)" },
-      { label: "Product code", value: "To Be Updated" },
-      { label: "Overall length", value: "9.0 MTR" },
-      { label: "Working load", value: "300 KG" },
-      { label: "Ultimate load", value: "To Be Updated" },
-      { label: "Top section dimensions", value: "185 × 100 MM" },
-      { label: "Bottom section dimensions", value: "355 × 100 MM" },
-      { label: "Concrete grade", value: "M-40" },
-      { label: "Concrete quantity", value: "To Be Updated" },
-      { label: "Planting depth", value: "1500 MM" },
-      { label: "Prestressing wire diameter", value: "4 MM" },
-      { label: "Number of tensioned wires", value: "20 Nos." },
-      { label: "Number of untensioned wires", value: "To Be Updated" },
-      { label: "Pre-tension applied to each wire", value: "To Be Updated" },
-      { label: "Clear cover", value: "22 MM" },
-      { label: "Factor of safety", value: "2.5" },
-      { label: "Theoretical weight", value: "To Be Updated" },
-      { label: "Load application point", value: "To Be Updated" },
-      { label: "Minimum concrete cube strength", value: "To Be Updated" },
-      { label: "G.I. earth wire", value: "6 SWG, 1 No." },
-      { label: "Ultimate tensile strength of prestressing wire", value: "17500 KG/CM²" },
+    drawing: { views: [] },
+  },
+  {
+    routeSlug: "pscc-pole-8m-200kg",
+    name: "8 m 200 kgs W/L PSC Pole",
+    description:
+      "8 m PSC Pole with a 200 kg working load, 380 kg theoretical weight, and 500 kg ultimate load.",
+    highlights: [
+      "Length: 8 m",
+      "Working load: 200 kg",
+      "Theoretical weight: 380 kg",
+      "Ultimate load: 500 kg",
     ],
-    ["Elevation", "Side View", "Top Plan", "Section A-A", "Bottom Plan"],
-    ["9.0 MTR overall length", "300 KG working load", "100 mm width pole"],
-  ),
-  makeVerifiedPoleVariant(
-    "pscc-pole-9m-400kg",
-    "Reinforcement Details of 9.0M / 400KG Prestressed Cement Concrete Pole",
-    [
-      { label: "Product name", value: "Reinforcement Details of 9.0M / 400KG Prestressed Cement Concrete Pole" },
-      { label: "Product code", value: "To Be Updated" },
-      { label: "Overall length", value: "9.0 MTR" },
-      { label: "Working load", value: "400 KG" },
-      { label: "Ultimate load", value: "800 KG" },
-      { label: "Top section dimensions", value: "225 × 100 MM" },
-      { label: "Bottom section dimensions", value: "395 × 100 MM" },
-      { label: "Concrete quantity", value: "0.279 M³" },
-      { label: "Concrete grade", value: "M-400" },
-      { label: "Planting depth", value: "1.5 MTR" },
-      { label: "Prestressing wire diameter", value: "4 MM" },
-      { label: "Number of tensioned wires", value: "20 Nos." },
-      { label: "Number of untensioned wires", value: "To Be Updated" },
-      { label: "Pre-tension applied to each wire", value: "1760 KG" },
-      { label: "Minimum cube strength at 28 days", value: "400 KG/CM²" },
-      { label: "Clear cover", value: "20 MM" },
-      { label: "Factor of safety", value: "2.0" },
-      { label: "Theoretical weight", value: "697 KG" },
-      { label: "Load application point", value: "600 MM from Top" },
-      { label: "G.I. earth wire", value: "To Be Updated" },
-      { label: "Ultimate tensile strength of 4 MM wire", value: "17500 KG/CM²" },
+    specifications: [
+      { label: "Length", value: "8 m" },
+      { label: "Working load", value: "200 kg" },
+      { label: "Theoretical weight", value: "380 kg" },
+      { label: "Ultimate load", value: "500 kg" },
     ],
-    ["Elevation", "Side View", "Plan at Top", "Section A-A", "Plan at Bottom"],
-    ["9.0 MTR overall length", "400 KG working load", "800 KG ultimate load"],
-  ),
-  makeVerifiedPoleVariant(
-    "pscc-pole-8m-200kg",
-    "Reinforcement Details of 8.0M / 200KG Prestressed Cement Concrete Pole",
-    [
-      { label: "Product name", value: "Reinforcement Details of 8.0M / 200KG Prestressed Cement Concrete Pole" },
-      { label: "Product code", value: "To Be Updated" },
-      { label: "Overall length", value: "8.0 MTR" },
-      { label: "Working load", value: "200 KG" },
-      { label: "Ultimate load", value: "500 KG" },
-      { label: "Top section dimensions", value: "145 × 90 MM" },
-      { label: "Bottom section dimensions", value: "290 × 90 MM" },
-      { label: "Concrete quantity", value: "0.157 M³" },
-      { label: "Concrete grade", value: "M-42" },
-      { label: "Planting depth", value: "1.5 MTR" },
-      { label: "Prestressing wire diameter", value: "4 MM" },
-      { label: "Number of tensioned wires", value: "12 Nos." },
-      { label: "Number of untensioned wires", value: "2 Nos." },
-      { label: "Pre-tension applied to each wire", value: "1760 KG" },
-      { label: "Minimum cube strength at 28 days", value: "420 KG/CM²" },
-      { label: "Clear cover", value: "20 MM" },
-      { label: "Factor of safety", value: "2.5" },
-      { label: "Theoretical weight", value: "380 KG" },
-      { label: "Load application point", value: "600 MM from Top" },
-      { label: "G.I. earth wire", value: "To Be Updated" },
-      { label: "Ultimate tensile strength of 4 MM wire", value: "17500 KG/CM²" },
+    specificationStatus: "verified",
+    drawing: { views: [] },
+  },
+  {
+    routeSlug: "pscc-pole-9m-300kg",
+    name: "9 m 300 kgs W/L PSC Pole",
+    description:
+      "9 m PSC Pole with a 300 kg working load, 596 kg theoretical weight, and 600 kg ultimate load.",
+    highlights: [
+      "Length: 9 m",
+      "Working load: 300 kg",
+      "Theoretical weight: 596 kg",
+      "Ultimate load: 600 kg",
     ],
-    ["Elevation", "Side View", "Plan at Top", "Plan at A-A", "Plan at Bottom"],
-    ["8.0 MTR overall length", "200 KG working load", "500 KG ultimate load"],
-  ),
+    specifications: [
+      { label: "Length", value: "9 m" },
+      { label: "Working load", value: "300 kg" },
+      { label: "Theoretical weight", value: "596 kg" },
+      { label: "Ultimate load", value: "600 kg" },
+    ],
+    specificationStatus: "verified",
+    drawing: { views: [] },
+  },
+  {
+    routeSlug: "pscc-pole-9m-400kg",
+    name: "9 m 400 kgs W/L PSC Pole",
+    description:
+      "9 m PSC Pole with a 400 kg working load, 697 kg theoretical weight, and 800 kg ultimate load.",
+    highlights: [
+      "Length: 9 m",
+      "Working load: 400 kg",
+      "Theoretical weight: 697 kg",
+      "Ultimate load: 800 kg",
+    ],
+    specifications: [
+      { label: "Length", value: "9 m" },
+      { label: "Working load", value: "400 kg" },
+      { label: "Theoretical weight", value: "697 kg" },
+      { label: "Ultimate load", value: "800 kg" },
+    ],
+    specificationStatus: "verified",
+    drawing: { views: [] },
+  },
 ];
 
-const verifiedPoleVariantsBySlug = new Map(
-  verifiedPoleVariants.map((variant) => [variant.routeSlug, variant]),
-);
-
-const psccVariants: ProductCatalogueVariant[] =
-  psccProduct.details.specificationTable.flatMap((specification) => {
-    const workingLoads = specification.workingLoad.split(" / ");
-    const lengthForSlug = psccLengthSlug(specification.length);
-
-    return workingLoads.map((workingLoad) => {
-      const loadForSlug = workingLoad.replace(/[^0-9]/g, "");
-      const routeSlug = `pscc-pole-${lengthForSlug}-${loadForSlug}kg`;
-      const name = `${specification.length} PSCC Utility Pole - ${workingLoad}`;
-      const verifiedVariant = verifiedPoleVariantsBySlug.get(routeSlug);
-
-      return (
-        (verifiedVariant
-          ? {
-              ...verifiedVariant,
-              name,
-              specificationAnchor: specification.anchorId,
-            }
-          : undefined) ?? {
-          routeSlug,
-          name,
-          description: `Temporary product configuration. Working load ${workingLoad}; confirm all technical specifications before ordering.`,
-          highlights: [
-            `Length: ${specification.length}`,
-            `Working load: ${workingLoad}`,
-            "Technical data: To Be Updated",
-          ],
-          specifications: temporaryPoleSpecifications(
-            name,
-            specification.length,
-            workingLoad,
-          ),
-          specificationStatus: "temporary" as const,
-          drawing: {
-            views: ["Engineering drawing to be supplied"],
-            notes: ["Original technical drawing: To Be Updated"],
-          },
-          specificationAnchor: specification.anchorId,
-        }
-      );
-    });
-  });
-
-psccVariants.push(
-  ...verifiedPoleVariants.filter(
-    (variant) => !psccVariants.some((existing) => existing.routeSlug === variant.routeSlug),
-  ),
+const railVariants: ProductCatalogueVariant[] = [
   {
-    routeSlug: "pscc-pole-custom-requirement-a",
-    name: "PSCC Utility Pole - Custom Requirement A",
-    description:
-      "Temporary enquiry option for project-specific PSCC pole requirements. Dimensions and load details must be confirmed by our team.",
+    routeSlug: "rail-pole-13m-60kg-per-m",
+    name: "13 m 60 kgs/m Rail Pole",
+    description: "13 m Rail Pole weighing 60 kg per metre.",
     highlights: [
-      "Custom dimensions to be confirmed",
-      "Load configuration to be confirmed",
-      "Request a project-specific technical review",
+      "Length: 13 m",
+      "Weight: 60 kg per metre",
+      "Standard Rail Pole",
     ],
-    specifications: temporaryPoleSpecifications(
-      "PSCC Utility Pole - Custom Requirement A",
-      "",
-      "",
-    ),
-    specificationStatus: "temporary",
-    drawing: {
-      views: ["Engineering drawing to be supplied"],
-      notes: ["Original technical drawing: To Be Updated"],
-    },
+    specifications: [
+      { label: "Length", value: "13 m" },
+      { label: "Weight per metre", value: "60 kg per metre" },
+    ],
+    specificationStatus: "verified",
+    drawing: { views: [] },
   },
   {
-    routeSlug: "pscc-pole-custom-requirement-b",
-    name: "PSCC Utility Pole - Custom Requirement B",
-    description:
-      "Temporary enquiry option for project-specific PSCC pole requirements. Dimensions and load details must be confirmed by our team.",
+    routeSlug: "rail-pole-13m-52kg-per-m",
+    name: "13 m 52 kgs/m Rail Pole",
+    description: "13 m Rail Pole weighing 52 kg per metre.",
     highlights: [
-      "Custom dimensions to be confirmed",
-      "Load configuration to be confirmed",
-      "Request a project-specific technical review",
+      "Length: 13 m",
+      "Weight: 52 kg per metre",
+      "Standard Rail Pole",
     ],
-    specifications: temporaryPoleSpecifications(
-      "PSCC Utility Pole - Custom Requirement B",
-      "",
-      "",
-    ),
-    specificationStatus: "temporary",
-    drawing: {
-      views: ["Engineering drawing to be supplied"],
-      notes: ["Original technical drawing: To Be Updated"],
-    },
+    specifications: [
+      { label: "Length", value: "13 m" },
+      { label: "Weight per metre", value: "52 kg per metre" },
+    ],
+    specificationStatus: "verified",
+    drawing: { views: [] },
   },
-);
+  {
+    routeSlug: "rail-pole-11m-60kg-per-m",
+    name: "11 m 60 kgs/m Rail Pole",
+    description: "11 m Rail Pole weighing 60 kg per metre.",
+    highlights: [
+      "Length: 11 m",
+      "Weight: 60 kg per metre",
+      "Standard Rail Pole",
+    ],
+    specifications: [
+      { label: "Length", value: "11 m" },
+      { label: "Weight per metre", value: "60 kg per metre" },
+    ],
+    specificationStatus: "verified",
+    drawing: { views: [] },
+  },
+  {
+    routeSlug: "rail-pole-11m-52kg-per-m",
+    name: "11 m 52 kgs/m Rail Pole",
+    description: "11 m Rail Pole weighing 52 kg per metre.",
+    highlights: [
+      "Length: 11 m",
+      "Weight: 52 kg per metre",
+      "Standard Rail Pole",
+    ],
+    specifications: [
+      { label: "Length", value: "11 m" },
+      { label: "Weight per metre", value: "52 kg per metre" },
+    ],
+    specificationStatus: "verified",
+    drawing: { views: [] },
+  },
+];
 
 export const productCataloguePages: ProductCataloguePage[] = [
   createCataloguePage(
@@ -1116,8 +867,15 @@ export const productCataloguePages: ProductCataloguePage[] = [
     "rail-poles",
     "Rail Poles",
     "rail-poles",
-    temporaryVariants("rail poles", "Rail Pole"),
+    railVariants,
     railCatalogueImages,
+    {
+      title: "Looking for a Custom Rail Pole?",
+      description:
+        "Have a specific requirement for Rail Pole length or weight? Share your project requirements with our team, and we will assist you with a suitable solution.",
+      ctaLabel: "Submit Your Requirement",
+      destinationUrl: "/contact?product=custom-rail-pole#contact",
+    },
   ),
   createCataloguePage(
     "dpc-wire",
@@ -1232,9 +990,12 @@ function getCatalogueProductEntries(): ProductEntry[] {
           introduction: variant.description,
           features: variant.highlights,
           specifications: variant.specifications,
-          specificationTable: undefined,
           specificationNote: isVerified
-            ? "Specifications are transcribed from the supplied product data. The original drawing image is not accessible in the current project files."
+            ? cataloguePage.routeSlug === "pscc-poles"
+              ? "Additional PSC Pole technical information is available in the product drawing. The drawing was not supplied with this catalogue."
+              : cataloguePage.routeSlug === "rail-poles"
+                ? "The supplied product list provides length and weight per metre only. No other technical specifications were supplied."
+                : "Specifications are transcribed from the supplied product data. The original drawing image is not accessible in the current project files."
             : "Temporary product page. Unavailable technical values and engineering drawings are marked To Be Updated.",
           imageCaption: image.imageAlt,
         },
@@ -1243,70 +1004,13 @@ function getCatalogueProductEntries(): ProductEntry[] {
   });
 }
 
-function getPoleLengthPageEntries(): ProductEntry[] {
-  const parentProduct = psccPoleProduct;
-  const specificationRows = parentProduct?.details.specificationTable;
-
-  if (!parentProduct || !specificationRows) {
-    return [];
-  }
-
-  return specificationRows.map((specification) => {
-    const lengthSlug = psccLengthSlug(specification.length);
-    const name = `${specification.length} PSCC Utility Pole`;
-    const routeSlug = `pscc-pole-${lengthSlug}-configurations`;
-    const specifications = temporaryPoleSpecifications(
-      name,
-      specification.length,
-      specification.workingLoad,
-    );
-
-    return {
-      ...parentProduct,
-      name,
-      slug: routeSlug,
-      routeSlug,
-      description:
-        `Temporary length-level catalogue page for ${specification.length} PSC poles. ` +
-        "Confirm the selected working-load configuration and technical data before ordering.",
-      technicalDataStatus: "temporary" as const,
-      technicalSpecifications: specifications,
-      technicalDrawing: {
-        views: ["Engineering drawing to be supplied"],
-        notes: ["Original technical drawing: To Be Updated"],
-      },
-      details: {
-        ...parentProduct.details,
-        categoryLabel: `PSC pole · ${specification.length}`,
-        introductionHeading: name,
-        introduction:
-          `Available working-load options shown in the catalogue: ${specification.workingLoad}. ` +
-          "Other technical values are To Be Updated until a product drawing is supplied.",
-        features: [
-          `Overall length: ${specification.length}`,
-          `Working load options: ${specification.workingLoad}`,
-          "Other technical data: To Be Updated",
-        ],
-        specifications,
-        specificationTable: undefined,
-        specificationNote:
-          "This length-level page is temporary. Select a working-load product card for its individual detail page.",
-      },
-    };
-  });
-}
-
 export const productDetailEntries: ProductEntry[] = [
   ...products.map((product) => ({
     ...product,
     technicalDataStatus: "temporary" as const,
     technicalSpecifications: product.details.specifications,
-    details:
-      product.routeSlug === "pscc-poles"
-        ? { ...product.details, specificationTable: undefined }
-        : product.details,
+    details: product.details,
   })),
-  ...getPoleLengthPageEntries(),
   ...getCatalogueProductEntries(),
 ];
 

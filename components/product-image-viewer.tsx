@@ -121,7 +121,7 @@ export function ProductImageViewer({
               Drawing image unavailable
             </p>
             <p className="mt-3 text-lg font-bold text-[#1A1614]">
-              Original engineering drawing: To Be Updated
+              Technical drawing unavailable
             </p>
             <p className="mt-2 text-sm leading-6 text-[#4A2D1A]">
               {unavailableMessage ??
