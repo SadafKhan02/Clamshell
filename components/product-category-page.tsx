@@ -65,15 +65,9 @@ export function ProductCategoryPage({
               Explore {cataloguePage.title}
             </h2>
             <p className="mt-3 text-sm leading-6 text-[#573A29]">
-<<<<<<< HEAD
-              Review the catalogue and request project-specific technical details
-              and availability with our team.
-=======
-              {cataloguePage.routeSlug === "pscc-poles" ||
-              cataloguePage.routeSlug === "rail-poles"
-                ? "Review the listed products and the technical values supplied for each standard option."
-                : "Temporary catalogue configurations are shown for now. Confirm technical specifications and availability with our team."}
->>>>>>> 1a5c2e9137ebda1a2bc6db5e155a2932a8f96030
+              {cataloguePage.status === "proposed"
+                ? "This category is part of the proposed product expansion. Product specifications and availability are subject to confirmation."
+                : "Review the listed products and supplied technical values. Contact our team to confirm project-specific details and availability."}
             </p>
           </div>
           <div className="grid grid-cols-1 items-stretch gap-5 min-[520px]:grid-cols-2 xl:grid-cols-3 lg:gap-6">

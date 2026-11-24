@@ -44,11 +44,8 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
     ) ?? [];
   const hasProductInformation =
     technicalSpecifications.length > 0 ||
-<<<<<<< HEAD
-    Boolean(product.details.conductorSpecificationTable?.length);
-=======
+    Boolean(product.details.conductorSpecificationTable?.length) ||
     Boolean(product.details.portfolioItems?.length);
->>>>>>> 1a5c2e9137ebda1a2bc6db5e155a2932a8f96030
   const applications =
     product.technicalDrawing === undefined
       ? product.details.applications
@@ -165,7 +162,6 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
             </div>
           )}
 
-<<<<<<< HEAD
           {product.details.conductorSpecificationTable && (
             <div className="mt-8 rounded-3xl border border-[#E3D7C8] bg-white p-5 sm:p-8">
               <h3 className="text-lg font-bold text-[#1A1614] sm:text-xl">Conductor technical specifications</h3>
@@ -205,8 +201,11 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
                     ))}
                   </tbody>
                 </table>
-=======
-          {product.details.portfolioItems && (
+              </div>
+            </div>
+          )}
+
+          {product.details.portfolioItems?.length ? (
             <div className="mt-8">
               <div className="max-w-2xl">
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#D96B4F]">
@@ -255,10 +254,9 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
                     </ul>
                   </article>
                 ))}
->>>>>>> 1a5c2e9137ebda1a2bc6db5e155a2932a8f96030
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       </section>
       )}

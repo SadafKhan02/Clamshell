@@ -12,8 +12,11 @@ import {
   Zap,
 } from "lucide-react";
 
-<<<<<<< HEAD
-export function ContactSection() {
+export function ContactSection({
+  initialProduct = "PSC Poles",
+}: {
+  initialProduct?: string;
+}) {
   const [formData, setFormData] = useState(() => {
     const params = typeof window === "undefined" ? null : new URLSearchParams(window.location.search);
     return {
@@ -21,7 +24,10 @@ export function ContactSection() {
       company: "",
       phone: "",
       email: "",
-      product: params?.get("product") ?? "PSC Poles",
+      product:
+        params?.get("product") === "custom-rail-pole"
+          ? "Custom Rail Pole"
+          : params?.get("product") ?? initialProduct,
       variant: params?.get("variant") ?? "",
       quantity: "",
       location: "",
@@ -30,22 +36,6 @@ export function ContactSection() {
       weightPerMetre: "",
       additionalRequirements: "",
     };
-=======
-export function ContactSection({
-  initialProduct = "PSCC Poles",
-}: {
-  initialProduct?: string;
-}) {
-  const [formData, setFormData] = useState({
-    name: "",
-    org: "",
-    phone: "",
-    email: "",
-    product: initialProduct,
-    quantity: "",
-    destination: "",
-    message: "",
->>>>>>> 1a5c2e9137ebda1a2bc6db5e155a2932a8f96030
   });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -53,7 +43,6 @@ export function ContactSection({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-<<<<<<< HEAD
     setSubmitting(true);
     setSubmitted(false);
     setError("");
@@ -77,20 +66,6 @@ export function ContactSection({
             formData.additionalRequirements ? `Additional requirements: ${formData.additionalRequirements}` : "",
           ].filter(Boolean).join("\n"),
         }),
-=======
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: "",
-        org: "",
-        phone: "",
-        email: "",
-        product: initialProduct,
-        quantity: "",
-        destination: "",
-        message: "",
->>>>>>> 1a5c2e9137ebda1a2bc6db5e155a2932a8f96030
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || "Submission failed.");
@@ -283,24 +258,15 @@ export function ContactSection({
                     }
                     className="w-full p-3 rounded-xl border border-[#E3D7C8] text-xs bg-white focus:ring-2 focus:ring-[#D96B4F] focus:outline-none"
                   >
-<<<<<<< HEAD
                     <option value="PSC Poles">PSC Poles</option>
                     <option value="Rail Poles">Rail Poles</option>
+                    <option value="Custom Rail Pole">Custom Rail Pole</option>
                     <option value="AB Cable">AB Cable</option>
                     <option value="Conductor">Conductor</option>
                     <option value="Enamelled Flat Wire">Enamelled Flat Wire</option>
                     <option value="DPC Strip">DPC Strip</option>
                     <option value="Super Enamelled Wire">Super Enamelled Wire</option>
                     <option value="DPC Wire">DPC Wire</option>
-=======
-                    <option value="PSCC Poles">PSCC Poles (8m-13m)</option>
-                    <option value="Rail Poles">Rail Poles</option>
-                    <option value="Custom Rail Pole">Custom Rail Pole</option>
-                    <option value="Rectangular Poles">Rectangular Poles</option>
-                    <option value="Spun Poles & Piles">Spun Poles &amp; Piles</option>
-                    <option value="Substation Trenches">Substation Precast</option>
-                    <option value="Railway Sleepers">Railway Sleepers</option>
->>>>>>> 1a5c2e9137ebda1a2bc6db5e155a2932a8f96030
                   </select>
                 </div>
 
