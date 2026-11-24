@@ -1,12 +1,24 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ProductDetailPage, getProductMetadata } from "@/components/product-detail-page";
 import { getProductByRouteSlug, productDetailEntries } from "@/data/products";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+function getLegacyPoleCategoryRedirect(slug: string) {
+  if (/^rail-poles-\d{2}$/.test(slug)) {
+    return "/product/category/rail-poles";
+  }
+
+  if (slug.startsWith("pscc-pole-")) {
+    return "/product/category/pscc-poles";
+  }
+
+  return undefined;
+}
 
 export function generateStaticParams() {
   return productDetailEntries.map((product) => ({ slug: product.routeSlug }));
@@ -19,6 +31,11 @@ export async function generateMetadata({
   const product = getProductByRouteSlug(slug);
 
   if (!product) {
+    const categoryUrl = getLegacyPoleCategoryRedirect(slug);
+    if (categoryUrl) {
+      redirect(categoryUrl);
+    }
+
     notFound();
   }
 
@@ -47,6 +64,11 @@ async function ProductPageContent({ params }: ProductPageProps) {
   const product = getProductByRouteSlug(slug);
 
   if (!product) {
+    const categoryUrl = getLegacyPoleCategoryRedirect(slug);
+    if (categoryUrl) {
+      redirect(categoryUrl);
+    }
+
     notFound();
   }
 

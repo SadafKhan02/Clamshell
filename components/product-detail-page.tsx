@@ -44,7 +44,11 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
     ) ?? [];
   const hasProductInformation =
     technicalSpecifications.length > 0 ||
+<<<<<<< HEAD
     Boolean(product.details.conductorSpecificationTable?.length);
+=======
+    Boolean(product.details.portfolioItems?.length);
+>>>>>>> 1a5c2e9137ebda1a2bc6db5e155a2932a8f96030
   const applications =
     product.technicalDrawing === undefined
       ? product.details.applications
@@ -161,6 +165,7 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
             </div>
           )}
 
+<<<<<<< HEAD
           {product.details.conductorSpecificationTable && (
             <div className="mt-8 rounded-3xl border border-[#E3D7C8] bg-white p-5 sm:p-8">
               <h3 className="text-lg font-bold text-[#1A1614] sm:text-xl">Conductor technical specifications</h3>
@@ -200,6 +205,57 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
                     ))}
                   </tbody>
                 </table>
+=======
+          {product.details.portfolioItems && (
+            <div className="mt-8">
+              <div className="max-w-2xl">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#D96B4F]">
+                  Portfolio categories
+                </p>
+                <h3
+                  id="portfolio-category-heading"
+                  className="mt-2 text-2xl font-extrabold tracking-tight text-[#1A1614] sm:text-3xl"
+                >
+                  Wire and conductor range
+                </h3>
+              </div>
+              <div className="mt-5 grid gap-5 lg:grid-cols-2">
+                {product.details.portfolioItems.map((item) => (
+                  <article
+                    key={item.title}
+                    className="rounded-3xl border border-[#E3D7C8] bg-white p-6 sm:p-8"
+                  >
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                      <h4 className="text-lg font-bold text-[#1A1614]">
+                        {item.title}
+                      </h4>
+                      <span className="w-fit rounded-full bg-[#FEF4F0] px-3 py-1 text-xs font-semibold text-[#983B23]">
+                        {item.standard}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm font-semibold text-[#785135]">
+                      {item.specification}
+                    </p>
+                    <p className="mt-3 text-sm leading-6 text-[#573A29]">
+                      {item.description}
+                    </p>
+                    <ul className="mt-4 space-y-2 border-t border-[#EDE3D7] pt-4">
+                      {item.features.map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex items-start gap-2.5 text-sm leading-6 text-[#4A2D1A]"
+                        >
+                          <CheckCircle2
+                            className="mt-1 h-4 w-4 shrink-0 text-[#D96B4F]"
+                            aria-hidden="true"
+                          />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+>>>>>>> 1a5c2e9137ebda1a2bc6db5e155a2932a8f96030
               </div>
             </div>
           )}

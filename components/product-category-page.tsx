@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { ProductHero } from "@/components/product-hero";
 import {
@@ -64,8 +65,15 @@ export function ProductCategoryPage({
               Explore {cataloguePage.title}
             </h2>
             <p className="mt-3 text-sm leading-6 text-[#573A29]">
+<<<<<<< HEAD
               Review the catalogue and request project-specific technical details
               and availability with our team.
+=======
+              {cataloguePage.routeSlug === "pscc-poles" ||
+              cataloguePage.routeSlug === "rail-poles"
+                ? "Review the listed products and the technical values supplied for each standard option."
+                : "Temporary catalogue configurations are shown for now. Confirm technical specifications and availability with our team."}
+>>>>>>> 1a5c2e9137ebda1a2bc6db5e155a2932a8f96030
             </p>
           </div>
           <div className="grid grid-cols-1 items-stretch gap-5 min-[520px]:grid-cols-2 xl:grid-cols-3 lg:gap-6">
@@ -73,6 +81,24 @@ export function ProductCategoryPage({
               <ProductCard key={card.slug} product={card} />
             ))}
           </div>
+          {cataloguePage.customRequirement && (
+            <div className="mt-8 flex flex-col gap-5 rounded-3xl border border-[#E3D7C8] bg-white p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+              <div className="max-w-3xl">
+                <h3 className="text-xl font-bold text-[#1A1614] sm:text-2xl">
+                  {cataloguePage.customRequirement.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-[#573A29]">
+                  {cataloguePage.customRequirement.description}
+                </p>
+              </div>
+              <Link
+                href={cataloguePage.customRequirement.destinationUrl}
+                className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-xl bg-[#D96B4F] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#C4573B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D96B4F] focus-visible:ring-offset-2 motion-reduce:transition-none"
+              >
+                {cataloguePage.customRequirement.ctaLabel}
+              </Link>
+            </div>
+          )}
         </div>
       </section>
       {cataloguePage.routeSlug === "super-enamelled-wire" && (
