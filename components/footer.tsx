@@ -50,15 +50,14 @@ export function Footer() {
             </div>
 
             <p className="text-xs sm:text-sm text-[#C8B4A2] leading-relaxed pt-1">
-              India&apos;s trusted manufacturer of Pre-Stressed Cement Concrete
-              (PSCC) Poles, Rectangular Poles, and Spun Concrete Piles.
-              Delivering high-reliability power transmission and heavy civil
-              infrastructure nationwide with over 1.8M+ annual unit capacity.
+              Clamshell Infrastructure Private Limited is engaged in PSC Pole
+              manufacturing and is planning an expansion into wire and cable
+              products for electrical infrastructure applications.
             </p>
 
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#331E11] border border-[#785135]/50 text-xs text-[#FAF7F2]">
               <ShieldCheck className="h-4 w-4 text-[#D96B4F]" />
-              <span>ISO 9001:2015 &amp; BIS Certified</span>
+              <span>PSC Pole Manufacturing</span>
             </div>
           </div>
 

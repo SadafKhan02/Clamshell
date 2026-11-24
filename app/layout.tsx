@@ -15,16 +15,13 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Clamshell Infrastructure Private Limited | SHAPE PERFECT | PSCC Poles & Precast Solutions",
   description:
-    "Leading manufacturer and supplier of Pre-Stressed Cement Concrete (PSCC) Poles, Rectangular Transmission Poles, Spun Concrete Piles, and heavy precast infrastructure in India. Trusted by state electricity utilities and infrastructure leaders.",
+    "Clamshell Infrastructure Private Limited manufactures PSC Poles and is planning a wire and cable manufacturing expansion.",
   keywords: [
     "Clamshell Infrastructure",
-    "PSCC Poles manufacturer",
-    "Pre-Stressed Cement Concrete Poles",
-    "Spun Poles",
-    "Rectangular Poles",
+    "PSC Poles",
+    "Rail Poles",
+    "Wire and Cable",
     "Power Distribution Infrastructure",
-    "Shape Perfect",
-    "Electrical Transmission Poles India",
   ],
   icons: {
     icon: "/logo.jpg",

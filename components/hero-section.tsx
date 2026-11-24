@@ -39,21 +39,13 @@ export function HeroSection() {
         {/* Hero Main Headline & Subtitle */}
         <div className="mx-auto mt-5 max-w-4xl text-center sm:mt-6">
           <h1 className="text-[clamp(2rem,8vw,3.75rem)] font-extrabold leading-[1.08] tracking-tight text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] sm:leading-[1.12]">
-            Bihar&apos;s Strongest{" "}
-            <span className="text-[#D96B4F]">
-              PSCC &amp; Precast
-            </span>{" "}
-            Power Infrastructure
+            Building Reliable Infrastructure for a Connected Future
           </h1>
 
           <p className="mx-auto mt-4 max-w-3xl text-base font-semibold leading-relaxed text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] sm:mt-5 sm:text-lg md:text-xl">
-            Trusted manufacturers and large-volume suppliers of{" "}
-            <strong className="font-extrabold text-white">
-              Pre-Stressed Cement Concrete (PSCC) Poles
-            </strong>
-            , Rectangular Poles, and Spun Concrete Piles. Built with
-            millimeter-tolerance prestressing, high-density M50 concrete, and
-            assured on-site delivery via our dedicated crane fleet.
+            Clamshell Infrastructure Private Limited is engaged in PSC Pole
+            manufacturing and is expanding its product portfolio towards wire,
+            cable, and electrical infrastructure solutions.
           </p>
 
           {/* Action CTAs */}

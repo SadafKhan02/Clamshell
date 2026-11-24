@@ -64,8 +64,8 @@ export function ProductCategoryPage({
               Explore {cataloguePage.title}
             </h2>
             <p className="mt-3 text-sm leading-6 text-[#573A29]">
-              Temporary catalogue configurations are shown for now. Confirm
-              technical specifications and availability with our team.
+              Review the catalogue and request project-specific technical details
+              and availability with our team.
             </p>
           </div>
           <div className="grid grid-cols-1 items-stretch gap-5 min-[520px]:grid-cols-2 xl:grid-cols-3 lg:gap-6">
@@ -75,6 +75,24 @@ export function ProductCategoryPage({
           </div>
         </div>
       </section>
+      {cataloguePage.routeSlug === "super-enamelled-wire" && (
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8" aria-labelledby="super-enamelled-extra-heading">
+          <h2 id="super-enamelled-extra-heading" className="text-2xl font-extrabold text-[#1A1614]">
+            Project information
+          </h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            {[
+              { title: "Future Expansion", href: "/future-expansion" },
+              { title: "Industries & Applications", href: "/industries" },
+              { title: "Gallery", href: "/gallery" },
+            ].map((item) => (
+              <a key={item.href} href={item.href} className="rounded-2xl border border-[#E3D7C8] bg-white p-5 text-sm font-bold text-[#4A2D1A] hover:border-[#D96B4F]">
+                {item.title}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

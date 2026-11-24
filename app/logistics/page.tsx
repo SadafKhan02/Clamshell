@@ -1,8 +1,19 @@
-export default function LogisticsPage() {
-  return (
-    <main className="min-h-screen p-10">
-      <h1 className="text-4xl font-bold">Logistics</h1>
-      <p>Welcome to our Logistics page.</p>
-    </main>
-  );
+import type { Metadata } from "next";
+import { LogisticsPage } from "@/components/logistics-page";
+
+export const metadata: Metadata = {
+  title: "Logistics & Distribution | Clamshell Infrastructure",
+  description:
+    "Explore illustrative logistics planning, transportation coordination, and enquiry options for infrastructure products from Clamshell Infrastructure.",
+  openGraph: {
+    title: "Logistics & Distribution | Clamshell Infrastructure",
+    description:
+      "Discuss product transportation, handling, route planning, and delivery requirements with Clamshell Infrastructure.",
+    url: "https://clamshellinfra.com/logistics",
+    type: "website",
+  },
+};
+
+export default function LogisticsRoute() {
+  return <LogisticsPage />;
 }

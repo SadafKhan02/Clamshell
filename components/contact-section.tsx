@@ -9,85 +9,66 @@ import {
   Send,
   CheckCircle2,
   Building2,
-  Factory,
   Zap,
 } from "lucide-react";
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    org: "",
-    phone: "",
-    email: "",
-    product: "PSCC Poles",
-    quantity: "",
-    destination: "",
-    message: "",
+  const [formData, setFormData] = useState(() => {
+    const params = typeof window === "undefined" ? null : new URLSearchParams(window.location.search);
+    return {
+      name: "",
+      company: "",
+      phone: "",
+      email: "",
+      product: params?.get("product") ?? "PSC Poles",
+      variant: params?.get("variant") ?? "",
+      quantity: "",
+      location: "",
+      message: "",
+      requiredLength: "",
+      weightPerMetre: "",
+      additionalRequirements: "",
+    };
   });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: "",
-        org: "",
-        phone: "",
-        email: "",
-        product: "PSCC Poles",
-        quantity: "",
-        destination: "",
-        message: "",
+    setSubmitting(true);
+    setSubmitted(false);
+    setError("");
+    try {
+      const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          company: formData.company,
+          phone: formData.phone,
+          email: formData.email,
+          product: formData.product,
+          variant: formData.variant,
+          quantity: formData.quantity,
+          location: formData.location,
+          message: [
+            formData.message,
+            formData.requiredLength ? `Required pole length: ${formData.requiredLength}` : "",
+            formData.weightPerMetre ? `Required weight per metre: ${formData.weightPerMetre}` : "",
+            formData.additionalRequirements ? `Additional requirements: ${formData.additionalRequirements}` : "",
+          ].filter(Boolean).join("\n"),
+        }),
       });
-    }, 7000);
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Submission failed.");
+      setSubmitted(true);
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Submission failed.");
+    } finally {
+      setSubmitting(false);
+    }
   };
-
-  const plants = [
-    {
-      unit: "Plant Unit I (Headquarters & R&D)",
-      location: "Hyderabad Industrial Growth Center, Telangana",
-      capacity: "450,000 Poles / Year",
-      specialty: "PSCC Poles, Testing Laboratory, Central Dispatch",
-      phone: "+91 (040) 4450-7070",
-    },
-    {
-      unit: "Plant Unit II (Coastal Marine Hub)",
-      location: "Visakhapatnam Autonagar, Andhra Pradesh",
-      capacity: "350,000 Poles / Year",
-      specialty: "Spun Poles & Marine Saline Corrosion Solutions",
-      phone: "+91 891 278-4450",
-    },
-    {
-      unit: "Plant Unit III (Central India Freight Hub)",
-      location: "MIDC Butibori, Nagpur, Maharashtra",
-      capacity: "300,000 Poles / Year",
-      specialty: "Rectangular PSCC Poles & Heavy Substation Precast",
-      phone: "+91 712 265-8890",
-    },
-    {
-      unit: "Plant Unit IV (South Hub)",
-      location: "Peenya Industrial Area, Bengaluru, Karnataka",
-      capacity: "250,000 Poles / Year",
-      specialty: "Urban Distribution PSCC Poles & Street Lighting",
-      phone: "+91 80 2839-4411",
-    },
-    {
-      unit: "Plant Unit V (East-Central Hub)",
-      location: "Urla Industrial Estate, Raipur, Chhattisgarh",
-      capacity: "250,000 Poles / Year",
-      specialty: "Heavy Tension 33kV & Railway OHE Sleepers",
-      phone: "+91 771 405-3320",
-    },
-    {
-      unit: "Plant Unit VI (Western Renewable Corridor)",
-      location: "Sanand GIDC, Ahmedabad, Gujarat",
-      capacity: "200,000 Poles / Year",
-      specialty: "Solar & Wind Farm Evacuation Lines, Spun Piles",
-      phone: "+91 79 2685-9912",
-    },
-  ];
 
   return (
     <section
@@ -215,9 +196,9 @@ export function ContactSection() {
                   <input
                     type="text"
                     required
-                    value={formData.org}
+                    value={formData.company}
                     onChange={(e) =>
-                      setFormData({ ...formData, org: e.target.value })
+                      setFormData({ ...formData, company: e.target.value })
                     }
                     placeholder="e.g. State Electricity Board / L&T"
                     className="w-full p-3 rounded-xl border border-[#E3D7C8] text-xs focus:ring-2 focus:ring-[#D96B4F] focus:outline-none"
@@ -270,13 +251,33 @@ export function ContactSection() {
                     }
                     className="w-full p-3 rounded-xl border border-[#E3D7C8] text-xs bg-white focus:ring-2 focus:ring-[#D96B4F] focus:outline-none"
                   >
-                    <option value="PSCC Poles">PSCC Poles (8m-13m)</option>
-                    <option value="Rectangular Poles">Rectangular Poles</option>
-                    <option value="Spun Poles & Piles">Spun Poles &amp; Piles</option>
-                    <option value="Substation Trenches">Substation Precast</option>
-                    <option value="Railway Sleepers">Railway Sleepers</option>
+                    <option value="PSC Poles">PSC Poles</option>
+                    <option value="Rail Poles">Rail Poles</option>
+                    <option value="AB Cable">AB Cable</option>
+                    <option value="Conductor">Conductor</option>
+                    <option value="Enamelled Flat Wire">Enamelled Flat Wire</option>
+                    <option value="DPC Strip">DPC Strip</option>
+                    <option value="Super Enamelled Wire">Super Enamelled Wire</option>
+                    <option value="DPC Wire">DPC Wire</option>
                   </select>
                 </div>
+
+                {formData.product === "Rail Poles" && (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 rounded-2xl border border-[#E3D7C8] bg-[#FBF7F2] p-4">
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#785135] mb-1">Required pole length</label>
+                      <input type="text" value={formData.requiredLength} onChange={(e) => setFormData({ ...formData, requiredLength: e.target.value })} className="w-full p-3 rounded-xl border border-[#E3D7C8] text-xs" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#785135] mb-1">Weight per metre</label>
+                      <input type="text" value={formData.weightPerMetre} onChange={(e) => setFormData({ ...formData, weightPerMetre: e.target.value })} className="w-full p-3 rounded-xl border border-[#E3D7C8] text-xs" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#785135] mb-1">Additional requirements</label>
+                      <input type="text" value={formData.additionalRequirements} onChange={(e) => setFormData({ ...formData, additionalRequirements: e.target.value })} className="w-full p-3 rounded-xl border border-[#E3D7C8] text-xs" />
+                    </div>
+                  </div>
+                )}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#785135] mb-1">
                     Estimated Qty (Units)
@@ -297,9 +298,9 @@ export function ContactSection() {
                   </label>
                   <input
                     type="text"
-                    value={formData.destination}
+                    value={formData.location}
                     onChange={(e) =>
-                      setFormData({ ...formData, destination: e.target.value })
+                      setFormData({ ...formData, location: e.target.value })
                     }
                     placeholder="e.g. Hyderabad / Vizag"
                     className="w-full p-3 rounded-xl border border-[#E3D7C8] text-xs focus:ring-2 focus:ring-[#D96B4F] focus:outline-none"
@@ -324,9 +325,10 @@ export function ContactSection() {
 
               <button
                 type="submit"
+                disabled={submitting}
                 className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#D96B4F] py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#C4573B] transition-colors"
               >
-                <span>Submit Inquiry to Clamshell Engineering</span>
+                <span>{submitting ? "Submitting..." : "Submit Inquiry"}</span>
                 <Send className="h-4 w-4" />
               </button>
 
@@ -334,61 +336,19 @@ export function ContactSection() {
                 <div className="p-4 rounded-xl bg-[#FEF4F0] border border-[#F5D7CD] text-[#4A2D1A] text-xs font-semibold flex items-center gap-2">
                   <CheckCircle2 className="h-5 w-5 text-[#D96B4F] shrink-0" />
                   <span>
-                    Thank you! Your quotation inquiry has been routed to
-                    Clamshell Commercial Tenders Division. An official BOQ quote
-                    will be dispatched to your email within 2 hours.
+                    Thank you. Your enquiry was received and stored successfully.
                   </span>
+                </div>
+              )}
+              {error && (
+                <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs font-semibold">
+                  {error}
                 </div>
               )}
             </form>
           </div>
         </div>
 
-        {/* Manufacturing Plants Directory */}
-        <div className="mt-20">
-          <div className="max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#D96B4F]">
-              Strategic Plant Network
-            </span>
-            <h3 className="text-2xl font-extrabold text-[#1A1614] mt-1">
-              6 Manufacturing Facilities Across Bihar
-            </h3>
-            <p className="text-xs sm:text-sm text-[#573A29] mt-1">
-              Strategically placed adjacent to national highways and freight
-              corridors for immediate mobilization.
-            </p>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {plants.map((plant, index) => (
-              <div
-                key={index}
-                className="p-6 rounded-2xl bg-[#FAF7F2] border border-[#E3D7C8] space-y-3"
-              >
-                <div className="flex items-center gap-2 text-xs font-bold text-[#D96B4F]">
-                  <Factory className="h-4 w-4" />
-                  <span>{plant.unit}</span>
-                </div>
-                <div className="text-xs text-[#1A1614] font-semibold flex items-start gap-1.5">
-                  <MapPin className="h-3.5 w-3.5 text-[#785135] shrink-0 mt-0.5" />
-                  <span>{plant.location}</span>
-                </div>
-                <div className="text-xs text-[#573A29]">
-                  <strong className="text-[#1A1614]">Annual Capacity:</strong>{" "}
-                  {plant.capacity}
-                </div>
-                <div className="text-[11px] text-[#6E635D]">
-                  <strong className="text-[#785135]">Specialization:</strong>{" "}
-                  {plant.specialty}
-                </div>
-                <div className="pt-2 border-t border-[#E3D7C8] flex items-center justify-between text-xs">
-                  <span className="text-[#6E635D]">Dispatch Desk:</span>
-                  <span className="font-bold text-[#1A1614]">{plant.phone}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

@@ -208,7 +208,9 @@ export function NavLinks({
     rootItems: DropdownItem[],
   ): React.ReactNode => {
     const hasChildren = Boolean(item.children?.length);
-    const isOpen = activeNestedDropdown === path;
+    const isOpen =
+      activeNestedDropdown === path ||
+      Boolean(activeNestedDropdown?.startsWith(`${path}-`));
     const itemIsActive =
       (isCurrentPath(pathname, item.href) &&
         countCurrentDropdownItems(rootItems, pathname) === 1) ||

@@ -44,8 +44,7 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
     ) ?? [];
   const hasProductInformation =
     technicalSpecifications.length > 0 ||
-    Boolean(product.details.specificationTable?.length) ||
-    Boolean(product.details.portfolioItems?.length);
+    Boolean(product.details.conductorSpecificationTable?.length);
   const applications =
     product.technicalDrawing === undefined
       ? product.details.applications
@@ -162,97 +161,45 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
             </div>
           )}
 
-          {product.details.specificationTable && (
+          {product.details.conductorSpecificationTable && (
             <div className="mt-8 rounded-3xl border border-[#E3D7C8] bg-white p-5 sm:p-8">
-              <h3 className="text-lg font-bold text-[#1A1614] sm:text-xl">
-                PSCC pole configurations
-              </h3>
-              <div className="mt-5 overflow-x-auto rounded-2xl border border-[#E3D7C8]">
-                <table className="w-full min-w-[980px] text-left text-sm">
-                  <thead className="bg-[#F6F1EC] text-[11px] font-bold uppercase tracking-wide text-[#331E11]">
+              <h3 className="text-lg font-bold text-[#1A1614] sm:text-xl">Conductor technical specifications</h3>
+              <p className="mt-2 text-sm text-[#983B23]">
+                The Squirrel conductor breaking load is listed as 70.61 kN in the supplied source and requires technical confirmation before public release.
+              </p>
+              <div className="mt-5 overflow-x-auto rounded-2xl border border-[#E3D7C8]" tabIndex={0} aria-label="Scrollable conductor specification table">
+                <table className="w-full min-w-[1180px] text-left text-xs sm:text-sm">
+                  <thead className="bg-[#F6F1EC] text-[10px] font-bold uppercase tracking-wide text-[#331E11]">
                     <tr>
-                      <th scope="col" className="p-3.5">Length</th>
-                      <th scope="col" className="p-3.5">Working load</th>
-                      <th scope="col" className="p-3.5">Ultimate load</th>
-                      <th scope="col" className="p-3.5">Top dimensions</th>
-                      <th scope="col" className="p-3.5">Bottom dimensions</th>
-                      <th scope="col" className="p-3.5">Planting depth</th>
-                      <th scope="col" className="p-3.5">Typical application</th>
+                      <th scope="col" className="p-3">Conductor</th>
+                      <th scope="col" className="p-3">Nominal Al. area (mm²)</th>
+                      <th scope="col" className="p-3">Al. strands</th>
+                      <th scope="col" className="p-3">Al. strand dia. (mm)</th>
+                      <th scope="col" className="p-3">Steel strands</th>
+                      <th scope="col" className="p-3">Steel strand dia. (mm)</th>
+                      <th scope="col" className="p-3">Overall dia. (mm)</th>
+                      <th scope="col" className="p-3">Steel core dia. (mm)</th>
+                      <th scope="col" className="p-3">Resistance at 20°C (Ω/km)</th>
+                      <th scope="col" className="p-3">Approx. breaking load (kN)</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#EDE3D7]">
-                    {product.details.specificationTable.map((row) => (
-                      <tr
-                        key={row.length}
-                        id={row.anchorId}
-                        className="scroll-mt-24 align-top"
-                      >
-                        <th scope="row" className="p-3.5 font-bold text-[#1A1614]">
-                          {row.length}
-                        </th>
-                        <td className="p-3.5 text-[#573A29]">{row.workingLoad}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.ultimateLoad}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.topDimension}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.bottomDimension}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.plantingDepth}</td>
-                        <td className="p-3.5 text-[#573A29]">{row.application}</td>
+                    {product.details.conductorSpecificationTable.map((row) => (
+                      <tr key={row.conductor}>
+                        <th scope="row" className="p-3 font-bold text-[#1A1614]">{row.conductor}</th>
+                        <td className="p-3">{row.nominalArea}</td>
+                        <td className="p-3">{row.aluminiumStrands}</td>
+                        <td className="p-3">{row.aluminiumDiameter}</td>
+                        <td className="p-3">{row.steelStrands}</td>
+                        <td className="p-3">{row.steelDiameter}</td>
+                        <td className="p-3">{row.overallDiameter}</td>
+                        <td className="p-3">{row.steelCoreDiameter}</td>
+                        <td className="p-3">{row.resistance}</td>
+                        <td className="p-3 font-semibold">{row.breakingLoad}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-              </div>
-            </div>
-          )}
-
-          {product.details.portfolioItems && (
-            <div className="mt-8">
-              <div className="max-w-2xl">
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#D96B4F]">
-                  Portfolio categories
-                </p>
-                <h3
-                  id="portfolio-category-heading"
-                  className="mt-2 text-2xl font-extrabold tracking-tight text-[#1A1614] sm:text-3xl"
-                >
-                  Wire and conductor range
-                </h3>
-              </div>
-              <div className="mt-5 grid gap-5 lg:grid-cols-2">
-                {product.details.portfolioItems.map((item) => (
-                  <article
-                    key={item.title}
-                    className="rounded-3xl border border-[#E3D7C8] bg-white p-6 sm:p-8"
-                  >
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                      <h4 className="text-lg font-bold text-[#1A1614]">
-                        {item.title}
-                      </h4>
-                      <span className="w-fit rounded-full bg-[#FEF4F0] px-3 py-1 text-xs font-semibold text-[#983B23]">
-                        {item.standard}
-                      </span>
-                    </div>
-                    <p className="mt-2 text-sm font-semibold text-[#785135]">
-                      {item.specification}
-                    </p>
-                    <p className="mt-3 text-sm leading-6 text-[#573A29]">
-                      {item.description}
-                    </p>
-                    <ul className="mt-4 space-y-2 border-t border-[#EDE3D7] pt-4">
-                      {item.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-start gap-2.5 text-sm leading-6 text-[#4A2D1A]"
-                        >
-                          <CheckCircle2
-                            className="mt-1 h-4 w-4 shrink-0 text-[#D96B4F]"
-                            aria-hidden="true"
-                          />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </article>
-                ))}
               </div>
             </div>
           )}
@@ -390,7 +337,7 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
             </p>
           </div>
           <Link
-            href="/contact"
+            href={`/contact?product=${encodeURIComponent(product.category === "poles" ? (product.details.categoryLabel === "Rail Poles" ? "Rail Poles" : "PSC Poles") : product.name)}&variant=${encodeURIComponent(product.name)}`}
             className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D96B4F] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#C4573B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#331E11] motion-reduce:transition-none"
           >
             {product.details.ctaLabel}

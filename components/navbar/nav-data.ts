@@ -26,7 +26,7 @@ export interface NavbarProps {
 }
 
 export const DEFAULT_NAV_ITEMS: NavItem[] = [
-  { name: "Home", href: "/#home" },
+  { name: "Home", href: "/" },
   {
     name: "About Us",
     dropdown: [
@@ -35,7 +35,6 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
       { name: "Mission", href: "/about/mission" },
     ],
   },
-  
   {
     name: "Products",
     href: "/product",
@@ -50,39 +49,39 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
       {
         name: "Wires",
         children: [
-          { name: "DPC Wire", href: "/product/category/dpc-wire" },
-          { name: "Strip Wire", href: "/product/category/strip-wire" },
-          { name: "Super Enamelled Wire", href: "/product/category/super-enamelled-wire" },
-          { name: "Conductor & Cable", href: "/product/category/conductor-cable" },
-          { name: "Wire & Cable Portfolio", href: "/product/category/cable-wires" },
+          { name: "DPC Wire", href: "/product/dpc-wire" },
+          { name: "Strip Wire", href: "/product/enamelled-flat-wire" },
+          {
+            name: "Super Enamelled Wire",
+            children: [
+              { name: "Super Enamelled Wire Details", href: "/product/category/super-enamelled-wire" },
+              { name: "AB Cable", href: "/product/ab-cable" },
+              { name: "Enamelled Flat Wire", href: "/product/enamelled-flat-wire" },
+              { name: "DPC Strip", href: "/product/dpc-strip" },
+            ],
+          },
+          { name: "Conductor", href: "/product/conductor" },
+          { name: "Cable", href: "/product/ab-cable" },
         ],
       },
-      
     ],
   },
-{
+  {
     name: "Operations",
-   dropdown: [
+    dropdown: [
+      { name: "Manufacturing", href: "/operations/manufacture" },
       {
-        name: "Manufacturing", href:"/operations/manufacture",
-        
-      },
-      {
-        name: "Quality Management system",
+        name: "Quality",
         children: [
+          { name: "Quality Overview", href: "/operations/quality" },
           { name: "Pole Testing", href: "/operations/quality/pole_testing" },
           { name: "Rail Testing", href: "/operations/quality/rail_testing" },
-         { name: "wire Testing", href: "/operations/quality/wire_testing" },
+          { name: "Wire Testing", href: "/operations/quality/wire_testing" },
         ],
       },
-      
     ],
-   
   },
-
   { name: "Logistics", href: "/logistics" },
-
-  
   {
     name: "Client",
     dropdown: [
