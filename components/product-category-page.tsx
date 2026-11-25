@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { ProductHero } from "@/components/product-hero";
+import { ConductorSpecificationTable } from "@/components/conductor-specification-table";
 import {
   getCatalogueCardProducts,
   products,
@@ -26,6 +27,8 @@ export function ProductCategoryPage({
   const product = products.find(
     (entry) => entry.routeSlug === cataloguePage.productRouteSlug,
   );
+  const conductorRows = cataloguePage.conductorSpecificationTable;
+  const cableSpecifications = cataloguePage.cableSpecifications;
 
   if (!product) {
     throw new Error(
@@ -95,6 +98,44 @@ export function ProductCategoryPage({
           )}
         </div>
       </section>
+      {conductorRows && cableSpecifications && (
+        <section
+          aria-labelledby="conductor-cable-specifications-heading"
+          className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+        >
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#D96B4F]">
+              Supplied product details
+            </p>
+            <h2
+              id="conductor-cable-specifications-heading"
+              className="mt-2 text-3xl font-extrabold tracking-tight text-[#1A1614] sm:text-4xl"
+            >
+              Conductor &amp; Cable Technical Details
+            </h2>
+          </div>
+          <div className="mt-7">
+            <ConductorSpecificationTable rows={conductorRows} />
+          </div>
+          <div className="mt-6 rounded-3xl border border-[#E3D7C8] bg-white p-6 sm:p-8">
+            <h3 className="text-xl font-bold text-[#1A1614]">
+              LT Aerial Bunched Cable (ABC / AB Cable)
+            </h3>
+            <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+              {cableSpecifications.map((specification) => (
+                <div key={specification.label} className="rounded-xl bg-[#FBF7F2] p-4">
+                  <dt className="text-xs font-bold uppercase tracking-wide text-[#785135]">
+                    {specification.label.replace("LT Aerial Bunched Cable (ABC / AB Cable) ", "")}
+                  </dt>
+                  <dd className="mt-1 text-lg font-semibold text-[#1A1614]">
+                    {specification.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      )}
       {cataloguePage.routeSlug === "super-enamelled-wire" && (
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8" aria-labelledby="super-enamelled-extra-heading">
           <h2 id="super-enamelled-extra-heading" className="text-2xl font-extrabold text-[#1A1614]">

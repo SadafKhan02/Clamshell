@@ -117,6 +117,8 @@ export interface ProductCataloguePage {
   productRouteSlug: string;
   variants: ProductCatalogueVariant[];
   images: { image: string; imageAlt: string }[];
+  conductorSpecificationTable?: ConductorSpecificationRow[];
+  cableSpecifications?: ProductSpecification[];
   status?: "operational" | "proposed";
   customRequirement?: {
     title: string;
@@ -327,6 +329,11 @@ const abCable = createProposedWire(
   ],
 );
 
+abCable.details.specifications.push({
+  label: "LT Aerial Bunched Cable (ABC / AB Cable) range",
+  value: "10 SQ MM to 100 SQ MM",
+});
+
 const conductor = createProposedWire(
   "Conductor",
   "conductor",
@@ -532,12 +539,18 @@ export const productCataloguePages: ProductCataloguePage[] = [
     wireProducts.filter((product) => product.routeSlug === "enamelled-flat-wire"),
     "proposed",
   ),
-  createCataloguePage(
-    "conductor-cable",
-    "Conductor & Cable",
-    [conductor, abCable],
-    "proposed",
-  ),
+  {
+    ...createCataloguePage(
+      "conductor-cable",
+      "Conductor & Cable",
+      [conductor, abCable],
+      "proposed",
+    ),
+    conductorSpecificationTable: conductor.details.conductorSpecificationTable,
+    cableSpecifications: abCable.details.specifications.filter(
+      (specification) => specification.label.includes("Aerial Bunched Cable"),
+    ),
+  },
   createCataloguePage("cable-wires", "Wire & Cable Portfolio", wireProducts, "proposed"),
 ];
 
