@@ -207,7 +207,7 @@ function createRailPole(
     ctaLabel: "View Details",
     destinationUrl: `/product/${slug}`,
     publicationStatus: "published",
-    imageFit: "contain",
+    imageFit: "cover",
     details: {
       categoryLabel: "Rail Poles",
       bannerImage: railImage,
