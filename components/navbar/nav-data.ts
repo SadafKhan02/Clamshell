@@ -59,14 +59,8 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
               { name: "DPC Strip", href: "/product/dpc-strip" },
             ],
           },
-        ],
-      },
-      {
-        name: "Conductor & Cable",
-        children: [
-          { name: "Overview", href: "/product/category/conductor-cable" },
-          { name: "Conductor Details", href: "/product/conductor" },
-          { name: "AB Cable Details", href: "/product/ab-cable" },
+          { name: "Conductor", href: "/product/conductor" },
+          { name: "Cable", href: "/product/ab-cable" },
         ],
       },
     ],
