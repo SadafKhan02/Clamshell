@@ -67,25 +67,57 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
         highlights={product.details.features}
       />
 
-      {product.details.introduction !== product.description && (
+      {(product.category === "wires" ||
+        product.details.introduction !== product.description) && (
         <section
           aria-labelledby="product-introduction-heading"
           className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
         >
           <div className="max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#D96B4F]">
-              Product overview
+              {product.category === "wires" ? "Product information" : "Product overview"}
             </p>
             <h2
               id="product-introduction-heading"
               className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-[#1A1614] sm:text-4xl"
             >
-              About {product.name}
+              {product.category === "wires" ? "Product Description" : `About ${product.name}`}
             </h2>
             <p className="mt-5 text-base leading-7 text-[#573A29]">
               {product.details.introduction}
             </p>
           </div>
+        </section>
+      )}
+
+      {product.category === "wires" && (
+        <section
+          aria-labelledby="product-features-heading"
+          className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+        >
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#D96B4F]">
+            Product information
+          </p>
+          <h2
+            id="product-features-heading"
+            className="mt-2 text-3xl font-extrabold tracking-tight text-[#1A1614] sm:text-4xl"
+          >
+            Key Features
+          </h2>
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+            {product.details.features.map((feature) => (
+              <li
+                key={feature}
+                className="flex items-start gap-3 rounded-2xl border border-[#E3D7C8] bg-white p-5 text-sm leading-6 text-[#4A2D1A]"
+              >
+                <CheckCircle2
+                  className="mt-1 h-4 w-4 shrink-0 text-[#D96B4F]"
+                  aria-hidden="true"
+                />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
@@ -352,7 +384,7 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
                 id="product-applications-heading"
                 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1A1614] sm:text-4xl"
               >
-                Applications
+                {product.category === "wires" ? "Applications / Uses" : "Applications"}
               </h2>
             </div>
           </div>
@@ -365,11 +397,42 @@ export function ProductDetailPage({ product }: { product: ProductEntry }) {
                 <h3 className="text-lg font-bold text-[#1A1614]">
                   {application.title}
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-[#573A29]">
-                  {application.description}
-                </p>
+                {application.description && (
+                  <p className="mt-3 text-sm leading-6 text-[#573A29]">
+                    {application.description}
+                  </p>
+                )}
               </article>
             ))}
+          </div>
+        </section>
+      )}
+
+      {product.category === "wires" && product.details.manufacturingProcess && (
+        <section
+          aria-labelledby="product-manufacturing-heading"
+          className="border-y border-[#E3D7C8] bg-[#FBF7F2] py-12 sm:py-16"
+        >
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#D96B4F]">
+                Product process
+              </p>
+              <h2
+                id="product-manufacturing-heading"
+                className="mt-2 text-3xl font-extrabold tracking-tight text-[#1A1614] sm:text-4xl"
+              >
+                Manufacturing Process
+              </h2>
+              <ol className="mt-7 list-decimal space-y-3 pl-6 text-sm leading-7 text-[#573A29] sm:text-base">
+                {product.details.manufacturingProcess.map((step) => (
+                  <li key={step} className="pl-1">{step}</li>
+                ))}
+              </ol>
+              <p className="mt-6 rounded-2xl border border-[#E3D7C8] bg-white p-4 text-sm leading-6 text-[#573A29]">
+                This process describes the product category and does not represent a claim that these operations are currently performed at Clamshell facilities.
+              </p>
+            </div>
           </div>
         </section>
       )}

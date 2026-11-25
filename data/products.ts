@@ -44,6 +44,7 @@ export interface ProductDetails {
   introductionHeading: string;
   introduction: string;
   features: string[];
+  manufacturingProcess?: string[];
   specifications: ProductSpecification[];
   specificationNote: string;
   conductorSpecificationTable?: ConductorSpecificationRow[];
@@ -241,11 +242,21 @@ function createProposedWire(
   name: string,
   slug: string,
   image: string,
+  subtitle: string,
   description: string,
   features: string[],
   applications: string[],
+  manufacturingProcess: string[],
   status = "Proposed Product",
 ): ProductEntry {
+  const imageAltBySlug: Record<string, string> = {
+    "ab-cable": "Reference photograph of insulated multicolour cable cores with exposed copper conductors; not a product-specific AB Cable photograph.",
+    conductor: "Reference photograph of insulated cable cores with exposed copper conductors; not a product-specific bare conductor photograph.",
+    "enamelled-flat-wire": "Reference photograph of coloured insulated electrical wire wound on a spool; not an enamelled flat wire photograph.",
+    "dpc-strip": "Reference photograph of coloured insulated electrical wire wound on a spool; not a paper-covered strip photograph.",
+    "super-enamelled-wire": "Several spools of reddish-brown enamelled winding wire.",
+    "dpc-wire": "Reference photograph of bundled copper cable ends; not a paper-covered wire photograph.",
+  };
   return {
     name,
     slug,
@@ -253,7 +264,7 @@ function createProposedWire(
     category: "wires",
     description,
     image,
-    imageAlt: `${name} proposed product reference`,
+    imageAlt: imageAltBySlug[slug],
     ctaLabel: "View Details",
     destinationUrl: `/product/${slug}`,
     publicationStatus: "proposed",
@@ -261,17 +272,15 @@ function createProposedWire(
     details: {
       categoryLabel: "Wire & Cable",
       bannerImage: image,
-      introductionHeading: "Proposed wire and cable manufacturing project",
+      introductionHeading: subtitle,
       introduction: description,
       features,
+      manufacturingProcess,
       specifications: [{ label: "Project status", value: status }],
       specificationNote:
         "This is a proposed product category. Manufacturing has not commenced; technical dimensions and specifications are subject to project development.",
-      applications: applications.map((title) => ({
-        title,
-        description: `Potential application for ${name.toLowerCase()} in ${title.toLowerCase()}.`,
-      })),
-      imageCaption: "Proposed product reference image.",
+      applications: applications.map((title) => ({ title, description: "" })),
+      imageCaption: "Product reference image; replace with an approved product-specific photograph when available.",
       ctaHeading: `Enquire about ${name}`,
       ctaDescription:
         "Share project requirements for discussion. This product is part of the proposed expansion.",
@@ -299,34 +308,50 @@ const abCable = createProposedWire(
   "AB Cable",
   "ab-cable",
   "/conductor-cable.jpg",
-  "Aerial Bunched Cable with insulated aluminium phase cores, XLPE insulation, and a supporting messenger conductor.",
+  "Aerial Bunched Cable",
+  "AB Cable is an overhead low-tension power cable in which several insulated aluminium phase cores are twisted around a bare messenger conductor. The bunched design replaces bare open-wire lines on poles: it is compact, safer to touch, and far less prone to faults from tree branches, birds or wind-blown objects.",
   [
-    "Insulated aluminium phase cores",
-    "XLPE insulation",
-    "Supporting messenger conductor",
-    "Compact overhead cable design",
-    "Planned technical range: 10 mm² to 100 mm²",
+    "Insulated phase cores (XLPE) with a bare aluminium-alloy messenger that carries the mechanical load.",
+    "Lower line losses and fewer power thefts than bare overhead conductors.",
+    "Compact bunched layout needs smaller poles and less right-of-way.",
+    "Better safety and reliability in rain, storms and tree-prone areas.",
   ],
-  ["LT distribution", "Rural electrification", "Service connections", "Tree-prone areas"],
+  ["LT (low-tension) overhead power distribution lines.", "Rural electrification and village feeders.", "Areas with dense trees, narrow lanes or crowded buildings.", "Service connections from the pole to homes and shops."],
+  [
+    "Wire drawing: Aluminium rod is drawn through a series of dies to the required conductor wire diameter.",
+    "Stranding and compacting: The drawn wires are stranded together and compacted into round cores of the specified cross-section (for example 95 sq mm).",
+    "Insulation: XLPE (cross-linked polyethylene) insulation is extruded over each phase core and cured so it can withstand heat, sunlight and weather.",
+    "Messenger preparation: A bare aluminium-alloy conductor is stranded to act as the supporting messenger and neutral.",
+    "Bunching: The insulated phase cores are twisted (laid up) around the messenger in a fixed lay length, and the cable is marked with its size and type.",
+    "Testing and dispatch: The cable is tested for conductor resistance, insulation thickness and voltage withstand, then wound on drums.",
+  ],
 );
 
 const conductor = createProposedWire(
   "Conductor",
   "conductor",
   "/conductor-cable.jpg",
-  "Steel-reinforced aluminium alloy conductor for overhead transmission and distribution applications.",
+  "Steel-Reinforced Aluminium Alloy",
+  "This is a bare overhead conductor made of aluminium alloy wires stranded in layers around a galvanised steel core. The aluminium carries the current, while the steel core gives the high tensile strength needed to hang the line across long spans.",
   [
-    "Aluminium alloy wires around a galvanised steel core",
-    "Strength-to-weight characteristics",
-    "Overhead transmission and distribution",
-    "Crossings and rural electrification",
+    "High strength-to-weight ratio, so fewer towers and poles are needed.",
+    "Steel core supports long spans over rivers, roads and valleys.",
+    "Aluminium alloy gives good conductivity and corrosion resistance.",
+    "Cost-effective compared with copper for overhead lines.",
   ],
   [
-    "Power transmission",
-    "Power distribution",
-    "Long river crossings",
-    "Long road crossings",
-    "Rural electrification",
+    "Overhead transmission lines.",
+    "Distribution networks (11 kV, 33 kV and above).",
+    "Long river and road crossings.",
+    "Rural electrification feeders.",
+  ],
+  [
+    "Wire drawing: Aluminium alloy rod is drawn through dies to the required wire size.",
+    "Steel core preparation: Galvanised (zinc-coated) steel wire is prepared for the centre core, so it resists rust.",
+    "Stranding: The alloy wires are stranded in concentric layers over the steel core, with each layer laid in the opposite direction to the one below.",
+    "Greasing (if required): The core can be greased for extra protection in coastal or polluted areas.",
+    "Testing: Samples are tested for tensile strength, elongation, wire diameter, lay length and electrical resistance.",
+    "Drumming and dispatch: The finished conductor is wound on drums for transport and installation.",
   ],
 );
 
@@ -354,34 +379,42 @@ const wireProducts: ProductEntry[] = [
     "Enamelled Flat Wire",
     "enamelled-flat-wire",
     "/strip-wire.jpg",
-    "Rectangular copper/aluminium winding conductor with enamel insulation.",
-    ["Rectangular winding conductor", "Enamel insulation", "High winding space utilisation", "Heat dissipation and insulation characteristics"],
-    ["Transformers", "Motors", "Generators", "Reactors", "Chokes", "EV motors"],
+    "Rectangular Winding Strip",
+    "Enamelled flat wire is a rectangular copper/aluminium conductor coated with a thin, tough layer of enamel insulation. Its flat shape packs more conductor into a coil than round wire, so windings become smaller, more efficient and run cooler.",
+    ["Rectangular cross-section gives a high space (fill) factor in the winding slot.", "Thin enamel film with good dielectric strength and heat resistance.", "Better heat dissipation and lower losses in compact coils.", "Smooth, flexible coating that resists cracking during winding."],
+    ["Transformer windings.", "Motor and generator coils.", "Reactors and chokes.", "EV traction motors and industrial motors."],
+    ["Drawing and rolling: Conductor rod is drawn and then rolled to the required flat (rectangular) width and thickness, with rounded corners.", "Annealing: The strip is heat-treated to improve softness and flexibility so it bends easily without breaking.", "Enamel coating: Enamel varnish is applied in several thin passes through coating dies to build up the specified film thickness.", "Oven curing: After every pass the wire goes through a hot oven, so each layer cures into a smooth, hard film.", "Testing: The wire is checked for dimensions, enamel thickness, continuity (pinholes), flexibility, adhesion and breakdown voltage.", "Spooling: Approved wire is wound on spools for supply."],
   ),
   createProposedWire(
     "DPC Strip",
     "dpc-strip",
     "/strip-wire.jpg",
-    "Flat copper/aluminium conductor with double-layer insulating paper covering.",
-    ["Flat copper/aluminium conductor", "Double-layer insulating paper covering", "For oil-filled and heavy-duty winding applications"],
-    ["Oil-filled transformers", "Distribution transformers", "Reactor windings", "Heavy-duty coils"],
+    "Paper-Covered Flat Copper/Aluminium",
+    "DPC (Double Paper Covered) Strip is a flat copper/aluminium conductor wrapped with two layers of special insulating paper. The paper is soaked with transformer oil in service, which makes it a standard winding conductor for oil-filled power equipment.",
+    ["Double layer of high-grade insulating paper over a flat copper/aluminium strip.", "Very good dielectric strength once impregnated with transformer oil.", "Rectangular shape gives a compact, mechanically strong winding.", "Handles heavy currents with good heat transfer into the oil."],
+    ["Oil-filled power transformers.", "Distribution transformers.", "Reactor windings.", "Heavy-duty coils."],
+    ["Drawing and rolling: Copper/aluminium rod is drawn and rolled into a flat strip of the required width and thickness.", "Annealing and cleaning: The strip is annealed for softness, then cleaned so paper wraps evenly and the surface is smooth.", "Paper covering: Two layers of insulating paper tape are wrapped over the strip, each layer overlapping the previous one to leave no gaps.", "Quality check: Strip size, paper thickness, tightness of covering and insulation quality are inspected.", "Drumming: Approved strip is wound on drums for supply to transformer manufacturers."],
   ),
   createProposedWire(
     "Super Enamelled Wire",
     "super-enamelled-wire",
     "/super-enamelled.jpg",
-    "Fine round copper/aluminium winding wire with heat-resistant enamel insulation.",
-    ["Fine round winding conductor", "Heat-resistant enamel insulation", "Proposed product under review"],
-    ["Electric motors", "Fans", "Pumps", "Small transformers", "Household appliances"],
+    "Precision Winding Wire",
+    "Super Enamelled Wire is a fine round copper/aluminium wire coated with a heat-resistant enamel film (such as polyester or polyester-imide). It is the standard winding wire for electric motors and small coils, where a thin, uniform, durable insulation is needed.",
+    ["Thin, smooth and uniform enamel film with high dielectric strength.", "Good thermal class, so it works at higher temperatures.", "Resists abrasion, solvents and varnish during winding and impregnation.", "Excellent flexibility for high-speed automatic winding machines."],
+    ["Electric motors.", "Ceiling fans and pumps.", "Small transformers.", "Home appliances such as mixers, coolers and washing machines."],
+    ["Wire drawing: Copper/aluminium rod is drawn through a series of diamond or carbide dies down to the fine round wire size required.", "Annealing: The wire is annealed in a controlled atmosphere so it becomes soft, ductile and bright.", "Enamel coating: Super enamel varnish is applied in several thin passes, each applied through a die or felt applicator for an even film.", "Oven curing: Each coat is baked in an enamelling oven so the varnish cures into a smooth, tough film before the next pass.", "Testing: The wire is tested for conductor diameter, film thickness, pinholes, elongation, adhesion and breakdown voltage.", "Spooling: Approved wire is wound on spools in a neat, layered pattern for supply."],
     "Proposed Product — Under Review",
   ),
   createProposedWire(
     "DPC Wire",
     "dpc-wire",
     "/dpc-wire.jpg",
-    "Round copper/aluminium conductor with double paper covering.",
-    ["Round copper/aluminium conductor", "Double paper covering", "Electrical insulation characteristics"],
-    ["Oil-immersed transformers", "Distribution transformers", "Reactors", "Industrial coils"],
+    "Paper-Covered Round Wire (Copper/Aluminium)",
+    "DPC (Double Paper Covered) Wire is a round copper/aluminium wire insulated with two layers of electrical-grade paper. It is the round-wire counterpart of DPC Strip and is used for transformer and reactor windings that are immersed in insulating oil.",
+    ["Two layers of insulating paper tightly wrapped over a round copper/aluminium conductor.", "High dielectric strength once impregnated with transformer oil.", "Good mechanical strength, so it holds up during coil winding.", "Reliable long-term performance at transformer operating temperatures."],
+    ["Oil-immersed transformers.", "Distribution transformers.", "Reactor windings.", "Industrial coils."],
+    ["Wire drawing: Copper/aluminium rod is drawn to the required round wire size through a series of dies.", "Annealing: The wire is annealed to soften it, so it can be wound into coils without cracking.", "Paper covering: Two layers of insulating paper tape are wrapped around the wire, with the layers overlapped to leave no bare spots.", "Inspection: Wire size, paper covering thickness and tightness of the wrap are checked.", "Spooling: Approved wire is wound on spools for supply to transformer and coil manufacturers."],
   ),
 ];
 
