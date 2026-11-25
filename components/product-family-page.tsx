@@ -88,6 +88,9 @@ export function ProductFamilyPage({ family }: { family: ProductFamily }) {
     throw new Error(`Product family "${family.id}" must contain at least one product.`);
   }
 
+  const heroImage =
+    family.id === "poles" ? "/hero-psc.png" : featuredProduct.image;
+
   return (
     <main className="w-full bg-[#FDFBF9]">
       <section
@@ -143,8 +146,12 @@ export function ProductFamilyPage({ family }: { family: ProductFamily }) {
           </div>
           <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-3xl border border-[#E3D7C8] bg-[#F6F1EC] shadow-lg lg:mt-12">
             <Image
-              src={featuredProduct.image}
-              alt={featuredProduct.imageAlt}
+              src={heroImage}
+              alt={
+                family.id === "poles"
+                  ? "PSC pole hero"
+                  : featuredProduct.imageAlt
+              }
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 55vw"

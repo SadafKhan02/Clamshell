@@ -43,7 +43,11 @@ export function ProductCategoryPage({
         heading={cataloguePage.title}
         tagline={product.details.introductionHeading}
         description={cataloguePage.description}
-        image={product.details.bannerImage}
+        image={
+          cataloguePage.routeSlug === "pscc-poles"
+            ? "/hero-psc.png"
+            : product.details.bannerImage
+        }
         imageAlt={product.imageAlt}
         imagePosition={product.imagePosition}
         category={product.category}

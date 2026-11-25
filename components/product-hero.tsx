@@ -137,19 +137,19 @@ export function ProductHero({
             {description}
           </p>
 
-          <ul className="mt-7 grid gap-2.5 min-[480px]:grid-cols-3 lg:mt-8">
+          <ul className="mt-6 grid gap-2.5 sm:grid-cols-3 lg:mt-7">
             {highlights.slice(0, 3).map((highlight, index) => {
               const Icon = icons[index];
 
               return (
                 <li
                   key={highlight}
-                  className="flex min-h-[4.5rem] items-center gap-3 rounded-xl border border-white/80 bg-white/75 px-3 py-3 shadow-sm backdrop-blur-sm min-[480px]:min-h-[7rem] min-[480px]:flex-col min-[480px]:items-start min-[480px]:justify-between"
+                  className="flex min-h-[4.75rem] items-center gap-3 rounded-2xl border border-white/65 bg-white/85 px-3.5 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-md sm:min-h-[5.25rem]"
                 >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FEF4F0] text-[#D96B4F]">
-                    <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#D96B4F]/15 bg-[#FEF4F0] text-[#D96B4F]">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <span className="text-xs font-semibold leading-5 text-[#4A2D1A] sm:text-[13px]">
+                  <span className="max-w-[12rem] text-xs font-bold leading-[1.45] text-[#3C281B] sm:text-[13px]">
                     {highlight}
                   </span>
                 </li>
