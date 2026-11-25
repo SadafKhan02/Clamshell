@@ -128,7 +128,7 @@ export interface ProductCataloguePage {
   };
 }
 
-const railImage = "/rail-pole.avif";
+const railImage = "/rail-hero.png";
 
 function createPole(
   name: string,

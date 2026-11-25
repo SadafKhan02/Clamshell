@@ -46,6 +46,8 @@ export function ProductCategoryPage({
         image={
           cataloguePage.routeSlug === "pscc-poles"
             ? "/hero-psc.png"
+            : cataloguePage.routeSlug === "rail-poles"
+              ? "/rail-hero.png"
             : product.details.bannerImage
         }
         imageAlt={product.imageAlt}
