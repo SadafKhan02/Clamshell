@@ -126,12 +126,12 @@ export interface ProductCataloguePage {
   };
 }
 
-const pscImage = "/PSC-pole.jpg";
 const railImage = "/rail-pole.avif";
 
 function createPole(
   name: string,
   slug: string,
+  image: string,
   length: string,
   workingLoad: string,
   weight: string,
@@ -143,15 +143,15 @@ function createPole(
     routeSlug: slug,
     category: "poles",
     description: `${length} PSC Pole with ${workingLoad} working load.`,
-    image: pscImage,
-    imageAlt: `PSC Pole reference image for ${name}`,
+    image,
+    imageAlt: `${name} PSC pole product image`,
     ctaLabel: "View Details",
     destinationUrl: `/product/${slug}`,
     publicationStatus: "published",
-    imageFit: "contain",
+    imageFit: "cover",
     details: {
       categoryLabel: "PSC Poles",
-      bannerImage: pscImage,
+      bannerImage: image,
       introductionHeading: "Prestressed concrete pole",
       introduction: `${name} is part of Clamshell Infrastructure's PSC Pole product catalogue.`,
       features: [
@@ -291,10 +291,10 @@ function createProposedWire(
 }
 
 const pscProducts: ProductEntry[] = [
-  createPole("8 m 140 kg W/L PSC Pole", "8m-140kg-wl-psc-pole", "8 m", "140 kg", "335 kg", "350 kg"),
-  createPole("8 m 200 kg W/L PSC Pole", "8m-200kg-wl-psc-pole", "8 m", "200 kg", "380 kg", "500 kg"),
-  createPole("9 m 300 kg W/L PSC Pole", "9m-300kg-wl-psc-pole", "9 m", "300 kg", "596 kg", "600 kg"),
-  createPole("9 m 400 kg W/L PSC Pole", "9m-400kg-wl-psc-pole", "9 m", "400 kg", "697 kg", "800 kg"),
+  createPole("8 m 140 kg W/L PSC Pole", "8m-140kg-wl-psc-pole", "/8m-140kg.png", "8 m", "140 kg", "335 kg", "350 kg"),
+  createPole("8 m 200 kg W/L PSC Pole", "8m-200kg-wl-psc-pole", "/8m-200kg.png", "8 m", "200 kg", "380 kg", "500 kg"),
+  createPole("9 m 300 kg W/L PSC Pole", "9m-300kg-wl-psc-pole", "/9m-300kg.png", "9 m", "300 kg", "596 kg", "600 kg"),
+  createPole("9 m 400 kg W/L PSC Pole", "9m-400kg-wl-psc-pole", "/9m-400kg.png", "9 m", "400 kg", "697 kg", "800 kg"),
 ];
 
 const railProducts: ProductEntry[] = [
